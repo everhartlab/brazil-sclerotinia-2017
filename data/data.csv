@@ -1,0 +1,98 @@
+11,95,,,,,,,,,,,
+S. Sclerotiorum Data,,,,,,,,,,,,
+Sample,Continent_Country_Population,5-2,6-2,7-2,8-3,9-2,12-2,20-3,55-4,110-4,114-4,17-3
+1,South America_Brazil_Góias,336,505,0,256,371,228,283,207,381,367,354
+1010,South America_Brazil_Paraná,340,505,172,264,360,230,292,223,0,351,360
+1011,South America_Brazil_Paraná,332,505,174,264,371,230,292,207,385,367,360
+1012,South America_Brazil_Paraná,334,505,174,268,371,228,292,207,381,351,360
+1013,South America_Brazil_Paraná,332,505,182,268,375,228,292,207,381,351,360
+1014,South America_Brazil_Paraná,332,495,182,268,388,228,292,207,381,367,360
+1015,South America_Brazil_Góias,332,505,174,264,371,228,292,207,385,351,354
+1016,South America_Brazil_Góias,332,505,174,264,370,230,292,183,385,351,354
+1017,South America_Brazil_Paraná,332,505,174,264,388,230,292,207,0,351,360
+1018,South America_Brazil_Góias,332,505,174,264,371,230,0,207,385,351,360
+1019,South America_Brazil_Bahia,332,505,174,264,371,230,292,207,0,351,360
+1020,South America_Brazil_Paraná,332,505,182,264,371,234,294,219,385,351,354
+1021,South America_Brazil_Paraná,340,505,182,280,371,230,292,207,381,351,354
+1022,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,230,283,207,385,351,360
+1023,South America_Brazil_Bahia,332,505,174,264,371,230,292,207,385,367,360
+12,South America_Brazil_Góias,340,505,174,264,371,230,283,207,385,367,354
+13,South America_Brazil_Góias,326,505,172,256,388,228,283,207,385,367,354
+14,South America_Brazil_Góias,332,505,174,264,371,230,283,207,385,367,354
+143,North America_United States_Nebraska,340,501,184,264,371,228,292,207,397,351,360
+15,South America_Brazil_Minas Gerias,332,505,172,256,388,228,0,207,381,367,354
+16,South America_Brazil_Minas Gerias,332,505,174,264,388,230,285,207,385,367,354
+17,South America_Brazil_Minas Gerias,330,505,174,264,388,228,0,207,385,367,354
+18,South America_Brazil_Minas Gerias,330,505,174,264,388,230,283,207,385,367,354
+20,South America_Brazil_Minas Gerias,330,505,174,264,388,230,283,207,385,367,354
+202,North America_United States_Nebraska,340,501,184,264,371,228,292,207,397,351,360
+22,South America_Brazil_Minas Gerias,332,505,174,264,388,230,283,207,385,367,354
+24,South America_Brazil_Minas Gerias,332,505,174,264,371,230,283,207,385,367,354
+25,South America_Brazil_Bahia,332,505,174,264,388,230,283,207,385,367,354
+26,South America_Brazil_Bahia,332,505,174,264,371,230,0,207,385,367,354
+264,North America_United States_Nebraska,340,501,184,264,371,228,292,207,397,351,360
+265,North America_United States_Nebraska,340,501,184,264,371,228,292,207,397,351,360
+266,North America_United States_Nebraska,340,501,184,264,371,228,292,207,397,351,360
+267,North America_United States_Nebraska,340,0,184,256,371,228,292,201,397,351,360
+268,North America_United States_Nebraska,324,501,184,264,371,230,294,183,397,351,360
+27,South America_Brazil_Bahia,332,0,0,264,388,234,283,207,381,367,354
+276,North America_United States_Nebraska,332,501,184,264,371,228,292,207,397,367,354
+289,North America_United States_Nebraska,332,501,0,264,388,228,292,207,389,367,354
+29,South America_Brazil_Bahia,332,505,174,264,388,230,283,207,385,367,360
+293A,South America_Argentina_Argentina,0,495,182,268,388,228,292,207,381,367,360
+293B,South America_Argentina_Argentina,330,505,182,264,388,228,285,207,381,351,360
+293C,South America_Argentina_Argentina,340,495,182,264,371,230,292,207,385,351,360
+293D,South America_Argentina_Argentina,340,505,174,264,388,226,294,207,385,351,360
+293E,South America_Argentina_Argentina,0,495,182,280,0,226,287,270,381,367,360
+3,South America_Brazil_Góias,332,505,172,256,371,228,0,207,381,351,360
+31,South America_Brazil_Bahia,332,505,174,264,388,230,289,207,385,367,354
+32,South America_Brazil_Bahia,332,505,174,264,370,230,293,207,385,367,354
+399A,North America_United States_Nebraska,332,495,182,262,371,230,292,203,397,367,354
+399B,North America_United States_Nebraska,332,501,182,262,371,228,292,0,397,367,354
+5,South America_Brazil_Góias,332,495,186,264,388,234,283,207,381,367,354
+541A,North America_United States_Nebraska,340,495,184,264,371,230,294,258,381,351,360
+541B,North America_United States_Nebraska,332,501,182,264,371,234,294,207,389,351,354
+6,South America_Brazil_Góias,332,505,172,256,388,228,335,207,385,351,354
+7,South America_Brazil_Góias,332,505,174,264,371,230,283,207,385,367,354
+8,South America_Brazil_Góias,332,505,174,264,388,230,292,207,385,351,360
+834A,North America_United States_Nebraska,334,495,184,262,371,234,292,207,385,351,360
+834B,North America_United States_Nebraska,330,0,184,262,360,228,292,183,389,367,360
+9,South America_Brazil_Góias,326,505,174,264,371,230,0,207,385,367,360
+973A,South America_Brazil_Bahia,0,505,174,264,371,240,292,207,0,367,360
+973B,South America_Brazil_Bahia,340,495,186,264,371,234,292,191,381,351,354
+973C,South America_Brazil_Bahia,340,495,176,264,371,234,292,191,381,367,360
+973D,South America_Brazil_Bahia,332,495,186,264,388,234,292,207,381,367,354
+973E,South America_Brazil_Bahia,340,505,172,256,371,228,292,0,381,367,354
+974A,South America_Brazil_Rio Grande do Sul,332,505,172,256,371,228,294,207,0,367,354
+974B,South America_Brazil_Rio Grande do Sul,340,495,182,280,388,230,294,207,397,351,354
+974C,South America_Brazil_Rio Grande do Sul,340,495,182,280,360,234,294,209,397,367,354
+974D,South America_Brazil_Rio Grande do Sul,332,525,182,280,371,226,292,0,0,367,354
+974E,South America_Brazil_Rio Grande do Sul,340,525,182,280,366,226,294,0,397,367,354
+975A,South America_Brazil_Rio Grande do Sul,332,505,182,268,388,228,292,183,381,367,354
+975B,South America_Brazil_Rio Grande do Sul,0,505,174,264,388,230,292,207,385,351,354
+975C,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,228,292,207,385,351,354
+975D,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,230,283,0,385,367,354
+975E,South America_Brazil_Rio Grande do Sul,332,505,182,268,388,230,292,203,381,351,354
+976A,South America_Brazil_Paraná,334,495,0,266,388,234,292,207,381,351,354
+976B,South America_Brazil_Paraná,332,505,172,256,388,228,292,0,385,351,354
+976B2,South America_Brazil_Paraná,332,505,172,256,388,228,292,195,385,367,360
+976C,South America_Brazil_Paraná,0,495,182,266,388,234,292,207,381,351,360
+976D,South America_Brazil_Paraná,332,505,174,256,371,228,294,195,385,367,354
+976E,South America_Brazil_Paraná,340,505,172,254,371,228,292,0,385,351,354
+977A,South America_Brazil_Mato Grosso do Sul,328,505,182,280,388,226,292,207,397,367,354
+977B,South America_Brazil_Mato Grosso do Sul,332,505,172,256,388,228,292,207,381,351,354
+977C,South America_Brazil_Mato Grosso do Sul,332,505,172,256,0,228,292,207,385,367,360
+977D,South America_Brazil_Mato Grosso do Sul,332,505,172,256,371,228,296,0,385,367,360
+977E,South America_Brazil_Mato Grosso do Sul,332,505,174,264,0,234,292,207,385,367,360
+978A,South America_Brazil_Góias,332,505,182,264,371,230,292,207,0,367,354
+978B,South America_Brazil_Góias,332,505,174,264,371,234,292,191,385,367,354
+978C,South America_Brazil_Góias,332,525,174,264,371,230,292,207,0,367,354
+978D,South America_Brazil_Góias,332,505,174,264,371,230,284,207,385,367,354
+978E,South America_Brazil_Góias,332,505,174,264,0,230,292,207,385,367,354
+978E2,South America_Brazil_Góias,332,505,174,264,0,230,292,207,385,351,360
+979A,South America_Brazil_Rio Grande do Sul,330,525,182,280,371,226,294,207,385,367,360
+979B,South America_Brazil_Rio Grande do Sul,0,505,174,264,0,230,292,207,385,367,360
+979C,South America_Brazil_Rio Grande do Sul,330,525,182,280,388,226,294,207,385,367,360
+979D,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,230,292,207,385,367,360
+979E,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,230,295,207,385,367,360
+9986,South America_Brazil_Rio Grande do Sul,332,505,174,264,371,230,291,207,385,367,360
