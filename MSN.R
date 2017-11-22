@@ -15,7 +15,7 @@ CD_sub <- popsub(CD, blacklist = character(0))
 #      data and are both TRUE by default. You do not need to specify them here.
 min_span_net <- bruvo.msn(CD_sub, replen = c(CDrepet), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = FALSE) 
 set.seed(69)
-pdf(here::here("figs/MSN.pdf"), width = 3.464565, height = 3.464565, colormodel = "cmyk")
+pdf(here::here("figs/MSN.pdf"), width = 7.20472, height = 7.20472 * (1/1.6), pointsize = 5, colormodel = "cmyk")
 plot_poppr_msn(CD,
                min_span_net,
                inds = "NONE",
