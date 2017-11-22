@@ -15,15 +15,16 @@ CD_sub <- popsub(CD, blacklist = character(0))
 #      data and are both TRUE by default. You do not need to specify them here.
 min_span_net <- bruvo.msn(CD_sub, replen = c(CDrepet), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = FALSE) 
 set.seed(69)
+pdf(here::here("figs/MSN.pdf"), width = 3.464565, height = 3.464565, colormodel = "cmyk")
 plot_poppr_msn(CD,
                min_span_net,
                inds = "NONE",
                mlg = FALSE,
                gadj = 3,
-               nodebase = 1.15,
                palette = my_palette,
                cutoff = NULL,
                quantiles = FALSE,
                beforecut = TRUE,
                layfun = igraph::layout_nicely)
+dev.off()
 options(encoding = enc)
