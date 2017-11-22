@@ -1,0 +1,29 @@
+Loading required package: adegenet
+Loading required package: methods
+Loading required package: ade4
+
+   /// adegenet 2.1.1 is loaded ////////////
+
+   > overview: '?adegenet'
+   > tutorials/doc/questions: 'adegenetWeb()' 
+   > bug reports/feature requests: adegenetIssues()
+
+
+This is poppr version 2.5.0.99.29. To get started, type package?poppr
+OMP parallel support: available
+
+This version of poppr is under development.
+If you find any bugs, please report them at https://github.com/grunwaldlab/poppr/issues
+Warning messages:
+1: the following specified individuals do not exist: Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, United States, Brazil, Brazil, Brazil, Brazil, Brazil, United States, Brazil, Brazil, Brazil, Brazil, United States, United States, United States, United States, United States, Brazil, United States, United States, Brazil, Argentina, Argentina, Argentina, Argentina, Argentina, Brazil, Brazil, Brazil, United States, United States, Brazil, United States, United States, Brazil, Brazil, Brazil, United States, United States, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil 
+2: no individual selected - ignoring 
+Warning in bruvo.boot(CD, replen = CDrepet, add = T, loss = T, sample = 1000,  :
+  Some branch lengths of the tree are negative. Normalizing branches according to Kuhner and Felsenstein (1994)
+
+Bootstrapping...
+(note: calculation of node labels can take a while even after the progress bar is full)
+
+Running bootstraps:       100 / 1000Running bootstraps:       200 / 1000Running bootstraps:       300 / 1000Running bootstraps:       400 / 1000Running bootstraps:       500 / 1000Running bootstraps:       600 / 1000Running bootstraps:       700 / 1000Running bootstraps:       800 / 1000Running bootstraps:       900 / 1000Running bootstraps:       1000 / 1000
+Calculating bootstrap values... done.
+pdf 
+  2 
