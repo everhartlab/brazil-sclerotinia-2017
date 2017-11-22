@@ -53,6 +53,7 @@ edges_to_highlight <- parent_edge(CDTree, which(CDTree$node.labels > 75))
 
 # The unrooted tree is often ideal because it doesn't imply that any one
 # population is more derived than the other. 
+pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, colormodel = "cmyk")
 plot.phylo(
   CDTree,
   font = 2,
@@ -67,7 +68,7 @@ plot.phylo(
 )
 legend(x = 0, y = 0.2, legend = popleg, fill = popcols)
 add.scale.bar(x = 0, y = 0.225, lwd = 2)
-
+dev.off()
 # Radial Tree -------------------------------------------------------------
 
 # The radial tree was what you were playing with earlier. This is nice 
