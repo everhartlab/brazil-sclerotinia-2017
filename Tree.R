@@ -53,7 +53,7 @@ edges_to_highlight <- parent_edge(CDTree, which(CDTree$node.labels > 75))
 
 # The unrooted tree is often ideal because it doesn't imply that any one
 # population is more derived than the other. 
-pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, colormodel = "cmyk")
+pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, pointsize = 5, colormodel = "cmyk")
 plot.phylo(
   CDTree,
   font = 2,
