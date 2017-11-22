@@ -9,13 +9,13 @@ setPop(CD) <- ~Country
 CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
 
 CDdist <- bruvo.dist(CD[CD$pop], replen=CDrepet) # ZNK: RETURNS A WARNING -- why are you subsetting this
-CDTree <- bruvo.boot(CD, replen = CDrepet, add=T, loss=T,           # ZNK: You should add a seed before this line
+CDTree <- bruvo.boot(CD, replen = CDrepet, add=T, loss=T, showplot = FALSE,  # ZNK: You should add a seed before this line
                      sample=1000, tree="nj", showtree=T, cutoff=50) # ZNK: In the paper you mention 1000 replicates
 cols <- c("#000000", "#E69F00", "#009E73","#56B4E9" , "#F0E442", "#0072B2",
           "#D55E00", "#CC79A7", "#FFFFFF")
-plot.phylo(CDTree, cex=0.5, font=2, tip.color=cols[CD$pop], 
-           show.node.label = T, adj=0, no.margin=T, x.lim=c(0.02,0.665), y.lim=c(3,92), 
-           label.offset = 0.004, type = "fan") # ZNK: This plots strange in my Rstudio. You may want to change the x and y parameters
+# plot.phylo(CDTree, cex=0.5, font=2, tip.color=cols[CD$pop], 
+#            show.node.label = T, adj=0, no.margin=T, x.lim=c(0.02,0.665), y.lim=c(3,92), 
+#            label.offset = 0.004, type = "fan") # ZNK: This plots strange in my Rstudio. You may want to change the x and y parameters
 
 
 # Tree suggestions --------------------------------------------------------
@@ -69,33 +69,33 @@ plot.phylo(
 legend(x = 0, y = 0.2, legend = popleg, fill = popcols)
 add.scale.bar(x = 0, y = 0.225, lwd = 2)
 dev.off()
-# Radial Tree -------------------------------------------------------------
-
-# The radial tree was what you were playing with earlier. This is nice 
-# because it tends to be easier to fit on a single page and you can align
-# the tip labels. The downside is that the relationships are a bit harder to
-# parse visually and it gives the impression of rooting.
-plot.phylo(
-  CDTree,
-  font = 2,
-  no.margin = TRUE,
-  type = "fan",
-  lab4ut = "axial",
-  label.offset = 0.004,
-  tip.color = popcols[as.character(pops)],
-  align.tip.label = TRUE,
-  edge.width = 2,
-  x.lim = c(-0.75, 0.75), # Setting the limits here to accomidate labels
-  y.lim = c(-0.75, 0.75),
-  open.angle = 60,        # The angle allows us to set the legend and scale bar
-  edge.color = c("black", "red")[edges_to_highlight + 1]
-)
-add.scale.bar(x = 0.25, y = -0.075, lwd = 2)
-legend(x = 0.25, y = -0.125, legend = popleg, fill = popcols)
-# nodelabels(text = ifelse(CDTree$node.labels > 75, CDTree$node.labels, NA),
-#            frame = "circle",
-#            bg = "white",
-#            cex = 0.5)
+# # Radial Tree -------------------------------------------------------------
+# 
+# # The radial tree was what you were playing with earlier. This is nice 
+# # because it tends to be easier to fit on a single page and you can align
+# # the tip labels. The downside is that the relationships are a bit harder to
+# # parse visually and it gives the impression of rooting.
+# plot.phylo(
+#   CDTree,
+#   font = 2,
+#   no.margin = TRUE,
+#   type = "fan",
+#   lab4ut = "axial",
+#   label.offset = 0.004,
+#   tip.color = popcols[as.character(pops)],
+#   align.tip.label = TRUE,
+#   edge.width = 2,
+#   x.lim = c(-0.75, 0.75), # Setting the limits here to accomidate labels
+#   y.lim = c(-0.75, 0.75),
+#   open.angle = 60,        # The angle allows us to set the legend and scale bar
+#   edge.color = c("black", "red")[edges_to_highlight + 1]
+# )
+# add.scale.bar(x = 0.25, y = -0.075, lwd = 2)
+# legend(x = 0.25, y = -0.125, legend = popleg, fill = popcols)
+# # nodelabels(text = ifelse(CDTree$node.labels > 75, CDTree$node.labels, NA),
+# #            frame = "circle",
+# #            bg = "white",
+# #            cex = 0.5)
 options(encoding = enc)
 
 
