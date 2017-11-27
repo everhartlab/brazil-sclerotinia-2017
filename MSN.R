@@ -1,4 +1,5 @@
 library(poppr)
+library("igraph")
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv") 
@@ -13,16 +14,13 @@ my_palette <- c("Nebraska" = "#000000",
 splitStrata(CD) <- ~Continent/Country/Population
 setPop(CD) <- ~Population
 CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
-bruvo.dist(CD, replen = CDrepet)
-
 
 CD_sub <- popsub(CD, blacklist = character(0))
 # ZNK: add and loss are parameters specifically for polyploid data with missing 
 #      data and are both TRUE by default. You do not need to specify them here.
 min_span_net <- bruvo.msn(CD_sub, replen = c(CDrepet), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = FALSE) 
 set.seed(69)
-pdf(here::here("figs/MSN.pdf"), width = 7.20472, height = 7.20472 * (1/1.6), pointsize = 5, colormodel = "cmyk")
-plot_poppr_msn(CD,
+min_span_net <- plot_poppr_msn(CD,
                min_span_net,
                inds = "NONE",
                mlg = FALSE,
@@ -32,5 +30,40 @@ plot_poppr_msn(CD,
                quantiles = FALSE,
                beforecut = TRUE,
                layfun = igraph::layout_nicely)
+opar <- par(no.readonly = TRUE)
+pdf(here::here("figs/MSN.pdf"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, colormodel = "cmyk")
+
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+# code from plot_poppr_msn.
+make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
+  w    <- edge_attr(msn$graph, "weight")
+  wmin <- min(w)
+  wmax <- max(w)
+  scales <- seq(wmin, wmax, l = 1000)
+  greyscales <- grDevices::gray(poppr:::adjustcurve(scales, show = FALSE, glim = glim, correction = gadj))
+  legend_image <- grDevices::as.raster(matrix(greyscales, nrow = 1))
+  graphics::par(mar = c(0, 1, 0, 1) + 0.5)
+  graphics::plot.new()
+  graphics::rasterImage(legend_image, 0, 0.5, 1, 1)
+  graphics::polygon(c(0, 1, 1), c(0.5, 0.5, 0.8), col = "white", 
+                    border = "white", lwd = 2)
+  graphics::axis(3, at = c(0, 0.25, 0.5, 0.75, 1), 
+                 labels = round(quantile(scales), 3))
+  graphics::text(0.5, 0, labels = "Bruvo's distance", font = 2, 
+                 cex = 1.5, adj = c(0.5, 0))
+}
+graphics::layout(matrix(c(1,2), nrow = 2), heights = c(4.5, 0.5))
+set.seed(69)
+# Graph is plotted so the area is scaled by number of samples
+plot.igraph(min_span_net$graph, 
+            margin = -0.025,
+            vertex.size = sqrt(vertex_attr(min_span_net$graph, "size")) * 5,
+            vertex.label = NA)
+sortpop <- names(my_palette)
+legend("topleft", legend = sortpop, fill = min_span_net$colors[sortpop])
+make_scale_bar(min_span_net)
+graphics::layout(matrix(1, ncol = 1, byrow = TRUE))
+
+par(opar)
 dev.off()
 options(encoding = enc)
