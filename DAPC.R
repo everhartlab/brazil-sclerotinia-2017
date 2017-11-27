@@ -23,8 +23,15 @@ scatter.dapc(CD_DAPC, cex=1.0, scree.da=F, clabel=0, cstar=0, cellipse = 1, lege
         col=my_palette)                         
 dev.off()
 
-pdf(here::here("figs/DAPC-barplot.pdf"), width = 3.464565, height = 3.464565 * 1.6, pointsize = 5, colormodel = "cmyk")
-ggcompoplot(CD_DAPC, CD, cols = 2)
+pdf(here::here("figs/DAPC-barplot.pdf"), width = 7.20472, height = 3.464565, pointsize = 5, colormodel = "cmyk")
+gg <- ggcompoplot(CD_DAPC, CD, cols = 4, pal = my_palette)
+gg$data$population <- factor(gg$data$population, names(my_palette))
+gg$data$oldPopulation <- factor(gg$data$oldPopulation, names(my_palette))
+gg + 
+  theme_bw(base_size = 10, base_family = "Helvetica") +
+  theme(axis.text.x = element_blank()) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(legend.position = "top") 
 dev.off()
 options(encoding = enc)
 getOption("encoding")
