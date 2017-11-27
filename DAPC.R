@@ -1,16 +1,17 @@
 # setwd("~/Thesis Project/Data Analysis")
 library(poppr)
 library(ggcompoplot)
+library(ggplot2)
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
 splitStrata(CD) <- ~Continent/Country/Population
 setPop(CD) <- ~Population
 my_palette <- c("Nebraska" = "#000000",
-                "Argentina" = "#E69F00",
+                "Argentina" = "#F0E442", # "#E69F00",
                 "Bahia" = "#56B4E9",
                 "Góias" = "#009E73",
-                "Mato Grosso do Sul" = "#F0E442",
+                "Mato Grosso do Sul" = "#E69F00",
                 "Minas Gerias" = "#0072B2",
                 "Paraná" = "#D55E00",
                 "Rio Grande do Sul" = "#CC79A7")
