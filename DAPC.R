@@ -6,8 +6,14 @@ options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
 splitStrata(CD) <- ~Continent/Country/Population
 setPop(CD) <- ~Population
-my_palette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
-                "#D55E00", "#CC79A7", "#FFFFFF")
+my_palette <- c("Nebraska" = "#000000",
+                "Argentina" = "#E69F00",
+                "Bahia" = "#56B4E9",
+                "Góias" = "#009E73",
+                "Mato Grosso do Sul" = "#F0E442",
+                "Minas Gerias" = "#0072B2",
+                "Paraná" = "#D55E00",
+                "Rio Grande do Sul" = "#CC79A7")
 
 
 CD_DAPC <- dapc(CD, n.pca=20, n.da=7) # ZNK: Why did you choose 20 PCs? I suggest you use xvalDapc() with the parameter n.pca. 

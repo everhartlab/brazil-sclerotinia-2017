@@ -11,8 +11,14 @@ CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
 CDdist <- bruvo.dist(CD[CD$pop], replen=CDrepet) # ZNK: RETURNS A WARNING -- why are you subsetting this
 CDTree <- bruvo.boot(CD, replen = CDrepet, add=T, loss=T,           # ZNK: You should add a seed before this line
                      sample=1000, tree="nj", showtree=FALSE, cutoff=50) # ZNK: In the paper you mention 1000 replicates
-cols <- c("#000000", "#E69F00", "#009E73","#56B4E9" , "#F0E442", "#0072B2",
-          "#D55E00", "#CC79A7", "#FFFFFF")
+cols <- c("Nebraska" = "#000000",
+          "Argentina" = "#E69F00",
+          "Bahia" = "#56B4E9",
+          "Góias" = "#009E73",
+          "Mato Grosso do Sul" = "#F0E442",
+          "Minas Gerias" = "#0072B2",
+          "Paraná" = "#D55E00",
+          "Rio Grande do Sul" = "#CC79A7")
 # plot.phylo(CDTree, cex=0.5, font=2, tip.color=cols[CD$pop], 
 #            show.node.label = T, adj=0, no.margin=T, x.lim=c(0.02,0.665), y.lim=c(3,92), 
 #            label.offset = 0.004, type = "fan") # ZNK: This plots strange in my Rstudio. You may want to change the x and y parameters
