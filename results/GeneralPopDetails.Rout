@@ -1,0 +1,112 @@
+Loading required package: adegenet
+Loading required package: methods
+Loading required package: ade4
+
+   /// adegenet 2.1.0 is loaded ////////////
+
+   > overview: '?adegenet'
+   > tutorials/doc/questions: 'adegenetWeb()' 
+   > bug reports/feature requests: adegenetIssues()
+
+
+This is poppr version 2.5.0. To get started, type package?poppr
+OMP parallel support: available
+── [1mAttaching packages[22m ──────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
+[32m✔[39m [34mtibble [39m 1.3.4     [32m✔[39m [34mdplyr  [39m 0.7.4
+[32m✔[39m [34mtidyr  [39m 0.7.2     [32m✔[39m [34mstringr[39m 1.2.0
+[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
+── [1mConflicts[22m ─────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+                 Pop  N MLG  eMLG       SE    H     G lambda   E.5  Hexp     Ia
+1              Góias 19  18  9.74 4.40e-01 2.87 17.19  0.942 0.972 0.407  0.517
+2             Paraná 14  14 10.00 0.00e+00 2.64 14.00  0.929 1.000 0.564  0.132
+3              Bahia 13  13 10.00 7.30e-08 2.56 13.00  0.923 1.000 0.461  1.321
+4  Rio Grande do Sul 17  17 10.00 2.31e-07 2.83 17.00  0.941 1.000 0.567  1.467
+5           Nebraska 15  11  7.67 8.90e-01 2.17  6.43  0.844 0.698 0.472  1.152
+6       Minas Gerias  7   6  6.00 0.00e+00 1.75  5.44  0.816 0.937 0.235  0.526
+7          Argentina  5   5  5.00 0.00e+00 1.61  5.00  0.800 1.000 0.561 -0.483
+8 Mato Grosso do Sul  5   5  5.00 0.00e+00 1.61  5.00  0.800 1.000 0.479  0.918
+9              Total 95  84  9.82 4.28e-01 4.36 67.86  0.985 0.869 0.561  0.736
+    rbarD File
+1  0.0521   CD
+2  0.0133   CD
+3  0.1331   CD
+4  0.1470   CD
+5  0.1155   CD
+6  0.0882   CD
+7 -0.0547   CD
+8  0.1153   CD
+9  0.0737   CD
+                   5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+Góias                2   0   0   0   0    0    2    0     0
+Paraná               0   0   0   2   1    0    0    3     0
+Bahia                0   0   1   0   0    1    2    0     0
+Rio Grande do Sul    0   0   0   0   1    0    2    1     0
+Nebraska             1   1   1   1   0    0    0    2     1
+Minas Gerias         0   0   0   0   0    0    0    0     0
+Argentina            0   0   0   0   0    0    1    1     0
+Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
+             Góias             Paraná              Bahia  Rio Grande do Sul 
+                 4                  6                  4                  4 
+          Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
+                 7                  0                  2                  2 
+                     5-2  6-2       7-2       8-3       9-2 12-2       20-3
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667
+Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667
+Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000
+Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
+                         55-4 110-4
+Góias              0.00000000  0.00
+Paraná             0.27272727  0.00
+Bahia              0.00000000  0.00
+Rio Grande do Sul  0.09090909  0.00
+Nebraska           0.18181818  0.25
+Minas Gerias       0.00000000  0.00
+Argentina          0.09090909  0.00
+Mato Grosso do Sul 0.00000000  0.00
+        Country         Population  N Alleles   Ae private  Hexp
+1        Brazil              Góias 19    2.91 1.78       4 0.407
+2        Brazil  Rio Grande do Sul 17    3.36 2.44       4 0.567
+3 United States           Nebraska 15    3.00 2.01       7 0.472
+4        Brazil             Paraná 14    3.00 2.76       6 0.564
+5        Brazil              Bahia 13    2.64 2.01       4 0.461
+6        Brazil       Minas Gerias  7    1.64 1.41       0 0.235
+7     Argentina          Argentina  5    2.27 3.20       2 0.561
+8        Brazil Mato Grosso do Sul  5    2.18 2.35       2 0.479
+                   5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+Góias                2   0   0   0   0    0    2    0     0
+Paraná               0   0   0   2   1    0    0    3     0
+Bahia                0   0   1   0   0    1    2    0     0
+Rio Grande do Sul    0   0   0   0   1    0    2    1     0
+Nebraska             1   1   1   1   0    0    0    2     1
+Minas Gerias         0   0   0   0   0    0    0    0     0
+Argentina            0   0   0   0   0    0    1    1     0
+Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
+             Góias             Paraná              Bahia  Rio Grande do Sul 
+                 4                  6                  4                  4 
+          Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
+                 7                  0                  2                  2 
+                     5-2  6-2       7-2       8-3       9-2 12-2       20-3
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667
+Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667
+Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000
+Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
+                         55-4 110-4
+Góias              0.00000000  0.00
+Paraná             0.27272727  0.00
+Bahia              0.00000000  0.00
+Rio Grande do Sul  0.09090909  0.00
+Nebraska           0.18181818  0.25
+Minas Gerias       0.00000000  0.00
+Argentina          0.09090909  0.00
+Mato Grosso do Sul 0.00000000  0.00
