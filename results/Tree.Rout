@@ -2,18 +2,15 @@ Loading required package: adegenet
 Loading required package: methods
 Loading required package: ade4
 
-   /// adegenet 2.1.1 is loaded ////////////
+   /// adegenet 2.1.0 is loaded ////////////
 
    > overview: '?adegenet'
    > tutorials/doc/questions: 'adegenetWeb()' 
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.5.0.99.29. To get started, type package?poppr
+This is poppr version 2.5.0. To get started, type package?poppr
 OMP parallel support: available
-
-This version of poppr is under development.
-If you find any bugs, please report them at https://github.com/grunwaldlab/poppr/issues
 Warning messages:
 1: the following specified individuals do not exist: Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, United States, Brazil, Brazil, Brazil, Brazil, Brazil, United States, Brazil, Brazil, Brazil, Brazil, United States, United States, United States, United States, United States, Brazil, United States, United States, Brazil, Argentina, Argentina, Argentina, Argentina, Argentina, Brazil, Brazil, Brazil, United States, United States, Brazil, United States, United States, Brazil, Brazil, Brazil, United States, United States, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil, Brazil 
 2: no individual selected - ignoring 
