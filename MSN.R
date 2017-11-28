@@ -55,12 +55,32 @@ make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
 graphics::layout(matrix(c(1,2), nrow = 2), heights = c(4.5, 0.5))
 set.seed(69)
 # Graph is plotted so the area is scaled by number of samples
+vsizes <- sqrt(vertex_attr(min_span_net$graph, "size")) * 5
 plot.igraph(min_span_net$graph, 
             margin = -0.025,
-            vertex.size = sqrt(vertex_attr(min_span_net$graph, "size")) * 5,
+            vertex.size = vsizes,
             vertex.label = NA)
+
 sortpop <- names(my_palette)
-legend("topleft", legend = sortpop, fill = min_span_net$colors[sortpop])
+a <- legend("topleft", 
+       legend = sortpop, 
+       fill = min_span_net$colors[sortpop],
+       title = "Population")
+
+uvsizes <- sort(unique(vsizes))
+leg     <- paste("", (uvsizes/5)^2, "")
+legend("topright", 
+       ncol = 2, 
+       legend = leg,
+       pch = 21, 
+       pt.cex = uvsizes/3, 
+       title = "Samples per MLG", 
+       # x.intersp = 1.5,
+       horiz = TRUE)
+# circlx <- a$text$x[1:2] + diff(c(a$text$x[1], a$rect$left))
+# circly <- rep(a$rect$top - a$rect$h - min(abs(diff(a$text$y))), 2)
+# rads <- uvsizes[c(1, length(uvsizes))]/200
+# symbols(circlx, (rads/pi) + circly, circles = rads, add = TRUE)
 make_scale_bar(min_span_net)
 graphics::layout(matrix(1, ncol = 1, byrow = TRUE))
 
