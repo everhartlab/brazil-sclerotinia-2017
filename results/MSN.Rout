@@ -22,8 +22,5 @@ The following object is masked from ‘package:base’:
 
     union
 
-Warning message:
-In legend("topright", ncol = 2, legend = leg, pch = 21, pt.cex = uvsizes/3,  :
-  horizontal specification overrides: Number of columns := 4
 pdf 
   2 
