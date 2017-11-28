@@ -29,6 +29,7 @@ min_span_net <- plot_poppr_msn(CD,
                cutoff = NULL,
                quantiles = FALSE,
                beforecut = TRUE,
+               pop.leg = FALSE,
                layfun = igraph::layout_nicely)
 opar <- par(no.readonly = TRUE)
 pdf(here::here("figs/MSN.pdf"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, colormodel = "cmyk")
@@ -56,34 +57,64 @@ graphics::layout(matrix(c(1,2), nrow = 2), heights = c(4.5, 0.5))
 set.seed(69)
 # Graph is plotted so the area is scaled by number of samples
 vsizes <- sqrt(vertex_attr(min_span_net$graph, "size")) * 5
+
 plot.igraph(min_span_net$graph, 
             margin = -0.025,
             vertex.size = vsizes,
             vertex.label = NA)
 
+# Create population legend and save it into variable "a"
 sortpop <- names(my_palette)
 a <- legend("topleft", 
        legend = sortpop, 
        fill = min_span_net$colors[sortpop],
        title = "Population")
 
-uvsizes <- sort(unique(vsizes))
-leg     <- paste("", (uvsizes/5)^2, "")
-legend("topright", 
-       ncol = 2, 
-       legend = leg,
-       pch = 21, 
-       pt.cex = uvsizes/3, 
-       title = "Samples per MLG", 
-       # x.intersp = 1.5,
-       horiz = TRUE)
-# circlx <- a$text$x[1:2] + diff(c(a$text$x[1], a$rect$left))
-# circly <- rep(a$rect$top - a$rect$h - min(abs(diff(a$text$y))), 2)
-# rads <- uvsizes[c(1, length(uvsizes))]/200
-# symbols(circlx, (rads/pi) + circly, circles = rads, add = TRUE)
+# Create example circles for comparison
+rads   <- (sqrt(seq(5, 1))*5)/200
+
+# Get the bottom of the pop legend
+ybot   <- a$rect$top - a$rect$h
+# Get the space between legend elements
+yspace <- min(abs(diff(a$text$y)))
+# Create positions of circles vertically
+circly <- rep(ybot - (2.5 * yspace), length(rads))
+
+# Find the distance between two circles.
+# https://stackoverflow.com/a/14830596/2752888
+cdist <- function(c1, c2){
+  a <- (c1 + c2)^2
+  b <- (c1 - c2)^2
+  sqrt(a - b)
+}
+
+# spread the circles out 
+make_adjacent_circles <- function(radii){
+  res <- vapply(seq(radii), function(i){
+    if (i == 1) 
+        0.0
+    else 
+      cdist(radii[i], radii[i - 1])
+    }, numeric(1))
+  cumsum(res)
+}
+
+# shift the x position of the circles
+circlx <- a$rect$left + a$rect$w/4
+circlx <- make_adjacent_circles(rads) + circlx
+
+# Create the circle legend
+text(x = a$rect$left + a$rect$w/2, y = ybot - (yspace), label = "Samples per MLG")
+symbols(x = circlx, y = circly, circles = rads, add = TRUE, inches = FALSE, asp = 1)
+text(x = circlx, y = circly, labels = seq(5, 1), font = 2)
+
+# Create the scale bar legend
 make_scale_bar(min_span_net)
+
+# reset the graphics
 graphics::layout(matrix(1, ncol = 1, byrow = TRUE))
 
+# reset par
 par(opar)
 dev.off()
 options(encoding = enc)
