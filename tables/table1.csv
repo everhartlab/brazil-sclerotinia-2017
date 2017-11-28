@@ -1,9 +1,9 @@
-Country,Population,N,Alleles,Ae,private,Hexp
-Brazil,Góias,19,2.91,1.78,4,0.407
-Brazil,Rio Grande do Sul,17,3.36,2.44,4,0.567
-United States,Nebraska,15,3,2.01,7,0.472
-Brazil,Paraná,14,3,2.76,6,0.564
-Brazil,Bahia,13,2.64,2.01,4,0.461
-Brazil,Minas Gerias,7,1.64,1.41,0,0.235
-Argentina,Argentina,5,2.27,3.2,2,0.561
-Brazil,Mato Grosso do Sul,5,2.18,2.35,2,0.479
+Country,Population,N,Alleles,Ae,private,Hexp,H,G,E.5
+Brazil,Góias,19 (18),2.91,1.78,4,0.407,2.87,17.2,0.972
+Brazil,Rio Grande do Sul,17 (17),3.36,2.44,4,0.567,2.83,17,1
+United States,Nebraska,15 (11),3,2.01,7,0.472,2.17,6.43,0.698
+Brazil,Paraná,14 (14),3,2.76,6,0.564,2.64,14,1
+Brazil,Bahia,13 (13),2.64,2.01,4,0.461,2.56,13,1
+Brazil,Minas Gerias,7 (6),1.64,1.41,0,0.235,1.75,5.44,0.937
+Argentina,Argentina,5 (5),2.27,3.2,2,0.561,1.61,5,1
+Brazil,Mato Grosso do Sul,5 (5),2.18,2.35,2,0.479,1.61,5,1

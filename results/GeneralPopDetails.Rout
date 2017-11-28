@@ -19,26 +19,31 @@ OMP parallel support: available
 ── [1mConflicts[22m ──────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
-                 Pop  N MLG  eMLG       SE    H     G lambda   E.5  Hexp     Ia
-1              Góias 19  18  9.74 4.40e-01 2.87 17.19  0.942 0.972 0.407  0.517
-2             Paraná 14  14 10.00 0.00e+00 2.64 14.00  0.929 1.000 0.564  0.132
-3              Bahia 13  13 10.00 7.30e-08 2.56 13.00  0.923 1.000 0.461  1.321
-4  Rio Grande do Sul 17  17 10.00 2.31e-07 2.83 17.00  0.941 1.000 0.567  1.467
-5           Nebraska 15  11  7.67 8.90e-01 2.17  6.43  0.844 0.698 0.472  1.152
-6       Minas Gerias  7   6  6.00 0.00e+00 1.75  5.44  0.816 0.937 0.235  0.526
-7          Argentina  5   5  5.00 0.00e+00 1.61  5.00  0.800 1.000 0.561 -0.483
-8 Mato Grosso do Sul  5   5  5.00 0.00e+00 1.61  5.00  0.800 1.000 0.479  0.918
-9              Total 95  84  9.82 4.28e-01 4.36 67.86  0.985 0.869 0.561  0.736
-    rbarD File
-1  0.0521   CD
-2  0.0133   CD
-3  0.1331   CD
-4  0.1470   CD
-5  0.1155   CD
-6  0.0882   CD
-7 -0.0547   CD
-8  0.1153   CD
-9  0.0737   CD
+Joining, by = "Isolate"
+Warning message:
+Column `Isolate` joining factor and character vector, coercing into character vector 
+                    ?  R  Q  N  Y  Z  A  K  H  I  J  C  D  E  F  G  B  M  L  P
+Góias              11  1  0  7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Paraná              1  2  3  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Bahia               6  0  0  3  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  3
+Rio Grande do Sul   1  2  2  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Nebraska            0  0  0  0  0  0  3  3  1  1  2  0  0  0  0  0  2  1  2  0
+Minas Gerias        7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Argentina           0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  0  0  0  0
+Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0
+                    U  O  V  W  S  T
+Góias               0  0  0  0  0  0
+Paraná              0  0  0  0  2  3
+Bahia               1  0  0  0  0  0
+Rio Grande do Sul   0  6  1  1  0  0
+Nebraska            0  0  0  0  0  0
+Minas Gerias        0  0  0  0  0  0
+Argentina           0  0  0  0  0  0
+Mato Grosso do Sul  1  0  0  0  0  1
+Scale for 'y' is already present. Adding another scale for 'y', which will
+replace the existing scale.
+pdf 
+  2 
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
@@ -70,15 +75,35 @@ Nebraska           0.18181818  0.25
 Minas Gerias       0.00000000  0.00
 Argentina          0.09090909  0.00
 Mato Grosso do Sul 0.00000000  0.00
-        Country         Population  N Alleles   Ae private  Hexp
-1        Brazil              Góias 19    2.91 1.78       4 0.407
-2        Brazil  Rio Grande do Sul 17    3.36 2.44       4 0.567
-3 United States           Nebraska 15    3.00 2.01       7 0.472
-4        Brazil             Paraná 14    3.00 2.76       6 0.564
-5        Brazil              Bahia 13    2.64 2.01       4 0.461
-6        Brazil       Minas Gerias  7    1.64 1.41       0 0.235
-7     Argentina          Argentina  5    2.27 3.20       2 0.561
-8        Brazil Mato Grosso do Sul  5    2.18 2.35       2 0.479
+        Country         Population
+1        Brazil              Góias
+2        Brazil             Paraná
+3        Brazil              Bahia
+4        Brazil  Rio Grande do Sul
+5 United States           Nebraska
+6        Brazil       Minas Gerias
+7     Argentina          Argentina
+8        Brazil Mato Grosso do Sul
+        Country         Population       N Alleles   Ae private  Hexp    H
+1        Brazil              Góias 19 (18)    2.91 1.78       4 0.407 2.87
+2        Brazil  Rio Grande do Sul 17 (17)    3.36 2.44       4 0.567 2.83
+3 United States           Nebraska 15 (11)    3.00 2.01       7 0.472 2.17
+4        Brazil             Paraná 14 (14)    3.00 2.76       6 0.564 2.64
+5        Brazil              Bahia 13 (13)    2.64 2.01       4 0.461 2.56
+6        Brazil       Minas Gerias   7 (6)    1.64 1.41       0 0.235 1.75
+7     Argentina          Argentina   5 (5)    2.27 3.20       2 0.561 1.61
+8        Brazil Mato Grosso do Sul   5 (5)    2.18 2.35       2 0.479 1.61
+      G   E.5
+1 17.20 0.972
+2 17.00 1.000
+3  6.43 0.698
+4 14.00 1.000
+5 13.00 1.000
+6  5.44 0.937
+7  5.00 1.000
+8  5.00 1.000
+Warning message:
+Column `Population`/`Pop` joining factors with different levels, coercing to character vector 
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
