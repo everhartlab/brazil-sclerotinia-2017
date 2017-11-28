@@ -1,4 +1,4 @@
-FIGURES := tree.pdf DAPC-scatterplot.pdf DAPC-barplot.pdf MSN.pdf
+FIGURES := tree.pdf DAPC-scatterplot.pdf DAPC-barplot.pdf MSN.pdf MCG-bar.pdf
 TABLES  := table1.csv
 FIGURES := $(addprefix figs/,$(FIGURES))
 TABLES := $(addprefix tables/,$(TABLES))
@@ -21,6 +21,7 @@ figs/DAPC-scatterplot.pdf : results/DAPC.Rout
 figs/DAPC-barplot.pdf     : figs/DAPC-scatterplot.pdf
 figs/MSN.pdf              : results/MSN.Rout
 tables/table1.csv         : results/GeneralPopDetails.Rout
+figs/MCG-bar.pdf          : results/GeneralPopDetails.Rout
 
 .PHONY : box
 
