@@ -13,4 +13,5 @@ get_package <- function(x){
 
 get_package("poppr")
 get_package("ggcompoplot")
+get_package("tidyverse")
 get_package("here")
