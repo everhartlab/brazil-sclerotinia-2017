@@ -4,7 +4,8 @@ FIGURES := figs/tree.pdf \
            figs/DAPC-barplot.pdf \
            figs/MSN.pdf \
            figs/MCG-bar.pdf
-TABLES  := tables/table1.csv
+TABLES  := tables/table1.csv \
+           tables/table2.csv
 FOLDERS := results \
            figs \
            tables 
@@ -19,8 +20,9 @@ figs/tree.pdf             : results/Tree.Rout
 figs/DAPC-scatterplot.pdf : results/DAPC.Rout
 figs/DAPC-barplot.pdf     : results/DAPC.Rout
 figs/MSN.pdf              : results/MSN.Rout
-tables/table1.csv         : results/GeneralPopDetails.Rout
 figs/MCG-bar.pdf          : results/GeneralPopDetails.Rout
+tables/table1.csv         : results/GeneralPopDetails.Rout
+tables/table2.csv         : results/AMOVA.Rout
 
 # bootstrap.txt keeps a record of the installed packages
 # Note that &> means to redirect the stdout and stderr to the specified file.
