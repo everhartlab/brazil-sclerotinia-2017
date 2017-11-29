@@ -156,6 +156,10 @@ purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.),
   readr::write_csv("tables/table1.csv") %>%
   print()
 
+# Fixing silly encoding issue >:(
+readLines(here::here("tables/table1.csv")) %>% 
+  iconv(from = "UTF-8", to = "ISO-8859-1") %>%
+  writeLines(con = here::here("tables/table1.csv"))
 
 # Private Alleles (out of n alleles/locus) --------------------------------
 
