@@ -1,3 +1,16 @@
+# Introduction ------------------------------------------------------------
+#
+# This script was originally written by A. Pannullo in the summer of 2017
+# It has been modified by Z.N. Kamvar in the fall/winter of 2017 
+# 
+# The purpose of this script is to generate the first table for the manuscript.
+# ZNK has added comments throughout the file to guide the reader through the
+# analyses.
+
+ 
+# Setup -------------------------------------------------------------------
+#
+#
 # setwd("~/Thesis Project/Data Analysis")
 library(poppr)
 library(tidyverse)
@@ -14,6 +27,7 @@ my_palette <- c("Nebraska" = "#000000",
                 "Minas Gerias" = "#0072B2",
                 "Paraná" = "#D55E00",
                 "Rio Grande do Sul" = "#CC79A7")
+
 
 # MCG determination -------------------------------------------------------
 #
@@ -55,6 +69,7 @@ addStrata(CD) <- data.frame(Isolate = indNames(CD))
 newstrata <- left_join(strata(CD), MCG_table) %>%
   mutate(MCG = case_when(is.na(MCG) ~ "?", TRUE ~ MCG))
 
+# A check to make sure we aren't shuffling names.
 stopifnot(identical(newstrata$Isolate, indNames(CD)))
 
 strata(CD) <- newstrata
@@ -65,10 +80,12 @@ mll.custom(CD) <- strata(CD)$MCG
 mlg.table(CD, color = TRUE)
 
 # The plot produced needs to be cleaned up a bit:
+# 
 #  1. The populations need to be arranged in the correct levels
 #  2. The colors need to be replaced with our custom colors
 #  3. We want to provide an indicator for the uncategorized MCGs
 #  4. The text size and family needs to be set. 
+#  
 p <- last_plot()
 pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
 p %+%
@@ -143,8 +160,8 @@ poptable <- strata(CD) %>%
 print(poptable)
 # Now we can take all of the data we gathered above and combine it
 purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
-                                        Ae = Ae(.), 
-                                        Hexp = Hexp(.))}) %>% 
+                                        Ae      = Ae(.), 
+                                        Hexp    = Hexp(.))}) %>% 
   tibble::add_column(N = tabulate(pop(CD)), .before = 1) %>% 
   dplyr::bind_cols(poptable, .) %>%
   dplyr::inner_join(genotype_table, by = c("Population" = "Pop", "N")) %>%

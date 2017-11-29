@@ -10,7 +10,7 @@ CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
 
 CDdist <- bruvo.dist(CD[CD$pop], replen=CDrepet) # ZNK: RETURNS A WARNING -- why are you subsetting this
 CDTree <- bruvo.boot(CD, replen = CDrepet, add=T, loss=T,           # ZNK: You should add a seed before this line
-                     sample=1000, tree="nj", showtree=FALSE, cutoff=50) # ZNK: In the paper you mention 1000 replicates
+                     sample=1000, tree=njs, showtree=FALSE, cutoff=50) # ZNK: In the paper you mention 1000 replicates
 cols <- c("Nebraska" = "#000000",
           "Argentina" = "#F0E442", # "#E69F00",
           "Bahia" = "#56B4E9",

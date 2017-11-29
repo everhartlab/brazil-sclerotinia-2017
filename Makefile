@@ -1,27 +1,31 @@
 FIGURES := tree.pdf DAPC-scatterplot.pdf DAPC-barplot.pdf MSN.pdf MCG-bar.pdf
 TABLES  := table1.csv
 FIGURES := $(addprefix figs/,$(FIGURES))
-TABLES := $(addprefix tables/,$(TABLES))
+TABLES  := $(addprefix tables/,$(TABLES))
+FOLDERS := results \
+           figs \
+           tables 
+           
 
 .PHONY: all
 
-all: bootstrap.txt $(FIGURES) $(TABLES) box
+all: $(FOLDERS) bootstrap.txt $(FIGURES) $(TABLES) box
 
-bootstrap.txt : packages.R
-	Rscript $< &> $@
-
-results/%.Rout : %.R results figs bootstrap.txt
-	Rscript $< &> $@
-
-results figs tables :
-	mkdir -p $@
-	
 figs/tree.pdf             : results/Tree.Rout
 figs/DAPC-scatterplot.pdf : results/DAPC.Rout
-figs/DAPC-barplot.pdf     : figs/DAPC-scatterplot.pdf
+figs/DAPC-barplot.pdf     : results/DAPC.Rout
 figs/MSN.pdf              : results/MSN.Rout
 tables/table1.csv         : results/GeneralPopDetails.Rout
 figs/MCG-bar.pdf          : results/GeneralPopDetails.Rout
+
+bootstrap.txt : packages.R data/data.csv
+	Rscript $< &> $@
+
+results/%.Rout : %.R bootstrap.txt
+	Rscript $< &> $@
+
+$(FOLDERS) :
+	mkdir -p $@
 
 .PHONY : box
 
@@ -31,3 +35,8 @@ box : $(FIGURES) $(TABLES)
 	--exclude '.Rproj.user' \
 	. \
 	~/Box\ Sync/Brazil\ Paper/Scripts/
+	
+.PHONY : clean
+
+clean :
+	$(RM) -r $(FOLDERS)
