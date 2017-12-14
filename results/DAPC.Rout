@@ -9,8 +9,11 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.5.0. To get started, type package?poppr
+This is poppr version 2.5.0.99.64. To get started, type package?poppr
 OMP parallel support: available
+
+This version of poppr is under development.
+If you find any bugs, please report them at https://github.com/grunwaldlab/poppr/issues
 null device 
           1 
 null device 
