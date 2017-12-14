@@ -35,6 +35,7 @@ if (interactive()){
 0}
 
 CD_DAPC <- dapc(CD, n.pca = 7L, n.da = 4L)
+CD_DAPC
 pdf(here::here("figs/DAPC-scatterplot.pdf"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, colormodel = "cmyk")
 scatter.dapc(
   CD_DAPC,

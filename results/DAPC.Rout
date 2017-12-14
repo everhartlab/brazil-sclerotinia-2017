@@ -9,11 +9,39 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.5.0.99.64. To get started, type package?poppr
+This is poppr version 2.5.0. To get started, type package?poppr
 OMP parallel support: available
+	#################################################
+	# Discriminant Analysis of Principal Components #
+	#################################################
+class: dapc
+$call: dapc.genind(x = CD, n.pca = 7L, n.da = 4L)
 
-This version of poppr is under development.
-If you find any bugs, please report them at https://github.com/grunwaldlab/poppr/issues
+$n.pca: 7 first PCs of PCA used
+$n.da: 4 discriminant functions saved
+$var (proportion of conserved variance): 0.662
+
+$eig (eigenvalues): 26.81 10.1 3.712 2.306 1.66 ...
+
+  vector    length content                   
+1 $eig      7      eigenvalues               
+2 $grp      95     prior group assignment    
+3 $prior    8      prior group probabilities 
+4 $assign   95     posterior group assignment
+5 $pca.cent 67     centring vector of PCA    
+6 $pca.norm 67     scaling vector of PCA     
+7 $pca.eig  56     eigenvalues of PCA        
+
+  data.frame    nrow ncol content                                          
+1 $tab          95   7    retained PCs of PCA                              
+2 $means        8    7    group means                                      
+3 $loadings     7    4    loadings of variables                            
+4 $ind.coord    95   4    coordinates of individuals (principal components)
+5 $grp.coord    8    4    coordinates of groups                            
+6 $posterior    95   8    posterior membership probabilities               
+7 $pca.loadings 67   7    PCA loadings of original variables               
+8 $var.contr    67   4    contribution of original variables               
+
 null device 
           1 
 null device 
