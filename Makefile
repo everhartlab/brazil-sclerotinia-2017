@@ -26,7 +26,7 @@ tables/table2.csv         : results/AMOVA.Rout
 
 # bootstrap.txt keeps a record of the installed packages
 # Note that &> means to redirect the stdout and stderr to the specified file.
-bootstrap.txt : packages.R data/data.csv
+bootstrap.txt : install.R data/data.csv
 	Rscript $< &> $@
 
 # R scripts executed here
