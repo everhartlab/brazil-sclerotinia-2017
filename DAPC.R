@@ -23,14 +23,34 @@ my_palette <- c("Nebraska" = "#000000",
 #  - show the scree plot for the discriminant axes ( this is an important diagnostic )
 #  - the colors on the plot are correct ( hint: use the output of popNames(CD) to subset my_pallette )
 #  - All the points show up in the plot.
-# 
-CD_DAPC <- dapc(CD, n.pca=20, n.da=7) 
-pdf(here::here("figs/DAPC-scatterplot.pdf"), width = 3.464565, height = 3.464565 * (1/1.6), pointsize = 5, colormodel = "cmyk")
-scatter.dapc(CD_DAPC, cex=1.0, scree.da=F, clabel=0, cstar=0, cellipse = 1, legend=T, 
-        col=my_palette)                         
-dev.off()
-# ANTHONY
+if (interactive()){
+  set.seed(2017-12-14)
+  CDXVAL <- xvalDapc(
+    tab(CD, NA.method = "mean"),
+    grp = pop(CD),
+    n.pca.max = 30,
+    n.rep = 500,
+    n.pc = seq.int(15)
+  )
+0}
 
+CD_DAPC <- dapc(CD, n.pca = 7L, n.da = 4L)
+pdf(here::here("figs/DAPC-scatterplot.pdf"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, colormodel = "cmyk")
+scatter.dapc(
+  CD_DAPC,
+  pch = 19,
+  cex = 1.0,
+  clabel = 0,
+  cstar = 0,
+  cellipse = 1,
+  legend = TRUE,
+  inset.da = 0,
+  posi.da = "bottomleft",
+  posi.leg = "bottomright",
+  col = my_palette[popNames(CD)])                         
+dev.off()
+
+# ANTHONY
 
 pdf(here::here("figs/DAPC-barplot.pdf"), width = 7.20472, height = 3.464565, pointsize = 5, colormodel = "cmyk")
 gg <- ggcompoplot(CD_DAPC, CD, cols = 4, pal = my_palette)
