@@ -20,6 +20,6 @@ Details: Building the results
 
 All of the results are controlled via the Makefile. A diagram of how the makefile proceeds can be found in workflow.pdf:
 
- 1. packages.R is run, which installs/updates the packages needed for these analyses. This creates bootstrap.txt and the folders "figs", "results", and "tables"
+ 1. install.R is run, which installs/updates the packages needed for these analyses. This creates bootstrap.txt and the folders "figs", "results", and "tables"
  2. All the R scripts are run, creating their results/*.Rout files and the figures and tables needed for the manuscript.
  3. rsync will copy all of the results (ignoring .git/ and .Rproj.user/) to the box drive (assuming OSX)
