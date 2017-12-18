@@ -1,33 +1,43 @@
 # setwd("~/Thesis Project/Data Analysis")
 # 
-# Make amova table from ade4 output
+# Make amova table from pegas output
 # 
 #' Title
 #'
-#' @param am      The amova table from poppr.amova
-#' @param amt     The results of randtest.amova on `am`
-#' @param samples A character vector specifying how the "Samples" field should
-#'   be renamed.
+#' @param am      The amova table from pegas
+#' @param within  A logical whether or not the lowest level is within individuals
 #'   
 #' @return a data frame
-#' @note Source:
-#'   https://github.com/everhartlab/sclerotinia-366/blob/v1.4/doc/RMD/by-year.Rmd
-make_amova_table <- function(am, amt, samples = "Region"){
-  tot <- nrow(am$results)
-  res <- data.frame(list(am$results[-tot, c("Df", "Sum Sq")], 
-                         Percent = am$componentsofcovariance[-tot, 2],
-                         Pval    = rev(amt$pvalue), 
-                         Sigma   = am$componentsofcovariance[-tot, 1],
-                         Phi     = rev(am$statphi$Phi[-tot])))
-  res <- as.matrix(res)
-  colnames(res) <- c("d.f.", "Sum of Squares", "Percent variation", "P", 
-                     "Sigma", "Phi statistic")
-  names(dimnames(res)) <- c("levels", "statistic")
-  rownames(res) <- gsub("samples", samples, rownames(res))
-  return(res)
+make_amova_table <- function(am, within = FALSE){
+  siggies <- 
+    if (is.data.frame(am$varcomp)) 
+      setNames(am$varcomp, c("sigma", "P")) 
+    else 
+      data.frame( sigma = am$varcomp )
+  vars <- rownames(am$tab[-(nrow(am$tab) - 0:1), ])
+  sig  <- siggies$sigma
+  siggies$perc <- sig/sum(sig)
+  
+  # Calculating phi statistics
+  nsig <- length(sig)
+  vnames <- paste(vars, "within", c("Total", vars[-length(vars)]))
+  phis <- matrix(0.0, nrow = nsig - 1, ncol = nsig - 1,
+                 dimnames = list(c("Total", vars[-length(vars)]),
+                                 vars))
+  for (i in 1:(nsig - 1)) {
+    for (j in i:(nsig - 1)) {
+      phis[i, j] <- sum(sig[i:j])/sum(sig[i:nsig])
+    }
+  }
+  wn <- c(diag(phis), if (within) phis[1, ncol(phis) - 1] else phis[1, ncol(phis)])
+  
+  # creating the resulting data frame
+  res <- data.frame(am$tab[-nrow(am$tab), c(3, 1)], 
+                    siggies,
+                    Phi = wn)
+  rownames(res) <- c(vnames, "Error")
+  res
 }
-
-
 
 library("poppr")
 library("tidyverse")
@@ -35,16 +45,11 @@ enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
 splitStrata(CD) <- ~Continent/Country/Population
-CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
-CDdist <- bruvo.dist(CD, replen=CDrepet)
-CDamova <- poppr.amova(CD, ~Continent/Country/Population, cutoff=0.1, dist=CDdist)
-# CDamovacc <- poppr.amova(CDSA, ~Country/Continent, clonecorrect = T, # ZNK: RETURNS AN ERROR -- what is CDSA? Where did it come from?
-#                          cutoff=0.10, within=F)
-set.seed(2017-11-29)
-CDsignif <- randtest(xtest=CDamova, nrepet = 999)
-# CDccsignif <- randtest(CDamovacc, nrepet = 999)
-make_amova_table(CDamova, CDsignif) %>%
-  as.data.frame() %>%
+CDrepet <- c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)
+CDdist <- bruvo.dist(CD, replen = CDrepet)
+set.seed(2017 - 11 - 29)
+CDamova <- pegas::amova(CDdist ~ Continent/Country/Population, data = strata(CD), nperm = 1000)
+make_amova_table(CDamova) %>%
   tibble::rownames_to_column(var = "Levels") %>%
   dplyr::mutate(Levels = trimws(Levels)) %>%
   dplyr::select(Levels, dplyr::everything()) %T>%
