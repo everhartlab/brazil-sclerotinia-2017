@@ -32,7 +32,7 @@ if (interactive()){
     n.rep = 500,
     n.pc = seq.int(15)
   )
-0}
+}
 
 CD_DAPC <- dapc(CD, n.pca = 7L, n.da = 4L)
 CD_DAPC

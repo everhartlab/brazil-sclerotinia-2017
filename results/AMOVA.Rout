@@ -19,22 +19,13 @@ OMP parallel support: available
 ── [1mConflicts[22m ────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
-
- No loci with missing values above 10% found.
-
-Distance matrix is non-euclidean.
-Utilizing quasieuclid correction method. See ?quasieuclid for details.
-Warning messages:
-1: In is.euclid(xdist) : Zero distance(s)
-2: In is.euclid(distmat) : Zero distance(s)
-3: In is.euclid(distances) : Zero distance(s)
-                            Levels d.f. Sum of Squares Percent variation     P
-1                Between Continent    1      1.5501255          5.276826 0.345
-2 Between Country Within Continent    1      0.5873642         11.590211 0.141
-3    Between Region Within Country    5      2.2341782          8.259028 0.001
-4                    Within Region   87     16.6539816         74.873936 0.001
-       Sigma Phi statistic
-1 0.01349090    0.05276826
-2 0.02963190    0.12235876
-3 0.02111529    0.09934721
-4 0.19142508    0.25126064
+                     Levels df       SSD       sigma        P       perc
+1    Continent within Total  1 1.1143681 0.009130073 0.000000 0.07756588
+2  Country within Continent  1 0.4160409 0.009321699 0.999001 0.07919387
+3 Population within Country  5 1.3074845 0.015366827 0.000000 0.13055114
+4                     Error 87 7.2983199 0.083888735       NA 0.71268911
+         Phi
+1 0.07756588
+2 0.08585314
+3 0.15482081
+4 0.28731089
