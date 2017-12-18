@@ -18,7 +18,7 @@ CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
 CD_sub <- popsub(CD, blacklist = character(0))
 # ZNK: add and loss are parameters specifically for polyploid data with missing 
 #      data and are both TRUE by default. You do not need to specify them here.
-min_span_net <- bruvo.msn(CD_sub, replen = c(CDrepet), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = FALSE) 
+min_span_net <- bruvo.msn(CD_sub, replen = c(CDrepet), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE) 
 set.seed(69)
 min_span_net <- plot_poppr_msn(CD,
                min_span_net,
@@ -54,14 +54,16 @@ make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
                  cex = 1.5, adj = c(0.5, 0))
 }
 graphics::layout(matrix(c(1,2), nrow = 2), heights = c(4.5, 0.5))
-set.seed(69)
+set.seed(124)
 # Graph is plotted so the area is scaled by number of samples
 vsizes <- sqrt(vertex_attr(min_span_net$graph, "size")) * 5
+lay <- igraph::layout_with_gem(min_span_net$graph)#[, 2:1]
 
 plot.igraph(min_span_net$graph, 
             margin = -0.025,
             vertex.size = vsizes,
-            vertex.label = NA)
+            vertex.label = NA,
+            layout = lay)
 
 # Create population legend and save it into variable "a"
 sortpop <- names(my_palette)
