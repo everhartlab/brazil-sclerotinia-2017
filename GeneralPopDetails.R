@@ -89,6 +89,7 @@ mlg.table(CD, color = TRUE)
 #  
 p <- last_plot()
 pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
+dev.control("enable") # allows me to copy to tiff device
 p %+%
   mutate(p$data, Population = fct_relevel(Population, names(my_palette))) +
   scale_fill_manual(values = my_palette) + 
@@ -109,6 +110,7 @@ p %+%
     x     = "MCG",
     title = NULL
   ))
+dev.copy(device = tiff, here::here("figs/MCG-bar.tiff"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, units = "in", res = 1200)
 dev.off()
 
 # Checking loci and missing data ------------------------------------------

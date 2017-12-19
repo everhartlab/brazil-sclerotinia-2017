@@ -59,7 +59,7 @@ edges_to_highlight <- parent_edge(CDTree, which(CDTree$node.labels > 75))
 # The unrooted tree is often ideal because it doesn't imply that any one
 # population is more derived than the other.
 pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, pointsize = 5, colormodel = "cmyk")
-
+dev.control("enable")
 plot.phylo(
   CDTree,
   font = 2,
@@ -89,13 +89,14 @@ set.seed(2017-11-26)
 XX[jits] <- jitter(XX[jits], amount = diff(range(XX[-jits]))/100)
 # Again, normally I would use "tiplabels" for this, but because I want to use
 # the jitter, I must use "points".
-points(x = XX,
-       y = YY,
+points(x   = XX,
+       y   = YY,
        pch = 21,
        cex = 2,
-       bg = transp(popcols[as.character(pops)], 0.75))
+       bg  = transp(popcols[as.character(pops)], 0.75))
 legend(x = 0, y = 0.2, legend = popleg, fill = popcols)
 add.scale.bar(x = 0, y = 0.225, lwd = 2)
+dev.copy(device = tiff, here::here("figs/tree.tiff"), width = 3.464565, height = 3.464565, pointsize = 5, units = "in", res = 1200)
 dev.off()
 # # Radial Tree -------------------------------------------------------------
 #

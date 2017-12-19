@@ -33,7 +33,7 @@ min_span_net <- plot_poppr_msn(CD,
                layfun = igraph::layout_nicely)
 opar <- par(no.readonly = TRUE)
 pdf(here::here("figs/MSN.pdf"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, colormodel = "cmyk")
-
+dev.control("enable")
 par(mar = c(0.1, 0.1, 0.1, 0.1))
 # code from plot_poppr_msn.
 make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
@@ -114,7 +114,7 @@ make_scale_bar(min_span_net)
 
 # reset the graphics
 graphics::layout(matrix(1, ncol = 1, byrow = TRUE))
-
+dev.copy(device = tiff, here::here("figs/MSN.tiff"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, units = "in", res = 1200)
 # reset par
 par(opar)
 dev.off()

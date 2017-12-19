@@ -37,6 +37,7 @@ if (interactive()){
 CD_DAPC <- dapc(CD, n.pca = 7L, n.da = 4L)
 CD_DAPC
 pdf(here::here("figs/DAPC-scatterplot.pdf"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, colormodel = "cmyk")
+dev.control("enable")
 scatter.dapc(
   CD_DAPC,
   pch = 19,
@@ -49,11 +50,13 @@ scatter.dapc(
   posi.da = "bottomleft",
   posi.leg = "bottomright",
   col = my_palette[popNames(CD)])                         
+dev.copy(device = tiff, here::here("figs/DAPC-scatterplot.tiff"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, units = "in", res = 1200)
 dev.off()
 
 # ANTHONY
 
 pdf(here::here("figs/DAPC-barplot.pdf"), width = 7.20472, height = 3.464565, pointsize = 5, colormodel = "cmyk")
+dev.control("enable")
 gg <- ggcompoplot(CD_DAPC, CD, cols = 4, pal = my_palette)
 gg$data$population <- factor(gg$data$population, names(my_palette))
 gg$data$oldPopulation <- factor(gg$data$oldPopulation, names(my_palette))
@@ -62,6 +65,7 @@ gg +
   theme(axis.text.x = element_blank()) +
   theme(axis.ticks.x = element_blank()) +
   theme(legend.position = "top") 
+dev.copy(device = tiff, here::here("figs/DAPC-barplot.tiff"), width = 7.20472, height = 3.464565, pointsize = 5, units = "in", res = 1200)
 dev.off()
 options(encoding = enc)
 getOption("encoding")
