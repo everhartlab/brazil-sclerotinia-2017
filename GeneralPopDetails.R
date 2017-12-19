@@ -14,6 +14,7 @@
 # setwd("~/Thesis Project/Data Analysis")
 library(poppr)
 library(tidyverse)
+if (!interactive()) options(width = 200)
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
@@ -110,6 +111,16 @@ p %+%
   ))
 dev.off()
 
+# Checking loci and missing data ------------------------------------------
+
+# Does the genotype accumulation curve plateau?
+genotype_curve(CD, sample = 1000, thresh = 0.9)
+
+# Are there patterns of missing data/population?
+info_table(CD, type = "missing", percent = TRUE)
+
+# Are there any samples with fewer than 9 typed loci?
+table(nLoc(CD) * propTyped(CD))
 
 # Genotypic and Allelic Diversity -----------------------------------------
 #

@@ -1,5 +1,40 @@
+
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> # Introduction ------------------------------------------------------------
+> #
+> # This script was originally written by A. Pannullo in the summer of 2017
+> # It has been modified by Z.N. Kamvar in the fall/winter of 2017 
+> # 
+> # The purpose of this script is to generate the first table for the manuscript.
+> # ZNK has added comments throughout the file to guide the reader through the
+> # analyses.
+> 
+>  
+> # Setup -------------------------------------------------------------------
+> #
+> #
+> # setwd("~/Thesis Project/Data Analysis")
+> library(poppr)
 Loading required package: adegenet
-Loading required package: methods
 Loading required package: ade4
 
    /// adegenet 2.1.0 is loaded ////////////
@@ -11,6 +46,7 @@ Loading required package: ade4
 
 This is poppr version 2.5.0. To get started, type package?poppr
 OMP parallel support: available
+> library(tidyverse)
 ── [1mAttaching packages[22m ─────────────────────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.3.4     [32m✔[39m [34mdplyr  [39m 0.7.4
@@ -19,31 +55,177 @@ OMP parallel support: available
 ── [1mConflicts[22m ────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+> if (!interactive()) options(width = 200)
+> enc <- getOption("encoding")
+> options(encoding = "iso-8859-1")
+> CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
+> splitStrata(CD) <- ~Continent/Country/Population
+> setPop(CD) <- ~Population
+> my_palette <- c("Nebraska" = "#000000",
++                 "Argentina" = "#F0E442", # "#E69F00",
++                 "Bahia" = "#56B4E9",
++                 "Góias" = "#009E73",
++                 "Mato Grosso do Sul" = "#E69F00",
++                 "Minas Gerias" = "#0072B2",
++                 "Paraná" = "#D55E00",
++                 "Rio Grande do Sul" = "#CC79A7")
+> 
+> 
+> # MCG determination -------------------------------------------------------
+> #
+> # This section is for adding the MCG data collected by T. Miorini. One thing to
+> # note about these data is that there are only a subset of these samples that
+> # were phenotyped. We are reporting these data for posterity.
+> # 
+> # This table was copied from a table produced by T. Miorini
+> MCG_table <- data.frame(stringsAsFactors = FALSE,
++                         MCG = c("A", "A", "A", "B", "B", "C", "D", "E", "F", "G", "H", "I",
++                                 "I", "I", "J", "J", "K", "K", "K", "L", "L", "M", "N", "N",
++                                 "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N",
++                                 "N", "O", "O", "O", "O", "O", "O", "P", "P", "P", "Q", "Q", "Q",
++                                 "Q", "Q", "R", "R", "R", "R", "R", "S", "S", "T", "T", "T", "T",
++                                 "U", "U", "V", "W", "Y", "Z"),
++                         Isolate = c("143", "276", "266", "399A", "399B", "293A", "293B", "293C",
++                                     "293D", "293E", "265", "267", "977C", "977D", "268", "541B",
++                                     "202", "264", "289", "834A", "834B", "541A", "973A", "977E",
++                                     "978A", "978B", "978C", "978D", "978E", "979B", "979D", "979E",
++                                     "1015", "1016", "1017", "1019", "1022", "1023", "974A", "974B",
++                                     "974D", "974E", "979A", "979C", "973B", "973C", "973D", "975A",
++                                     "975E", "1012", "1013", "1014", "975B", "975C", "1010", "1011",
++                                     "1018", "976A", "976C", "976B", "977A", "976D", "976E", "977B",
++                                     "973E", "974C", "975D", "1020", "1021"),
++                         Year = c(1977L, 1996L, 1994L, 1999L, 1999L, 1996L, 1996L, 1996L, 1996L,
++                                  1996L, 1994L, 1994L, 2012L, 2012L, 1994L, 2004L, 1990L, 1994L,
++                                  1996L, 2009L, 2009L, 2004L, 2012L, 2012L, 2012L, 2012L, 2012L,
++                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
++                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
++                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
++                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
++                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L)
++ )
+> 
+> # Here, we are adding isolate names to the strata and then joining this new
+> # table in the same order as the original data. Since this is but a subset of
+> # the data, we are replacing all missing MCG assignments with "?"
+> addStrata(CD) <- data.frame(Isolate = indNames(CD))
+> newstrata <- left_join(strata(CD), MCG_table) %>%
++   mutate(MCG = case_when(is.na(MCG) ~ "?", TRUE ~ MCG))
 Joining, by = "Isolate"
 Warning message:
 Column `Isolate` joining factor and character vector, coercing into character vector 
-                    ?  R  Q  N  Y  Z  A  K  H  I  J  C  D  E  F  G  B  M  L  P
-Góias              11  1  0  7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Paraná              1  2  3  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Bahia               6  0  0  3  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  3
-Rio Grande do Sul   1  2  2  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Nebraska            0  0  0  0  0  0  3  3  1  1  2  0  0  0  0  0  2  1  2  0
-Minas Gerias        7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Argentina           0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  0  0  0  0
-Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0
-                    U  O  V  W  S  T
-Góias               0  0  0  0  0  0
-Paraná              0  0  0  0  2  3
-Bahia               1  0  0  0  0  0
-Rio Grande do Sul   0  6  1  1  0  0
-Nebraska            0  0  0  0  0  0
-Minas Gerias        0  0  0  0  0  0
-Argentina           0  0  0  0  0  0
-Mato Grosso do Sul  1  0  0  0  0  1
-Scale for 'y' is already present. Adding another scale for 'y', which will
-replace the existing scale.
+> 
+> # A check to make sure we aren't shuffling names.
+> stopifnot(identical(newstrata$Isolate, indNames(CD)))
+> 
+> strata(CD) <- newstrata
+> setPop(CD) <- ~Population
+> 
+> # We can tabulate the MCGs by using them as custom multilocus genotypes.
+> mll.custom(CD) <- strata(CD)$MCG
+> mlg.table(CD, color = TRUE)
+                    ?  R  Q  N  Y  Z  A  K  H  I  J  C  D  E  F  G  B  M  L  P  U  O  V  W  S  T
+Góias              11  1  0  7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Paraná              1  2  3  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  2  3
+Bahia               6  0  0  3  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  3  1  0  0  0  0  0
+Rio Grande do Sul   1  2  2  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  6  1  1  0  0
+Nebraska            0  0  0  0  0  0  3  3  1  1  2  0  0  0  0  0  2  1  2  0  0  0  0  0  0  0
+Minas Gerias        7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Argentina           0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0
+Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  1
+> 
+> # The plot produced needs to be cleaned up a bit:
+> # 
+> #  1. The populations need to be arranged in the correct levels
+> #  2. The colors need to be replaced with our custom colors
+> #  3. We want to provide an indicator for the uncategorized MCGs
+> #  4. The text size and family needs to be set. 
+> #  
+> p <- last_plot()
+> pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
+> p %+%
++   mutate(p$data, Population = fct_relevel(Population, names(my_palette))) +
++   scale_fill_manual(values = my_palette) + 
++   aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
++   scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
++   theme_bw(base_size = 10, base_family = "Helvetica") +
++   theme(legend.position = "top") +
++   theme(panel.grid.major.x = element_blank()) +
++   theme(panel.grid.minor.x = element_blank()) +
++   theme(panel.grid.major.y = element_line(color = "grey20")) +
++   theme(panel.grid.minor.y = element_line(color = "grey40", linetype = 2)) +
++   theme(axis.text = element_text(color = "black")) +
++   theme(axis.ticks = element_line(color = "black")) +
++   theme(panel.border = element_rect(color = "black", size = 1)) +
++   scale_y_continuous(limits = c(0, 30), expand = c(0, 0)) +
++   labs(list(
++     alpha = "MCG status",
++     x     = "MCG",
++     title = NULL
++   ))
+Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
+> dev.off()
 pdf 
   2 
+> 
+> # Checking loci and missing data ------------------------------------------
+> 
+> # Does the genotype accumulation curve plateau?
+> genotype_curve(CD, sample = 1000, thresh = 0.9)
+> 
+> # Are there patterns of missing data/population?
+> info_table(CD, type = "missing", percent = TRUE)
+                    Locus
+Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17-3  Mean
+  Góias                  .     . 0.053   . 0.105    . 0.158     . 0.105     .    . 0.038
+  Paraná             0.071     . 0.071   .     .    .     . 0.143 0.143     .    . 0.039
+  Bahia              0.077 0.077 0.077   .     .    . 0.077 0.077 0.154     .    . 0.049
+  Rio Grande do Sul  0.118     .     .   . 0.059    .     . 0.176 0.118     .    . 0.043
+  Nebraska               . 0.133 0.067   .     .    .     . 0.067     .     .    . 0.024
+  Minas Gerias           .     .     .   .     .    . 0.286     .     .     .    . 0.026
+  Argentina          0.400     .     .   . 0.200    .     .     .     .     .    . 0.055
+  Mato Grosso do Sul     .     .     .   . 0.400    .     . 0.200     .     .    . 0.055
+  Total              0.063 0.032 0.042   . 0.063    . 0.063 0.084 0.084     .    . 0.039
+> 
+> # Are there any samples with fewer than 9 typed loci?
+> table(nLoc(CD) * propTyped(CD))
+
+ 9 10 11 
+ 5 31 59 
+> 
+> # Genotypic and Allelic Diversity -----------------------------------------
+> #
+> # Here we are calculating the basic statistics for genotypic diversity.
+> # We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
+> # and the ratio of the two (E.5).
+> mll(CD) <- "original"
+> genotype_table <- poppr(CD, quiet = TRUE, lambda = FALSE, total = FALSE) %>%
++   select(Pop, N, MLG, H, G, E.5)
+> 
+> # The indices of allelic diversity come from the locus_table() function, but
+> # they are presented over the entire data set. Here, we are splitting the 
+> # populations and getting one locus table per population so that we can extract
+> # information from them later
+> lts <- purrr::map(seppop(CD), locus_table, information = FALSE)
+> 
+> # One "easy" way to extract information is to create helper functions like this
+> # that will return a single number.
+> # 
+> # Calcuation for effective number of allelels
+> Ae <- function(loctab){
++   mean(1 / (1 - loctab[-nrow(loctab), "Hexp", drop = TRUE]))
++ }
+> # Calculation for Nei's gene diversity
+> Hexp <- function(loctab){
++   loctab[nrow(loctab), "Hexp", drop = TRUE]
++ }
+> # Calculation for the Average number of alleles/locus
+> nall <- function(loctab){
++   loctab[nrow(loctab), "allele", drop = TRUE]
++ }
+> 
+> # Private Alleles (out of n alleles/locus) --------------------------------
+> 
+> print(pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
@@ -53,28 +235,30 @@ Nebraska             1   1   1   1   0    0    0    2     1
 Minas Gerias         0   0   0   0   0    0    0    0     0
 Argentina            0   0   0   0   0    0    1    1     0
 Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
-             Góias             Paraná              Bahia  Rio Grande do Sul 
-                 4                  6                  4                  4 
-          Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
-                 7                  0                  2                  2 
-                     5-2  6-2       7-2       8-3       9-2 12-2       20-3
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667
-Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667
-Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000
-Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
-                         55-4 110-4
-Góias              0.00000000  0.00
-Paraná             0.27272727  0.00
-Bahia              0.00000000  0.00
-Rio Grande do Sul  0.09090909  0.00
-Nebraska           0.18181818  0.25
-Minas Gerias       0.00000000  0.00
-Argentina          0.09090909  0.00
-Mato Grosso do Sul 0.00000000  0.00
+> print(rowSums(pal)) # number of private alleles per Country
+             Góias             Paraná              Bahia  Rio Grande do Sul           Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
+                 4                  6                  4                  4                  7                  0                  2                  2 
+> 
+> # Fraction of alleles in data that are private 
+> print(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
+                     5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667 0.00000000  0.00
+Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667 0.00000000  0.00
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667 0.09090909  0.00
+Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.09090909  0.00
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.00000000  0.00
+> 
+> 
+> # creating table 1 --------------------------------------------------------
+> # First, we can create a table of populations
+> poptable <- strata(CD) %>% 
++   select(-Isolate, -MCG, -Year) %>% 
++   dplyr::distinct() %>% 
++   select(Country, Population)
+> print(poptable)
         Country         Population
 1        Brazil              Góias
 2        Brazil             Paraná
@@ -84,26 +268,40 @@ Mato Grosso do Sul 0.00000000  0.00
 6        Brazil       Minas Gerias
 7     Argentina          Argentina
 8        Brazil Mato Grosso do Sul
-        Country         Population       N Alleles   Ae private  Hexp    H
-1        Brazil              Góias 19 (18)    2.91 1.78       4 0.407 2.87
-2        Brazil  Rio Grande do Sul 17 (17)    3.36 2.44       4 0.567 2.83
-3 United States           Nebraska 15 (11)    3.00 2.01       7 0.472 2.17
-4        Brazil             Paraná 14 (14)    3.00 2.76       6 0.564 2.64
-5        Brazil              Bahia 13 (13)    2.64 2.01       4 0.461 2.56
-6        Brazil       Minas Gerias   7 (6)    1.64 1.41       0 0.235 1.75
-7     Argentina          Argentina   5 (5)    2.27 3.20       2 0.561 1.61
-8        Brazil Mato Grosso do Sul   5 (5)    2.18 2.35       2 0.479 1.61
-      G   E.5
-1 17.20 0.972
-2 17.00 1.000
-3  6.43 0.698
-4 14.00 1.000
-5 13.00 1.000
-6  5.44 0.937
-7  5.00 1.000
-8  5.00 1.000
+> # Now we can take all of the data we gathered above and combine it
+> purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
++                                         Ae      = Ae(.), 
++                                         Hexp    = Hexp(.))}) %>% 
++   tibble::add_column(N = tabulate(pop(CD)), .before = 1) %>% 
++   dplyr::bind_cols(poptable, .) %>%
++   dplyr::inner_join(genotype_table, by = c("Population" = "Pop", "N")) %>%
++   tibble::add_column(private = rowSums(pal), .before = "Hexp") %>%
++   dplyr::mutate_if(is.numeric, signif, 3) %>%
++   dplyr::arrange(-N) %>%
++   dplyr::mutate(N = glue::glue_data(., "{N} ({MLG})")) %>%
++   select(-MLG) %>%
++   readr::write_csv("tables/table1.csv") %>%
++   print()
+        Country         Population       N Alleles   Ae private  Hexp    H     G   E.5
+1        Brazil              Góias 19 (18)    2.91 1.78       4 0.407 2.87 17.20 0.972
+2        Brazil  Rio Grande do Sul 17 (17)    3.36 2.44       4 0.567 2.83 17.00 1.000
+3 United States           Nebraska 15 (11)    3.00 2.01       7 0.472 2.17  6.43 0.698
+4        Brazil             Paraná 14 (14)    3.00 2.76       6 0.564 2.64 14.00 1.000
+5        Brazil              Bahia 13 (13)    2.64 2.01       4 0.461 2.56 13.00 1.000
+6        Brazil       Minas Gerias   7 (6)    1.64 1.41       0 0.235 1.75  5.44 0.937
+7     Argentina          Argentina   5 (5)    2.27 3.20       2 0.561 1.61  5.00 1.000
+8        Brazil Mato Grosso do Sul   5 (5)    2.18 2.35       2 0.479 1.61  5.00 1.000
 Warning message:
 Column `Population`/`Pop` joining factors with different levels, coercing to character vector 
+> 
+> # Fixing silly encoding issue >:(
+> readLines(here::here("tables/table1.csv")) %>% 
++   iconv(from = "UTF-8", to = "ISO-8859-1") %>%
++   writeLines(con = here::here("tables/table1.csv"))
+> 
+> # Private Alleles (out of n alleles/locus) --------------------------------
+> 
+> (pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
@@ -113,25 +311,29 @@ Nebraska             1   1   1   1   0    0    0    2     1
 Minas Gerias         0   0   0   0   0    0    0    0     0
 Argentina            0   0   0   0   0    0    1    1     0
 Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
-             Góias             Paraná              Bahia  Rio Grande do Sul 
-                 4                  6                  4                  4 
-          Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
-                 7                  0                  2                  2 
-                     5-2  6-2       7-2       8-3       9-2 12-2       20-3
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667
-Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667
-Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000
-Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333
-                         55-4 110-4
-Góias              0.00000000  0.00
-Paraná             0.27272727  0.00
-Bahia              0.00000000  0.00
-Rio Grande do Sul  0.09090909  0.00
-Nebraska           0.18181818  0.25
-Minas Gerias       0.00000000  0.00
-Argentina          0.09090909  0.00
-Mato Grosso do Sul 0.00000000  0.00
+> rowSums(pal) # number of private alleles per Country
+             Góias             Paraná              Bahia  Rio Grande do Sul           Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
+                 4                  6                  4                  4                  7                  0                  2                  2 
+> 
+> # Fraction of alleles in data that are private 
+> (priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
+                     5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667 0.00000000  0.00
+Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667 0.00000000  0.00
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667 0.09090909  0.00
+Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.09090909  0.00
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.00000000  0.00
+> 
+> options(encoding = enc)
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 

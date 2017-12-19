@@ -1,5 +1,67 @@
+
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> # setwd("~/Thesis Project/Data Analysis")
+> #
+> # Make amova table from pegas output
+> #
+> #' Title
+> #'
+> #' @param am      The amova table from pegas
+> #' @param within  A logical whether or not the lowest level is within individuals
+> #'
+> #' @return a data frame
+> make_amova_table <- function(am, within = FALSE){
++   siggies <-
++     if (is.data.frame(am$varcomp))
++       setNames(am$varcomp, c("sigma", "P"))
++     else
++       data.frame( sigma = am$varcomp )
++   vars <- rownames(am$tab[-(nrow(am$tab) - 0:1), ])
++   sig  <- siggies$sigma
++   siggies$perc <- sig/sum(sig)
++ 
++   # Calculating phi statistics
++   nsig <- length(sig)
++   vnames <- paste(vars, "within", c("Total", vars[-length(vars)]))
++   phis <- matrix(0.0, nrow = nsig - 1, ncol = nsig - 1,
++                  dimnames = list(c("Total", vars[-length(vars)]),
++                                  vars))
++   for (i in 1:(nsig - 1)) {
++     for (j in i:(nsig - 1)) {
++       phis[i, j] <- sum(sig[i:j])/sum(sig[i:nsig])
++     }
++   }
++   wn <- c(diag(phis), if (within) phis[1, ncol(phis) - 1] else phis[1, ncol(phis)])
++ 
++   # creating the resulting data frame
++   res <- data.frame(am$tab[-nrow(am$tab), c(3, 1)],
++                     siggies,
++                     Phi = wn)
++   rownames(res) <- c(vnames, "Error")
++   res
++ }
+> 
+> library("poppr")
 Loading required package: adegenet
-Loading required package: methods
 Loading required package: ade4
 
    /// adegenet 2.1.0 is loaded ////////////
@@ -11,6 +73,7 @@ Loading required package: ade4
 
 This is poppr version 2.5.0. To get started, type package?poppr
 OMP parallel support: available
+> library("tidyverse")
 ── [1mAttaching packages[22m ─────────────────────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.3.4     [32m✔[39m [34mdplyr  [39m 0.7.4
@@ -19,13 +82,26 @@ OMP parallel support: available
 ── [1mConflicts[22m ────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
-                     Levels df       SSD       sigma        P       perc
-1    Continent within Total  1 1.1143681 0.009130073 0.000000 0.07756588
-2  Country within Continent  1 0.4160409 0.009321699 0.999001 0.07919387
-3 Population within Country  5 1.3074845 0.015366827 0.000000 0.13055114
-4                     Error 87 7.2983199 0.083888735       NA 0.71268911
-         Phi
-1 0.07756588
-2 0.08585314
-3 0.15482081
-4 0.28731089
+> if (!interactive()) options(width = 200)
+> enc <- getOption("encoding")
+> options(encoding = "iso-8859-1")
+> CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
+> splitStrata(CD) <- ~Continent/Country/Population
+> CDrepet <- c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)
+> CDdist <- bruvo.dist(CD, replen = CDrepet)
+> set.seed(2017 - 11 - 29)
+> CDamova <- pegas::amova(CDdist ~ Continent/Country/Population, data = strata(CD), nperm = 1000)
+> make_amova_table(CDamova) %>%
++   tibble::rownames_to_column(var = "Levels") %>%
++   dplyr::mutate(Levels = trimws(Levels)) %>%
++   dplyr::select(Levels, dplyr::everything()) %T>%
++   print() %>%
++   dplyr::mutate_if(is.numeric, signif, 3) %>%
++   readr::write_csv("tables/table2.csv")
+                     Levels df       SSD       sigma        P       perc        Phi
+1    Continent within Total  1 1.1143681 0.009130073 0.000000 0.07756588 0.07756588
+2  Country within Continent  1 0.4160409 0.009321699 0.999001 0.07919387 0.08585314
+3 Population within Country  5 1.3074845 0.015366827 0.000000 0.13055114 0.15482081
+4                     Error 87 7.2983199 0.083888735       NA 0.71268911 0.28731089
+> options(encoding = enc)
+> 

@@ -7,10 +7,13 @@ CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analy
 splitStrata(CD) <- ~Continent/Country/Population
 setPop(CD) <- ~Country
 CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
-
-CDdist <- bruvo.dist(CD[CD$pop], replen=CDrepet) # ZNK: RETURNS A WARNING -- why are you subsetting this
-CDTree <- bruvo.boot(CD, replen = CDrepet, add=T, loss=T,           # ZNK: You should add a seed before this line
-                     sample=1000, tree=njs, showtree=FALSE, cutoff=50) # ZNK: In the paper you mention 1000 replicates
+set.seed(2017 - 12 - 19)
+CDTree <- bruvo.boot(CD,
+                     replen = CDrepet,
+                     sample = 1000,
+                     tree = njs, # nj* because there may be missing data.
+                     showtree = FALSE,
+                     cutoff = 50)
 cols <- c("Nebraska" = "#000000",
           "Argentina" = "#F0E442", # "#E69F00",
           "Bahia" = "#56B4E9",
@@ -19,10 +22,6 @@ cols <- c("Nebraska" = "#000000",
           "Minas Gerias" = "#0072B2",
           "Paraná" = "#D55E00",
           "Rio Grande do Sul" = "#CC79A7")
-# plot.phylo(CDTree, cex=0.5, font=2, tip.color=cols[CD$pop], 
-#            show.node.label = T, adj=0, no.margin=T, x.lim=c(0.02,0.665), y.lim=c(3,92), 
-#            label.offset = 0.004, type = "fan") # ZNK: This plots strange in my Rstudio. You may want to change the x and y parameters
-
 
 # Tree suggestions --------------------------------------------------------
 #
@@ -30,7 +29,7 @@ cols <- c("Nebraska" = "#000000",
 #      that you might want to consider for the publication. Choose either one
 #      you want, customize it to what you want to show (either by changing
 #      the tip labels or anything like that), and then add code to save it to
-#      a pdf with the correct width for phytopathology. 
+#      a pdf with the correct width for phytopathology.
 ## setup ------------------------------------------------------------------
 pops <- strata(CD)$Population
 pops <- factor(pops, levels = c("Nebraska", sort(levels(pops)[levels(pops) != "Nebraska"])))
@@ -45,7 +44,7 @@ popcols <- setNames(cols, popleg)
 #'   the first internal node `internal.only = TRUE` (default) or includes tips
 #'   `internal.only = FALSE`.
 #'
-#' @return a logical vector for all edges indicating if the edge is a parent of 
+#' @return a logical vector for all edges indicating if the edge is a parent of
 #'   a given node.
 parent_edge <- function(tree, nodes, internal.only = TRUE){
   emat <- tree$edge
@@ -58,7 +57,7 @@ edges_to_highlight <- parent_edge(CDTree, which(CDTree$node.labels > 75))
 
 # Unrooted Tree -----------------------------------------------------------
 # The unrooted tree is often ideal because it doesn't imply that any one
-# population is more derived than the other. 
+# population is more derived than the other.
 pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, pointsize = 5, colormodel = "cmyk")
 
 plot.phylo(
@@ -74,9 +73,9 @@ plot.phylo(
   edge.color = c("black", "tomato")[edges_to_highlight + 1]
 )
 # Normally for tip labels, we would use the "tiplabels" function, but since we
-# have overlapping samples (clones), one way to represent them would be to 
+# have overlapping samples (clones), one way to represent them would be to
 # jitter these. We can get the coordinates of the points from the
-# "last_plot.phylo" object: 
+# "last_plot.phylo" object:
 # http://grokbase.com/t/r/r-sig-phylo/137syf0c3c/coordinates-for-phylo-tips
 lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
 tip    <- 1:lastPP$Ntip
@@ -90,17 +89,17 @@ set.seed(2017-11-26)
 XX[jits] <- jitter(XX[jits], amount = diff(range(XX[-jits]))/100)
 # Again, normally I would use "tiplabels" for this, but because I want to use
 # the jitter, I must use "points".
-points(x = XX, 
-       y = YY, 
-       pch = 21, 
-       cex = 2, 
+points(x = XX,
+       y = YY,
+       pch = 21,
+       cex = 2,
        bg = transp(popcols[as.character(pops)], 0.75))
 legend(x = 0, y = 0.2, legend = popleg, fill = popcols)
 add.scale.bar(x = 0, y = 0.225, lwd = 2)
 dev.off()
 # # Radial Tree -------------------------------------------------------------
-# 
-# # The radial tree was what you were playing with earlier. This is nice 
+#
+# # The radial tree was what you were playing with earlier. This is nice
 # # because it tends to be easier to fit on a single page and you can align
 # # the tip labels. The downside is that the relationships are a bit harder to
 # # parse visually and it gives the impression of rooting.
@@ -126,5 +125,3 @@ dev.off()
 # #            bg = "white",
 # #            cex = 0.5)
 options(encoding = enc)
-
-
