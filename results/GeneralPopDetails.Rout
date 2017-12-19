@@ -47,12 +47,12 @@ Loading required package: ade4
 This is poppr version 2.5.0. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── [1mAttaching packages[22m ─────────────────────────────────────────────── tidyverse 1.2.1 ──
+── [1mAttaching packages[22m ───────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.3.4     [32m✔[39m [34mdplyr  [39m 0.7.4
 [32m✔[39m [34mtidyr  [39m 0.7.2     [32m✔[39m [34mstringr[39m 1.2.0
 [32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ────────────────────────────────────────────────── tidyverse_conflicts() ──
+── [1mConflicts[22m ──────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
@@ -142,6 +142,7 @@ Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  
 > #  
 > p <- last_plot()
 > pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
+> dev.control("enable") # allows me to copy to tiff device
 > p %+%
 +   mutate(p$data, Population = fct_relevel(Population, names(my_palette))) +
 +   scale_fill_manual(values = my_palette) + 
@@ -163,6 +164,9 @@ Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  
 +     title = NULL
 +   ))
 Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
+> dev.copy(device = tiff, here::here("figs/MCG-bar.tiff"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, units = "in", res = 1200)
+quartz_off_screen 
+                4 
 > dev.off()
 pdf 
   2 
