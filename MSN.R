@@ -118,4 +118,5 @@ dev.copy(device = tiff, here::here("figs/MSN.tiff"), width = 3.464565 * 1,  heig
 # reset par
 par(opar)
 dev.off()
+dev.off()
 options(encoding = enc)

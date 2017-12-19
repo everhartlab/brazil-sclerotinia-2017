@@ -98,6 +98,7 @@ legend(x = 0, y = 0.2, legend = popleg, fill = popcols)
 add.scale.bar(x = 0, y = 0.225, lwd = 2)
 dev.copy(device = tiff, here::here("figs/tree.tiff"), width = 3.464565, height = 3.464565, pointsize = 5, units = "in", res = 1200)
 dev.off()
+dev.off()
 # # Radial Tree -------------------------------------------------------------
 #
 # # The radial tree was what you were playing with earlier. This is nice

@@ -52,6 +52,7 @@ scatter.dapc(
   col = my_palette[popNames(CD)])                         
 dev.copy(device = tiff, here::here("figs/DAPC-scatterplot.tiff"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, units = "in", res = 1200)
 dev.off()
+dev.off()
 
 # ANTHONY
 
@@ -66,6 +67,7 @@ gg +
   theme(axis.ticks.x = element_blank()) +
   theme(legend.position = "top") 
 dev.copy(device = tiff, here::here("figs/DAPC-barplot.tiff"), width = 7.20472, height = 3.464565, pointsize = 5, units = "in", res = 1200)
+dev.off()
 dev.off()
 options(encoding = enc)
 getOption("encoding")
