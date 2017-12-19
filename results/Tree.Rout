@@ -143,6 +143,9 @@ quartz_off_screen
 > dev.off()
 pdf 
   2 
+> dev.off()
+null device 
+          1 
 > # # Radial Tree -------------------------------------------------------------
 > #
 > # # The radial tree was what you were playing with earlier. This is nice

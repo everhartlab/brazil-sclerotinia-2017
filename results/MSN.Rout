@@ -166,5 +166,8 @@ quartz_off_screen
 > dev.off()
 pdf 
   2 
+> dev.off()
+pdf 
+  3 
 > options(encoding = enc)
 > 

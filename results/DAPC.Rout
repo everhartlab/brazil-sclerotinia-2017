@@ -120,6 +120,9 @@ quartz_off_screen
 > dev.off()
 pdf 
   2 
+> dev.off()
+null device 
+          1 
 > 
 > # ANTHONY
 > 
@@ -135,10 +138,13 @@ pdf
 +   theme(legend.position = "top") 
 > dev.copy(device = tiff, here::here("figs/DAPC-barplot.tiff"), width = 7.20472, height = 3.464565, pointsize = 5, units = "in", res = 1200)
 quartz_off_screen 
-                4 
+                3 
 > dev.off()
 pdf 
   2 
+> dev.off()
+null device 
+          1 
 > options(encoding = enc)
 > getOption("encoding")
 [1] "native.enc"
