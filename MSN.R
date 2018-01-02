@@ -1,6 +1,7 @@
 library(poppr)
 library("igraph")
 enc <- getOption("encoding")
+in_script <- !interactive()
 options(encoding = "iso-8859-1")
 CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv") 
 my_palette <- c("Nebraska" = "#000000",
@@ -32,8 +33,11 @@ min_span_net <- plot_poppr_msn(CD,
                pop.leg = FALSE,
                layfun = igraph::layout_nicely)
 opar <- par(no.readonly = TRUE)
-pdf(here::here("figs/MSN.pdf"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, colormodel = "cmyk")
-dev.control("enable")
+if (in_script){
+  pdf(here::here("figs/MSN.pdf"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, colormodel = "cmyk")
+  dev.control("enable")  
+}
+
 par(mar = c(0.1, 0.1, 0.1, 0.1))
 # code from plot_poppr_msn.
 make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
@@ -56,7 +60,9 @@ make_scale_bar <- function(msn, glim = c(0, 0.8), gadj = 3){
 graphics::layout(matrix(c(1,2), nrow = 2), heights = c(4.5, 0.5))
 set.seed(124)
 # Graph is plotted so the area is scaled by number of samples
-vsizes <- sqrt(vertex_attr(min_span_net$graph, "size")) * 5
+vsizes <- vertex_attr(min_span_net$graph, "size")
+vsizes <- if (packageVersion("poppr") < package_version("2.5.0.99")) sqrt(vsizes) * 5 else vsizes * 5
+
 lay <- igraph::layout_with_gem(min_span_net$graph)#[, 2:1]
 
 plot.igraph(min_span_net$graph, 
@@ -114,9 +120,11 @@ make_scale_bar(min_span_net)
 
 # reset the graphics
 graphics::layout(matrix(1, ncol = 1, byrow = TRUE))
-dev.copy(device = tiff, here::here("figs/MSN.tiff"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, units = "in", res = 1200)
+if (in_script) dev.copy(device = tiff, here::here("figs/MSN.tiff"), width = 3.464565 * 1,  height = 3.464565 * 1, pointsize = 5, units = "in", res = 1200)
 # reset par
 par(opar)
-dev.off()
-dev.off()
+if (in_script) {
+  dev.off()
+  dev.off()
+}
 options(encoding = enc)
