@@ -113,6 +113,7 @@ p %+%
 dev.copy(device = tiff, here::here("figs/MCG-bar.tiff"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, units = "in", res = 1200)
 dev.off()
 dev.off()
+dev.off()
 
 # Checking loci and missing data ------------------------------------------
 
