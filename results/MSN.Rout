@@ -30,7 +30,7 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.6.0. To get started, type package?poppr
+This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library("igraph")
 

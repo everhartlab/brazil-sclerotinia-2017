@@ -44,17 +44,17 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.6.0. To get started, type package?poppr
+This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── [1mAttaching packages[22m ─────── tidyverse 1.2.1 ──
-[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
-[32m✔[39m [34mtibble [39m 1.4.1     [32m✔[39m [34mdplyr  [39m 0.7.4
-[32m✔[39m [34mtidyr  [39m 0.7.2     [32m✔[39m [34mstringr[39m 1.2.0
-[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ────────── tidyverse_conflicts() ──
-[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
-[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
+✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+✔ tibble  1.4.1     ✔ dplyr   0.7.4
+✔ tidyr   0.7.2     ✔ stringr 1.2.0
+✔ readr   1.1.1     ✔ forcats 0.2.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
 > if (!interactive()) options(width = 200)
 > enc <- getOption("encoding")
 > options(encoding = "iso-8859-1")
