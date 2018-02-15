@@ -3,25 +3,15 @@ library("poppr")
 library("ape")
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
-CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
-splitStrata(CD) <- ~Continent/Country/Population
-setPop(CD) <- ~Country
-CDrepet <- c(2,6,2,2,2,2,4,4,4,4,3)
+CD <- readRDS(here::here("data", "full-genclone-object.rds"))
 set.seed(2017 - 12 - 19)
 CDTree <- bruvo.boot(CD,
-                     replen = CDrepet,
+                     replen = other(CD)$REPLEN,
                      sample = 1000,
                      tree = njs, # nj* because there may be missing data.
                      showtree = FALSE,
                      cutoff = 50)
-cols <- c("Nebraska" = "#000000",
-          "Argentina" = "#F0E442", # "#E69F00",
-          "Bahia" = "#56B4E9",
-          "Góias" = "#009E73",
-          "Mato Grosso do Sul" = "#E69F00",
-          "Minas Gerias" = "#0072B2",
-          "Paraná" = "#D55E00",
-          "Rio Grande do Sul" = "#CC79A7")
+
 
 # Tree suggestions --------------------------------------------------------
 #
@@ -32,10 +22,10 @@ cols <- c("Nebraska" = "#000000",
 #      a pdf with the correct width for phytopathology.
 ## setup ------------------------------------------------------------------
 pops <- strata(CD)$Population
-pops <- factor(pops, levels = c("Nebraska", sort(levels(pops)[levels(pops) != "Nebraska"])))
+pops <- factor(pops, levels = c("Midwest", sort(levels(pops)[levels(pops) != "Midwest"])))
 # sorting the legend so Nebraska is first
 popleg  <- levels(pops)
-popcols <- setNames(cols, popleg)
+popcols <- other(CD)$palette[popleg]
 #' Get the parent edges to nodes
 #'
 #' @param tree an object of class "phylo" (see [ape::phylo])
@@ -67,7 +57,7 @@ plot.phylo(
   type = "unrooted",
   lab4ut = "axial",    # lab4ut makes it so the tip labels are axial instead of horizontal
   label.offset = 0.004,
-  rotate.tree = 5,     # adjust this to manually rotate the tree
+  rotate.tree = 45,     # adjust this to manually rotate the tree
   show.tip.label = FALSE, # removing the tip labels to use points instead
   edge.width = 2,
   edge.color = c("black", "tomato")[edges_to_highlight + 1]
