@@ -59,9 +59,10 @@ plot.igraph(min_span_net$graph,
 
 # Create population legend and save it into variable "a"
 sortpop <- names(other(CD)$palette)
-a <- legend("topleft", 
-       legend = sortpop, 
-       fill = min_span_net$colors[sortpop])
+a <- legend(x = -1.2, 
+            y = 0.2, 
+            legend = sortpop, 
+            fill   = min_span_net$colors[sortpop])
 
 # Create example circles for comparison
 rads   <- (sqrt(seq(5, 1))*5)/200
