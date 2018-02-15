@@ -1,24 +1,24 @@
 ID,MCG,Year,Continent,Country,Population,Subpop,5-2,6-2,7-2,8-3,9-2,12-2,20-3,55-4,110-4,114-4,17-3
-143,A,1977,North America,United States,Colorado,Greeley,340,501,184,264,371,228,292,207,397,351,360
-202,K,1990,North America,United States,Nebraska,Ithaca,340,501,184,264,371,228,292,207,397,351,360
-264,K,1994,North America,United States,Nebraska,Platte Co.,340,501,184,264,371,228,292,207,397,351,360
-265,H,1994,North America,United States,Nebraska,Tekamah,340,501,184,264,371,228,292,207,397,351,360
-266,A,1994,North America,United States,Nebraska,Saunders Co.,340,501,184,264,371,228,292,207,397,351,360
-267,I,1994,North America,United States,Nebraska,Bellwood,340,NA,184,256,371,228,292,201,397,351,360
-268,J,1994,North America,United States,Nebraska,Herman,324,501,184,264,371,230,294,183,397,351,360
-276,A,1996,North America,United States,Nebraska,Ord,332,501,184,264,371,228,292,207,397,367,354
-289,K,1996,North America,United States,Nebraska,Lincoln,332,501,NA,264,388,228,292,207,389,367,354
+143,A,1977,North America,United States,Midwest,"Greeley, CO",340,501,184,264,371,228,292,207,397,351,360
+202,K,1990,North America,United States,Midwest,"Ithaca, NE",340,501,184,264,371,228,292,207,397,351,360
+264,K,1994,North America,United States,Midwest,"Platte Co., NE",340,501,184,264,371,228,292,207,397,351,360
+265,H,1994,North America,United States,Midwest,"Tekamah, NE",340,501,184,264,371,228,292,207,397,351,360
+266,A,1994,North America,United States,Midwest,"Saunders Co., NE",340,501,184,264,371,228,292,207,397,351,360
+267,I,1994,North America,United States,Midwest,"Bellwood, NE",340,NA,184,256,371,228,292,201,397,351,360
+268,J,1994,North America,United States,Midwest,"Herman, NE",324,501,184,264,371,230,294,183,397,351,360
+276,A,1996,North America,United States,Midwest,"Ord, NE",332,501,184,264,371,228,292,207,397,367,354
+289,K,1996,North America,United States,Midwest,"Lincoln, NE",332,501,NA,264,388,228,292,207,389,367,354
 293A,C,1996,South America,Argentina,Argentina,Argentina,NA,495,182,268,388,228,292,207,381,367,360
 293B,D,1996,South America,Argentina,Argentina,Argentina,330,505,182,264,388,228,285,207,381,351,360
 293C,E,1996,South America,Argentina,Argentina,Argentina,340,495,182,264,371,230,292,207,385,351,360
 293D,F,1996,South America,Argentina,Argentina,Argentina,340,505,174,264,388,226,294,207,385,351,360
 293E,G,1996,South America,Argentina,Argentina,Argentina,NA,495,182,280,NA,226,287,270,381,367,360
-399A,B,1999,North America,United States,Nebraska,Mead,332,495,182,262,371,230,292,203,397,367,354
-399B,B,1999,North America,United States,Nebraska,Mead,332,501,182,262,371,228,292,NA,397,367,354
-541A,M,2012,North America,United States,Nebraska,Ewing,340,495,184,264,371,230,294,258,381,351,360
-541B,J,2012,North America,United States,Nebraska,Ewing,332,501,182,264,371,234,294,207,389,351,354
-834A,L,2009,North America,United States,Nebraska,Auburn,334,495,184,262,371,234,292,207,385,351,360
-834B,L,2009,North America,United States,Nebraska,Auburn,330,NA,184,262,360,228,292,183,389,367,360
+399A,B,1999,North America,United States,Midwest,"Mead, NE",332,495,182,262,371,230,292,203,397,367,354
+399B,B,1999,North America,United States,Midwest,"Mead, NE",332,501,182,262,371,228,292,NA,397,367,354
+541A,M,2012,North America,United States,Midwest,"Ewing, NE",340,495,184,264,371,230,294,258,381,351,360
+541B,J,2012,North America,United States,Midwest,"Ewing, NE",332,501,182,264,371,234,294,207,389,351,354
+834A,L,2009,North America,United States,Midwest,"Auburn, NE",334,495,184,262,371,234,292,207,385,351,360
+834B,L,2009,North America,United States,Midwest,"Auburn, NE",330,NA,184,262,360,228,292,183,389,367,360
 978E2,NA,2012,South America,Brazil,Góias,Rio Verde,332,505,174,264,NA,230,292,207,385,351,360
 1010,R,2014,South America,Brazil,Paraná,Campo Mourão,340,505,172,264,360,230,292,223,NA,351,360
 1011,R,2014,South America,Brazil,Paraná,Campo Mourão,332,505,174,264,371,230,292,207,385,367,360

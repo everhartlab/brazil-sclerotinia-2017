@@ -63,19 +63,20 @@ full_data %>%
 
 full_data <- mutate(full_data, 
   continent_country_state_region = case_when(
-    
-  `JRS-Geographical Location` == 'Greeley, CO'                            ~ 'North America_United States_Colorado_Greeley',
-  `JRS-Geographical Location` == 'Ithaca, NE'                             ~ 'North America_United States_Nebraska_Ithaca',
-  `JRS-Geographical Location` == 'Platte Co., NE'                         ~ 'North America_United States_Nebraska_Platte Co.',
-  `JRS-Geographical Location` == 'Tekamah, Burt Co., NE'                  ~ 'North America_United States_Nebraska_Tekamah',
-  `JRS-Geographical Location` == 'Saunders Co., NE'                       ~ 'North America_United States_Nebraska_Saunders Co.',
-  `JRS-Geographical Location` == 'Bellwood, NE'                           ~ 'North America_United States_Nebraska_Bellwood',
-  `JRS-Geographical Location` == 'Herman, NE'                             ~ 'North America_United States_Nebraska_Herman',
-  `JRS-Geographical Location` == 'Ord, NE'                                ~ 'North America_United States_Nebraska_Ord',
-  `JRS-Geographical Location` == 'UNL PN, Lincoln, NE'                    ~ 'North America_United States_Nebraska_Lincoln',
-  `JRS-Geographical Location` == 'Mead, Nebraska'                         ~ 'North America_United States_Nebraska_Mead',
-  `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Nebraska_Ewing',
-  `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Nebraska_Auburn',
+  # Because there is only one point from CO in the data, we will compress both
+  # CO and NE into a single region called "Midwest"
+  `JRS-Geographical Location` == 'Greeley, CO'                            ~ 'North America_United States_Midwest_Greeley, CO',
+  `JRS-Geographical Location` == 'Ithaca, NE'                             ~ 'North America_United States_Midwest_Ithaca, NE',
+  `JRS-Geographical Location` == 'Platte Co., NE'                         ~ 'North America_United States_Midwest_Platte Co., NE',
+  `JRS-Geographical Location` == 'Tekamah, Burt Co., NE'                  ~ 'North America_United States_Midwest_Tekamah, NE',
+  `JRS-Geographical Location` == 'Saunders Co., NE'                       ~ 'North America_United States_Midwest_Saunders Co., NE',
+  `JRS-Geographical Location` == 'Bellwood, NE'                           ~ 'North America_United States_Midwest_Bellwood, NE',
+  `JRS-Geographical Location` == 'Herman, NE'                             ~ 'North America_United States_Midwest_Herman, NE',
+  `JRS-Geographical Location` == 'Ord, NE'                                ~ 'North America_United States_Midwest_Ord, NE',
+  `JRS-Geographical Location` == 'UNL PN, Lincoln, NE'                    ~ 'North America_United States_Midwest_Lincoln, NE',
+  `JRS-Geographical Location` == 'Mead, Nebraska'                         ~ 'North America_United States_Midwest_Mead, NE',
+  `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Midwest_Ewing, NE',
+  `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Midwest_Auburn, NE',
   `JRS-Geographical Location` == 'Argentina'                              ~ 'South America_Argentina_Argentina_Argentina',
   `JRS-Geographical Location` == 'Rio Verde/GO, Brazil'                   ~ 'South America_Brazil_Góias_Rio Verde',
   `JRS-Geographical Location` == 'Campo Mourão/PR, Brazil'                ~ 'South America_Brazil_Paraná_Campo Mourão',
@@ -102,7 +103,7 @@ full_data <- mutate(full_data,
 ))
 
 
-# Saving Cleaned Data -----------------------------------------------------
+# Saving Cleaned Data as CSV -----------------------------------------------
 # 
 # Now that the data are cleaned, I will save the important bits for reproduction
 # as both a CSV and a genclone object. 
@@ -122,6 +123,8 @@ clean_data <- full_data %>%
 
 print(clean_data, n = 100)
 
+
+# Converting to genclone, adding Repeat Lengths, Palette ------------------
 gid <- df2genind(select(clean_data, matches("\\d-\\d")),
                  ploidy = 1,
                  ind.names = clean_data$ID,
@@ -129,6 +132,19 @@ gid <- df2genind(select(clean_data, matches("\\d-\\d")),
                                  ID, Continent, Country, Population, Subpop, MCG, Year)) %>%
   as.genclone() %>%
   setPop(~Population)
+
+# This is a color-blind friendly palette
+other(gid)$palette <- c("Midwest" = "#000000",
+                        "Argentina" = "#F0E442", # "#E69F00",
+                        "Bahia" = "#56B4E9",
+                        "Góias" = "#009E73",
+                        "Mato Grosso do Sul" = "#E69F00",
+                        "Minas Gerias" = "#0072B2",
+                        "Paraná" = "#D55E00",
+                        "Rio Grande do Sul" = "#CC79A7")
+
+# These are the repeat lengths that we are correcting to avoid rounding errors
+(other(gid)$REPLEN <- fix_replen(gid, c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)))
 
 write_rds(gid, path = here::here("data/full-genclone-object.rds"))
 

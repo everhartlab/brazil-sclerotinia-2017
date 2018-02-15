@@ -45,12 +45,12 @@ Loading required package: ade4
 This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library("tidyverse")
-── [1mAttaching packages[22m ──────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
 [32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.2.0
 [32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ─────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > library("readxl")
@@ -177,19 +177,20 @@ Warning messages:
 > 
 > full_data <- mutate(full_data, 
 +   continent_country_state_region = case_when(
-+     
-+   `JRS-Geographical Location` == 'Greeley, CO'                            ~ 'North America_United States_Colorado_Greeley',
-+   `JRS-Geographical Location` == 'Ithaca, NE'                             ~ 'North America_United States_Nebraska_Ithaca',
-+   `JRS-Geographical Location` == 'Platte Co., NE'                         ~ 'North America_United States_Nebraska_Platte Co.',
-+   `JRS-Geographical Location` == 'Tekamah, Burt Co., NE'                  ~ 'North America_United States_Nebraska_Tekamah',
-+   `JRS-Geographical Location` == 'Saunders Co., NE'                       ~ 'North America_United States_Nebraska_Saunders Co.',
-+   `JRS-Geographical Location` == 'Bellwood, NE'                           ~ 'North America_United States_Nebraska_Bellwood',
-+   `JRS-Geographical Location` == 'Herman, NE'                             ~ 'North America_United States_Nebraska_Herman',
-+   `JRS-Geographical Location` == 'Ord, NE'                                ~ 'North America_United States_Nebraska_Ord',
-+   `JRS-Geographical Location` == 'UNL PN, Lincoln, NE'                    ~ 'North America_United States_Nebraska_Lincoln',
-+   `JRS-Geographical Location` == 'Mead, Nebraska'                         ~ 'North America_United States_Nebraska_Mead',
-+   `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Nebraska_Ewing',
-+   `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Nebraska_Auburn',
++   # Because there is only one point from CO in the data, we will compress both
++   # CO and NE into a single region called "Midwest"
++   `JRS-Geographical Location` == 'Greeley, CO'                            ~ 'North America_United States_Midwest_Greeley, CO',
++   `JRS-Geographical Location` == 'Ithaca, NE'                             ~ 'North America_United States_Midwest_Ithaca, NE',
++   `JRS-Geographical Location` == 'Platte Co., NE'                         ~ 'North America_United States_Midwest_Platte Co., NE',
++   `JRS-Geographical Location` == 'Tekamah, Burt Co., NE'                  ~ 'North America_United States_Midwest_Tekamah, NE',
++   `JRS-Geographical Location` == 'Saunders Co., NE'                       ~ 'North America_United States_Midwest_Saunders Co., NE',
++   `JRS-Geographical Location` == 'Bellwood, NE'                           ~ 'North America_United States_Midwest_Bellwood, NE',
++   `JRS-Geographical Location` == 'Herman, NE'                             ~ 'North America_United States_Midwest_Herman, NE',
++   `JRS-Geographical Location` == 'Ord, NE'                                ~ 'North America_United States_Midwest_Ord, NE',
++   `JRS-Geographical Location` == 'UNL PN, Lincoln, NE'                    ~ 'North America_United States_Midwest_Lincoln, NE',
++   `JRS-Geographical Location` == 'Mead, Nebraska'                         ~ 'North America_United States_Midwest_Mead, NE',
++   `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Midwest_Ewing, NE',
++   `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Midwest_Auburn, NE',
 +   `JRS-Geographical Location` == 'Argentina'                              ~ 'South America_Argentina_Argentina_Argentina',
 +   `JRS-Geographical Location` == 'Rio Verde/GO, Brazil'                   ~ 'South America_Brazil_Góias_Rio Verde',
 +   `JRS-Geographical Location` == 'Campo Mourão/PR, Brazil'                ~ 'South America_Brazil_Paraná_Campo Mourão',
@@ -216,7 +217,7 @@ Warning messages:
 + ))
 > 
 > 
-> # Saving Cleaned Data -----------------------------------------------------
+> # Saving Cleaned Data as CSV -----------------------------------------------
 > # 
 > # Now that the data are cleaned, I will save the important bits for reproduction
 > # as both a CSV and a genclone object. 
@@ -238,26 +239,26 @@ Warning messages:
 [38;5;246m# A tibble: 94 x 18[39m
    ID    MCG    Year Continent     Country       Population         Subpop              `5-2` `6-2` `7-2` `8-3` `9-2` `12-2` `20-3` `55-4` `110-4` `114-4` `17-3`
    [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m               [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m 
-[38;5;250m 1[39m 143   A      197[38;5;246m7[39m North America United States Colorado           Greeley             340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 2[39m 202   K      199[38;5;246m0[39m North America United States Nebraska           Ithaca              340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 3[39m 264   K      199[38;5;246m4[39m North America United States Nebraska           Platte Co.          340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 4[39m 265   H      199[38;5;246m4[39m North America United States Nebraska           Tekamah             340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 5[39m 266   A      199[38;5;246m4[39m North America United States Nebraska           Saunders Co.        340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 6[39m 267   I      199[38;5;246m4[39m North America United States Nebraska           Bellwood            340   [31mNA[39m    184   256   371   228    292    201    397     351     360   
-[38;5;250m 7[39m 268   J      199[38;5;246m4[39m North America United States Nebraska           Herman              324   501   184   264   371   230    294    183    397     351     360   
-[38;5;250m 8[39m 276   A      199[38;5;246m6[39m North America United States Nebraska           Ord                 332   501   184   264   371   228    292    207    397     367     354   
-[38;5;250m 9[39m 289   K      199[38;5;246m6[39m North America United States Nebraska           Lincoln             332   501   [31mNA[39m    264   388   228    292    207    389     367     354   
+[38;5;250m 1[39m 143   A      197[38;5;246m7[39m North America United States Midwest            Greeley, CO         340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 2[39m 202   K      199[38;5;246m0[39m North America United States Midwest            Ithaca, NE          340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 3[39m 264   K      199[38;5;246m4[39m North America United States Midwest            Platte Co., NE      340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 4[39m 265   H      199[38;5;246m4[39m North America United States Midwest            Tekamah, NE         340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 5[39m 266   A      199[38;5;246m4[39m North America United States Midwest            Saunders Co., NE    340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 6[39m 267   I      199[38;5;246m4[39m North America United States Midwest            Bellwood, NE        340   [31mNA[39m    184   256   371   228    292    201    397     351     360   
+[38;5;250m 7[39m 268   J      199[38;5;246m4[39m North America United States Midwest            Herman, NE          324   501   184   264   371   230    294    183    397     351     360   
+[38;5;250m 8[39m 276   A      199[38;5;246m6[39m North America United States Midwest            Ord, NE             332   501   184   264   371   228    292    207    397     367     354   
+[38;5;250m 9[39m 289   K      199[38;5;246m6[39m North America United States Midwest            Lincoln, NE         332   501   [31mNA[39m    264   388   228    292    207    389     367     354   
 [38;5;250m10[39m 293A  C      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   268   388   228    292    207    381     367     360   
 [38;5;250m11[39m 293B  D      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           330   505   182   264   388   228    285    207    381     351     360   
 [38;5;250m12[39m 293C  E      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   495   182   264   371   230    292    207    385     351     360   
 [38;5;250m13[39m 293D  F      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   505   174   264   388   226    294    207    385     351     360   
 [38;5;250m14[39m 293E  G      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   280   [31mNA[39m    226    287    270    381     367     360   
-[38;5;250m15[39m 399A  B      199[38;5;246m9[39m North America United States Nebraska           Mead                332   495   182   262   371   230    292    203    397     367     354   
-[38;5;250m16[39m 399B  B      199[38;5;246m9[39m North America United States Nebraska           Mead                332   501   182   262   371   228    292    [31mNA[39m     397     367     354   
-[38;5;250m17[39m 541A  M      201[38;5;246m2[39m North America United States Nebraska           Ewing               340   495   184   264   371   230    294    258    381     351     360   
-[38;5;250m18[39m 541B  J      201[38;5;246m2[39m North America United States Nebraska           Ewing               332   501   182   264   371   234    294    207    389     351     354   
-[38;5;250m19[39m 834A  L      200[38;5;246m9[39m North America United States Nebraska           Auburn              334   495   184   262   371   234    292    207    385     351     360   
-[38;5;250m20[39m 834B  L      200[38;5;246m9[39m North America United States Nebraska           Auburn              330   [31mNA[39m    184   262   360   228    292    183    389     367     360   
+[38;5;250m15[39m 399A  B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   495   182   262   371   230    292    203    397     367     354   
+[38;5;250m16[39m 399B  B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   501   182   262   371   228    292    [31mNA[39m     397     367     354   
+[38;5;250m17[39m 541A  M      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           340   495   184   264   371   230    294    258    381     351     360   
+[38;5;250m18[39m 541B  J      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           332   501   182   264   371   234    294    207    389     351     354   
+[38;5;250m19[39m 834A  L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          334   495   184   262   371   234    292    207    385     351     360   
+[38;5;250m20[39m 834B  L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          330   [31mNA[39m    184   262   360   228    292    183    389     367     360   
 [38;5;250m21[39m 978E2 [31mNA[39m     201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   [31mNA[39m    230    292    207    385     351     360   
 [38;5;250m22[39m 1010  R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        340   505   172   264   360   230    292    223    [31mNA[39m      351     360   
 [38;5;250m23[39m 1011  R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   505   174   264   371   230    292    207    385     367     360   
@@ -333,6 +334,8 @@ Warning messages:
 [38;5;250m93[39m 979D  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    292    207    385     367     360   
 [38;5;250m94[39m 979E  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    295    207    385     367     360   
 > 
+> 
+> # Converting to genclone, adding Repeat Lengths, Palette ------------------
 > gid <- df2genind(select(clean_data, matches("\\d-\\d")),
 +                  ploidy = 1,
 +                  ind.names = clean_data$ID,
@@ -340,6 +343,28 @@ Warning messages:
 +                                  ID, Continent, Country, Population, Subpop, MCG, Year)) %>%
 +   as.genclone() %>%
 +   setPop(~Population)
+> 
+> # This is a color-blind friendly palette
+> other(gid)$palette <- c("Midwest" = "#000000",
++                         "Argentina" = "#F0E442", # "#E69F00",
++                         "Bahia" = "#56B4E9",
++                         "Góias" = "#009E73",
++                         "Mato Grosso do Sul" = "#E69F00",
++                         "Minas Gerias" = "#0072B2",
++                         "Paraná" = "#D55E00",
++                         "Rio Grande do Sul" = "#CC79A7")
+> 
+> # These are the repeat lengths that we are correcting to avoid rounding errors
+> (other(gid)$REPLEN <- fix_replen(gid, c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)))
+Warning in fix_replen(gid, c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)) :
+  The repeat lengths for 20-3, 55-4 are not consistent.
+
+ This might be due to inconsistent allele calls or repeat lengths that are too large.
+ Check the alleles to make sure there are no duplicated or similar alleles that might end up being the same after division.
+ 
+Repeat lengths with some modification are being returned: 6-2
+    5-2     6-2     7-2     8-3     9-2    12-2    20-3    55-4   110-4   114-4    17-3 
+2.00000 6.00001 2.00000 2.00000 2.00000 2.00000 4.00000 4.00000 4.00000 4.00000 3.00000 
 > 
 > write_rds(gid, path = here::here("data/full-genclone-object.rds"))
 > 
@@ -356,102 +381,102 @@ Warning messages:
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       America/Chicago             
- date     2018-02-14                  
+ date     2018-02-15                  
 
 ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
- package     * version    date       source                               
- ade4        * 1.7-10     2018-02-03 Github (sdray/ade4@2507ae3)          
- adegenet    * 2.1.1      2018-02-02 CRAN (R 3.4.3)                       
- ansistrings   1.0.0.9000 2018-02-02 Github (r-lib/ansistrings@f27619b)   
- ape           5.0        2017-10-30 CRAN (R 3.4.2)                       
- assertthat    0.2.0      2017-04-11 CRAN (R 3.4.0)                       
- backports     1.1.2      2017-12-13 CRAN (R 3.4.3)                       
- bindr         0.1        2016-11-13 CRAN (R 3.4.0)                       
- bindrcpp    * 0.2        2017-06-17 CRAN (R 3.4.0)                       
- boot          1.3-20     2017-07-30 CRAN (R 3.4.1)                       
- broom         0.4.3      2017-11-20 CRAN (R 3.4.3)                       
- cellranger    1.1.0      2016-07-27 CRAN (R 3.4.0)                       
- cli           1.0.0.9001 2018-02-05 Github (r-lib/cli@1b58269)           
- clisymbols    1.2.0      2017-05-21 CRAN (R 3.4.0)                       
- cluster       2.0.6      2017-03-16 CRAN (R 3.4.0)                       
- coda          0.19-1     2016-12-08 CRAN (R 3.4.0)                       
- colorspace    1.4-0      2017-11-23 R-Forge (R 3.4.2)                    
- crayon        1.3.4      2017-09-23 Github (gaborcsardi/crayon@b5221ab)  
- deldir        0.1-14     2017-04-22 CRAN (R 3.4.0)                       
- digest        0.6.15     2018-01-28 CRAN (R 3.4.3)                       
- dplyr       * 0.7.4      2017-09-28 CRAN (R 3.4.1)                       
- expm          0.999-2    2017-03-29 CRAN (R 3.4.0)                       
- fastmatch     1.1-0      2017-01-28 CRAN (R 3.4.0)                       
- forcats     * 0.2.0      2017-01-23 CRAN (R 3.4.0)                       
- foreign       0.8-69     2017-06-21 CRAN (R 3.4.0)                       
- gdata         2.18.0     2017-06-06 CRAN (R 3.4.0)                       
- ggplot2     * 2.2.1      2016-12-30 CRAN (R 3.4.0)                       
- glue          1.2.0      2017-10-29 CRAN (R 3.4.2)                       
- gmodels       2.16.2     2015-07-22 CRAN (R 3.4.0)                       
- gtable        0.2.0      2016-02-26 CRAN (R 3.4.0)                       
- gtools        3.5.0      2015-05-29 CRAN (R 3.4.0)                       
- haven         1.1.0      2017-07-09 CRAN (R 3.4.1)                       
- here          0.1        2017-05-28 CRAN (R 3.4.0)                       
- hms           0.4.1      2018-01-24 CRAN (R 3.4.3)                       
- htmltools     0.3.6      2017-04-28 CRAN (R 3.4.0)                       
- httpuv        1.3.5      2017-07-04 CRAN (R 3.4.1)                       
- httr          1.3.1      2017-08-20 CRAN (R 3.4.1)                       
- igraph        1.1.2      2017-07-21 CRAN (R 3.4.1)                       
- jsonlite      1.5        2017-06-01 CRAN (R 3.4.0)                       
- lattice       0.20-35    2017-03-25 CRAN (R 3.4.0)                       
- lazyeval      0.2.1      2017-10-29 CRAN (R 3.4.2)                       
- LearnBayes    2.15       2014-05-29 CRAN (R 3.4.0)                       
- lubridate   * 1.7.1      2017-11-03 CRAN (R 3.4.2)                       
- magrittr      1.5        2014-11-22 CRAN (R 3.4.0)                       
- MASS          7.3-48     2017-12-25 CRAN (R 3.4.3)                       
- Matrix        1.2-12     2017-11-15 CRAN (R 3.4.2)                       
- mgcv          1.8-23     2018-01-15 CRAN (R 3.4.3)                       
- mime          0.5        2016-07-07 CRAN (R 3.4.0)                       
- mnormt        1.5-5      2016-10-15 CRAN (R 3.4.0)                       
- modelr        0.1.1      2017-07-24 CRAN (R 3.4.1)                       
- munsell       0.4.3      2016-02-13 CRAN (R 3.4.0)                       
- nlme          3.1-131    2017-02-06 CRAN (R 3.4.0)                       
- pegas         0.10       2017-05-03 CRAN (R 3.4.0)                       
- permute       0.9-4      2016-09-09 CRAN (R 3.4.0)                       
- phangorn      2.3.1      2017-11-01 CRAN (R 3.4.2)                       
- pillar        1.1.0      2018-01-14 CRAN (R 3.4.3)                       
- pkgconfig     2.0.1      2017-03-21 CRAN (R 3.4.0)                       
- plyr          1.8.4      2016-06-08 CRAN (R 3.4.0)                       
- poppr       * 2.6.1      2018-01-15 CRAN (R 3.4.3)                       
- prettyunits   1.0.2      2015-07-13 CRAN (R 3.4.0)                       
- progress      1.1.2.9002 2018-02-02 Github (r-lib/progress@97f2c4e)      
- psych         1.7.8      2017-09-09 CRAN (R 3.4.1)                       
- purrr       * 0.2.4      2017-10-18 CRAN (R 3.4.2)                       
- quadprog      1.5-5      2013-04-17 CRAN (R 3.4.0)                       
- R6            2.2.2      2017-06-17 CRAN (R 3.4.0)                       
- Rcpp          0.12.15    2018-01-20 CRAN (R 3.4.3)                       
- readr       * 1.1.1      2017-05-16 CRAN (R 3.4.0)                       
- readxl      * 1.0.0      2017-04-18 CRAN (R 3.4.0)                       
- rematch2      2.0.0.9000 2018-02-02 Github (MangoTheCat/rematch2@180fb61)
- reshape2      1.4.3      2017-12-11 CRAN (R 3.4.3)                       
- rlang         0.1.6.9003 2018-02-02 Github (tidyverse/rlang@c6747f9)     
- rprojroot     1.3-2      2018-01-03 CRAN (R 3.4.3)                       
- rstudioapi    0.7.0-9000 2018-02-02 Github (rstudio/rstudioapi@109e593)  
- rvest         0.3.2      2016-06-17 CRAN (R 3.4.0)                       
- scales        0.5.0.9000 2017-08-28 Github (hadley/scales@d767915)       
- selectr       0.3-1      2016-12-19 CRAN (R 3.4.0)                       
- seqinr        3.4-5      2017-08-01 CRAN (R 3.4.1)                       
- sessioninfo   1.0.1.9000 2018-02-02 Github (r-lib/sessioninfo@c871d01)   
- shiny         1.0.5      2017-08-23 CRAN (R 3.4.1)                       
- sp            1.2-7      2018-01-19 CRAN (R 3.4.3)                       
- spData        0.2.7.0    2018-01-29 CRAN (R 3.4.3)                       
- spdep         0.7-4      2017-11-22 CRAN (R 3.4.3)                       
- stringi       1.1.6      2017-11-17 CRAN (R 3.4.2)                       
- stringr     * 1.2.0      2017-02-18 CRAN (R 3.4.0)                       
- tibble      * 1.4.2      2018-01-22 CRAN (R 3.4.3)                       
- tidyr       * 0.8.0      2018-01-29 CRAN (R 3.4.3)                       
- tidyselect    0.2.3      2017-11-06 CRAN (R 3.4.2)                       
- tidyverse   * 1.2.1      2017-11-14 CRAN (R 3.4.2)                       
- utf8          1.1.3      2018-01-03 CRAN (R 3.4.3)                       
- vegan         2.4-6      2018-01-24 CRAN (R 3.4.3)                       
- withr         2.1.1.9000 2018-01-09 Github (jimhester/withr@df18523)     
- XML           3.98-1.9   2017-06-19 CRAN (R 3.4.1)                       
- xml2          1.2.0      2018-01-24 CRAN (R 3.4.3)                       
- xtable        1.8-2      2016-02-05 CRAN (R 3.4.0)                       
+ package     * version    date       source                             
+ ade4        * 1.7-10     2018-02-03 Github (sdray/ade4@2507ae3)        
+ adegenet    * 2.1.1      2018-02-02 CRAN (R 3.4.3)                     
+ ansistrings   1.0.0.9000 2018-02-02 Github (r-lib/ansistrings@f27619b) 
+ ape           5.0        2017-10-30 CRAN (R 3.4.2)                     
+ assertthat    0.2.0      2017-04-11 CRAN (R 3.4.0)                     
+ backports     1.1.2      2017-12-13 CRAN (R 3.4.3)                     
+ bindr         0.1        2016-11-13 CRAN (R 3.4.0)                     
+ bindrcpp    * 0.2        2017-06-17 CRAN (R 3.4.0)                     
+ boot          1.3-20     2017-07-30 CRAN (R 3.4.1)                     
+ broom         0.4.3      2017-11-20 CRAN (R 3.4.3)                     
+ cellranger    1.1.0      2016-07-27 CRAN (R 3.4.0)                     
+ cli           1.0.0.9001 2018-02-05 Github (r-lib/cli@1b58269)         
+ clisymbols    1.2.0      2017-05-21 CRAN (R 3.4.0)                     
+ cluster       2.0.6      2017-03-16 CRAN (R 3.4.0)                     
+ coda          0.19-1     2016-12-08 CRAN (R 3.4.0)                     
+ colorspace    1.4-0      2017-11-23 R-Forge (R 3.4.2)                  
+ crayon        1.3.4      2017-09-23 Github (gaborcsardi/crayon@b5221ab)
+ deldir        0.1-14     2017-04-22 CRAN (R 3.4.0)                     
+ digest        0.6.15     2018-01-28 CRAN (R 3.4.3)                     
+ dplyr       * 0.7.4      2017-09-28 CRAN (R 3.4.1)                     
+ expm          0.999-2    2017-03-29 CRAN (R 3.4.0)                     
+ fastmatch     1.1-0      2017-01-28 CRAN (R 3.4.0)                     
+ forcats     * 0.2.0      2017-01-23 CRAN (R 3.4.0)                     
+ foreign       0.8-69     2017-06-21 CRAN (R 3.4.0)                     
+ gdata         2.18.0     2017-06-06 CRAN (R 3.4.0)                     
+ ggplot2     * 2.2.1      2016-12-30 CRAN (R 3.4.0)                     
+ glue          1.2.0      2017-10-29 CRAN (R 3.4.2)                     
+ gmodels       2.16.2     2015-07-22 CRAN (R 3.4.0)                     
+ gtable        0.2.0      2016-02-26 CRAN (R 3.4.0)                     
+ gtools        3.5.0      2015-05-29 CRAN (R 3.4.0)                     
+ haven         1.1.1      2018-01-18 CRAN (R 3.4.3)                     
+ here          0.1        2017-05-28 CRAN (R 3.4.0)                     
+ hms           0.4.1      2018-01-24 CRAN (R 3.4.3)                     
+ htmltools     0.3.6      2017-04-28 CRAN (R 3.4.0)                     
+ httpuv        1.3.5      2017-07-04 CRAN (R 3.4.1)                     
+ httr          1.3.1      2017-08-20 CRAN (R 3.4.1)                     
+ igraph        1.1.2      2017-07-21 CRAN (R 3.4.1)                     
+ jsonlite      1.5        2017-06-01 CRAN (R 3.4.0)                     
+ lattice       0.20-35    2017-03-25 CRAN (R 3.4.0)                     
+ lazyeval      0.2.1      2017-10-29 CRAN (R 3.4.2)                     
+ LearnBayes    2.15       2014-05-29 CRAN (R 3.4.0)                     
+ lubridate   * 1.7.2      2018-02-06 CRAN (R 3.4.3)                     
+ magrittr      1.5        2014-11-22 CRAN (R 3.4.0)                     
+ MASS          7.3-48     2017-12-25 CRAN (R 3.4.3)                     
+ Matrix        1.2-12     2017-11-15 CRAN (R 3.4.2)                     
+ mgcv          1.8-23     2018-01-15 CRAN (R 3.4.3)                     
+ mime          0.5        2016-07-07 CRAN (R 3.4.0)                     
+ mnormt        1.5-5      2016-10-15 CRAN (R 3.4.0)                     
+ modelr        0.1.1      2017-07-24 CRAN (R 3.4.1)                     
+ munsell       0.4.3      2016-02-13 CRAN (R 3.4.0)                     
+ nlme          3.1-131    2017-02-06 CRAN (R 3.4.0)                     
+ pegas         0.10       2017-05-03 CRAN (R 3.4.0)                     
+ permute       0.9-4      2016-09-09 CRAN (R 3.4.0)                     
+ phangorn      2.3.1      2017-11-01 CRAN (R 3.4.2)                     
+ pillar        1.1.0      2018-01-14 CRAN (R 3.4.3)                     
+ pkgconfig     2.0.1      2017-03-21 CRAN (R 3.4.0)                     
+ plyr          1.8.4      2016-06-08 CRAN (R 3.4.0)                     
+ poppr       * 2.6.1      2018-01-15 CRAN (R 3.4.3)                     
+ prettyunits   1.0.2      2015-07-13 CRAN (R 3.4.0)                     
+ progress      1.1.2.9002 2018-02-02 Github (r-lib/progress@97f2c4e)    
+ psych         1.7.8      2017-09-09 CRAN (R 3.4.1)                     
+ purrr       * 0.2.4      2017-10-18 CRAN (R 3.4.2)                     
+ quadprog      1.5-5      2013-04-17 CRAN (R 3.4.0)                     
+ R6            2.2.2      2017-06-17 CRAN (R 3.4.0)                     
+ Rcpp          0.12.15    2018-01-20 CRAN (R 3.4.3)                     
+ readr       * 1.1.1      2017-05-16 CRAN (R 3.4.0)                     
+ readxl      * 1.0.0      2017-04-18 CRAN (R 3.4.0)                     
+ rematch2      2.0.1      2017-06-20 CRAN (R 3.4.1)                     
+ reshape2      1.4.3      2017-12-11 CRAN (R 3.4.3)                     
+ rlang         0.1.6.9003 2018-02-02 Github (tidyverse/rlang@c6747f9)   
+ rprojroot     1.3-2      2018-01-03 CRAN (R 3.4.3)                     
+ rstudioapi    0.7.0-9000 2018-02-02 Github (rstudio/rstudioapi@109e593)
+ rvest         0.3.2      2016-06-17 CRAN (R 3.4.0)                     
+ scales        0.5.0.9000 2017-08-28 Github (hadley/scales@d767915)     
+ selectr       0.3-1      2016-12-19 CRAN (R 3.4.0)                     
+ seqinr        3.4-5      2017-08-01 CRAN (R 3.4.1)                     
+ sessioninfo   1.0.1.9000 2018-02-02 Github (r-lib/sessioninfo@c871d01) 
+ shiny         1.0.5      2017-08-23 CRAN (R 3.4.1)                     
+ sp            1.2-7      2018-01-19 CRAN (R 3.4.3)                     
+ spData        0.2.7.4    2018-02-11 CRAN (R 3.4.3)                     
+ spdep         0.7-4      2017-11-22 CRAN (R 3.4.3)                     
+ stringi       1.1.6      2017-11-17 CRAN (R 3.4.2)                     
+ stringr     * 1.2.0      2017-02-18 CRAN (R 3.4.0)                     
+ tibble      * 1.4.2      2018-01-22 CRAN (R 3.4.3)                     
+ tidyr       * 0.8.0      2018-01-29 CRAN (R 3.4.3)                     
+ tidyselect    0.2.3      2017-11-06 CRAN (R 3.4.2)                     
+ tidyverse   * 1.2.1      2017-11-14 CRAN (R 3.4.2)                     
+ utf8          1.1.3      2018-01-03 CRAN (R 3.4.3)                     
+ vegan         2.4-6      2018-01-24 CRAN (R 3.4.3)                     
+ withr         2.1.1.9000 2018-01-09 Github (jimhester/withr@df18523)   
+ XML           3.98-1.9   2017-06-19 CRAN (R 3.4.1)                     
+ xml2          1.2.0      2018-01-24 CRAN (R 3.4.3)                     
+ xtable        1.8-2      2016-02-05 CRAN (R 3.4.0)                     
 > options(encoding = enc)
 > 
