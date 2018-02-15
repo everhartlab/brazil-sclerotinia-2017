@@ -1,0 +1,139 @@
+# Introduction ------------------------------------------------------------
+#
+# 2018-02-14: The data supplied by AP were inconsistent with the database
+#             entries. This was due in part to the fact that some isolates had
+#             their identifiers changed in the Steadman lab database and others
+#             had perished after genotyping and were discarded. We now have two
+#             data sets that we will use to update the data to use for the 
+#             analysis.
+#
+# Setup -------------------------------------------------------------------
+
+
+library("poppr")
+library("tidyverse")
+library("readxl")
+library("lubridate")
+if (!interactive()) options(width = 200)
+enc <- getOption("encoding")
+options(encoding = "iso-8859-1")
+
+
+# Merging Data ------------------------------------------------------------
+
+genotypes <- read.genalex(here::here("data/data.csv"), ploidy = 1) %>% 
+  genind2df() %>%
+  rownames_to_column("AP-GenoID") %>%
+  as_tibble()
+genotypes
+
+# reading in the excel sheet has its own problems since the date column contains
+# part dates and part text and they get screwed up no matter what you do. The
+# way I've dealt with this: import as dates and then convert what didn't parse
+# into the number of days since 1899-12-30
+metadata  <- read_excel(here::here("data/MasterGenoMCGDataBrazilPaper2018.xlsx"), 
+                        col_types = "text",
+                        na = c("NA", "")) %>%
+  mutate(date = as.Date(parse_date_time(`JRS-Collection Date`, c("mdy", "y")))) %>%
+  mutate(date = case_when(
+    is.na(date) ~ as.Date("1899-12-30") + days(as.integer(`JRS-Collection Date`)),
+    TRUE        ~ date
+  ))
+metadata
+full_data <- left_join(metadata, genotypes, by = "AP-GenoID")
+
+
+# Data Cleaning -----------------------------------------------------------
+# 
+# Because there are discrepancies between the locations, we will rely on the
+# location information from the JRS database. Unfortunately, there is no 
+# consistent pattern in naming, so will will manually create a table from the
+# data and use that to match genotypes. Those without region names will have the
+# country or state name in place.
+
+
+full_data %>% 
+  select(`JRS-Geographical Location`, pop) %>% 
+  distinct() %>% 
+  mutate(reglen = max(nchar(`JRS-Geographical Location`), na.rm = TRUE) - nchar(`JRS-Geographical Location`)) %>% 
+  filter(!is.na(`JRS-Geographical Location`)) %>%
+  rowwise() %>% 
+  mutate(trail = paste(rep(" ", reglen), collapse = "")) %>% 
+  glue::glue_data("'{`JRS-Geographical Location`}'{trail} ~ '{pop}',")
+
+full_data <- mutate(full_data, 
+  continent_country_state_region = case_when(
+    
+  `JRS-Geographical Location` == 'Greeley, CO'                            ~ 'North America_United States_Colorado_Greeley',
+  `JRS-Geographical Location` == 'Ithaca, NE'                             ~ 'North America_United States_Nebraska_Ithaca',
+  `JRS-Geographical Location` == 'Platte Co., NE'                         ~ 'North America_United States_Nebraska_Platte Co.',
+  `JRS-Geographical Location` == 'Tekamah, Burt Co., NE'                  ~ 'North America_United States_Nebraska_Tekamah',
+  `JRS-Geographical Location` == 'Saunders Co., NE'                       ~ 'North America_United States_Nebraska_Saunders Co.',
+  `JRS-Geographical Location` == 'Bellwood, NE'                           ~ 'North America_United States_Nebraska_Bellwood',
+  `JRS-Geographical Location` == 'Herman, NE'                             ~ 'North America_United States_Nebraska_Herman',
+  `JRS-Geographical Location` == 'Ord, NE'                                ~ 'North America_United States_Nebraska_Ord',
+  `JRS-Geographical Location` == 'UNL PN, Lincoln, NE'                    ~ 'North America_United States_Nebraska_Lincoln',
+  `JRS-Geographical Location` == 'Mead, Nebraska'                         ~ 'North America_United States_Nebraska_Mead',
+  `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Nebraska_Ewing',
+  `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Nebraska_Auburn',
+  `JRS-Geographical Location` == 'Argentina'                              ~ 'South America_Argentina_Argentina_Argentina',
+  `JRS-Geographical Location` == 'Rio Verde/GO, Brazil'                   ~ 'South America_Brazil_Góias_Rio Verde',
+  `JRS-Geographical Location` == 'Campo Mourão/PR, Brazil'                ~ 'South America_Brazil_Paraná_Campo Mourão',
+  `JRS-Geographical Location` == 'São Miguel do Passo Quatro/GO'          ~ 'South America_Brazil_Góias_São Miguel do Passo',
+  `JRS-Geographical Location` == 'Pinhão/PR, Brazil'                      ~ 'South America_Brazil_Paraná_Pinhão',  # Note: in Anthony's data, one isolate labeled as South America_Brazil_Góias
+  `JRS-Geographical Location` == 'Formoso, GO, Brazil'                    ~ 'South America_Brazil_Góias_Formoso',
+  `JRS-Geographical Location` == 'Guarapuava, PR, Brazil'                 ~ 'South America_Brazil_Paraná_Guarapuava',
+  `JRS-Geographical Location` == 'Luiz Eduardo Magalhães/BA, Brazil'      ~ 'South America_Brazil_Bahia_Bahia',
+  `JRS-Geographical Location` == 'Mauá da Serra/PR, Brazil'               ~ 'South America_Brazil_Paraná_Mauá da Serra',
+  `JRS-Geographical Location` == 'Nᾶo me Toque/Rio Grande do Sul, Brazil' ~ 'South America_Brazil_Rio Grande do Sul_Não me Toque',
+  `JRS-Geographical Location` == 'Sᾶo Desidério/Bahia, Brazil'            ~ 'South America_Brazil_Bahia_São Desidério',
+  `JRS-Geographical Location` == 'Jataí/GO, Brazil'                       ~ 'South America_Brazil_Góias_Jataí',
+  `JRS-Geographical Location` == 'Cristalina/GO, Brazil'                  ~ 'South America_Brazil_Góias_Cristalina',
+  `JRS-Geographical Location` == 'Formosa/GO, Brazil'                     ~ 'South America_Brazil_Góias_Formosa',
+  `JRS-Geographical Location` == 'Sudeste/GO, Brazil'                     ~ 'South America_Brazil_Góias_Sudeste',
+  `JRS-Geographical Location` == 'Uberlândia/MG, Brazil'                  ~ 'South America_Brazil_Minas Gerias_Uberlândia',
+  `JRS-Geographical Location` == 'Correntina/BA, Brazil'                  ~ 'South America_Brazil_Bahia_Correntina',
+  `JRS-Geographical Location` == 'Bahia, Brazil'                          ~ 'South America_Brazil_Bahia_Bahia',
+  `JRS-Geographical Location` == 'Vacaria/RS, Brazil'                     ~ 'South America_Brazil_Rio Grande do Sul_Vacaria',
+  `JRS-Geographical Location` == 'Coxilha/RS, Brazil'                     ~ 'South America_Brazil_Rio Grande do Sul_Coxilha',
+  `JRS-Geographical Location` == 'Faxinal/PR, Brazil'                     ~ 'South America_Brazil_Paraná_Faxinal',
+  `JRS-Geographical Location` == 'Chapadão do Sul/MS, Brazil'             ~ 'South America_Brazil_Mato Grosso do Sul_Chapadão do Sul',
+                             TRUE                                         ~ `JRS-Geographical Location`
+))
+
+
+# Saving Cleaned Data -----------------------------------------------------
+# 
+# Now that the data are cleaned, I will save the important bits for reproduction
+# as both a CSV and a genclone object. 
+
+clean_data <- full_data %>% 
+  select(ID = `AP-GenoID`, 
+         MCG, 
+         Year = date,
+         continent_country_state_region, 
+         matches("\\d-\\d")) %>%
+  mutate(Year = year(Year)) %>%
+  filter(!is.na(continent_country_state_region)) %>% # remove isolate that has no info
+  separate(continent_country_state_region, 
+           c("Continent", "Country", "Population", "Subpop"),
+           sep = "_") %>%
+  write_csv(path = here::here("data/clean-genotypes.csv"))
+
+print(clean_data, n = 100)
+
+gid <- df2genind(select(clean_data, matches("\\d-\\d")),
+                 ploidy = 1,
+                 ind.names = clean_data$ID,
+                 strata = select(clean_data, 
+                                 ID, Continent, Country, Population, Subpop, MCG, Year)) %>%
+  as.genclone() %>%
+  setPop(~Population)
+
+write_rds(gid, path = here::here("data/full-genclone-object.rds"))
+
+# Session Information -----------------------------------------------------
+
+
+sessioninfo::session_info()
+options(encoding = enc)
