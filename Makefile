@@ -13,7 +13,7 @@ FOLDERS := results \
 # Master command. Type make and this will run. 
 .PHONY: all
 
-all: $(FOLDERS) bootstrap.txt $(FIGURES) $(TABLES) box
+all: $(FOLDERS) bootstrap.txt results/01-CleanData.Rout $(FIGURES) $(TABLES) box
 
 # All of the targets should depend on successful execution of the R scripts
 figs/tree.pdf             : results/Tree.Rout
