@@ -1,0 +1,95 @@
+ID,MCG,Year,Continent,Country,Population,Subpop,5-2,6-2,7-2,8-3,9-2,12-2,20-3,55-4,110-4,114-4,17-3
+143,A,1977,North America,United States,Colorado,Greeley,340,501,184,264,371,228,292,207,397,351,360
+202,K,1990,North America,United States,Nebraska,Ithaca,340,501,184,264,371,228,292,207,397,351,360
+264,K,1994,North America,United States,Nebraska,Platte Co.,340,501,184,264,371,228,292,207,397,351,360
+265,H,1994,North America,United States,Nebraska,Tekamah,340,501,184,264,371,228,292,207,397,351,360
+266,A,1994,North America,United States,Nebraska,Saunders Co.,340,501,184,264,371,228,292,207,397,351,360
+267,I,1994,North America,United States,Nebraska,Bellwood,340,NA,184,256,371,228,292,201,397,351,360
+268,J,1994,North America,United States,Nebraska,Herman,324,501,184,264,371,230,294,183,397,351,360
+276,A,1996,North America,United States,Nebraska,Ord,332,501,184,264,371,228,292,207,397,367,354
+289,K,1996,North America,United States,Nebraska,Lincoln,332,501,NA,264,388,228,292,207,389,367,354
+293A,C,1996,South America,Argentina,Argentina,Argentina,NA,495,182,268,388,228,292,207,381,367,360
+293B,D,1996,South America,Argentina,Argentina,Argentina,330,505,182,264,388,228,285,207,381,351,360
+293C,E,1996,South America,Argentina,Argentina,Argentina,340,495,182,264,371,230,292,207,385,351,360
+293D,F,1996,South America,Argentina,Argentina,Argentina,340,505,174,264,388,226,294,207,385,351,360
+293E,G,1996,South America,Argentina,Argentina,Argentina,NA,495,182,280,NA,226,287,270,381,367,360
+399A,B,1999,North America,United States,Nebraska,Mead,332,495,182,262,371,230,292,203,397,367,354
+399B,B,1999,North America,United States,Nebraska,Mead,332,501,182,262,371,228,292,NA,397,367,354
+541A,M,2012,North America,United States,Nebraska,Ewing,340,495,184,264,371,230,294,258,381,351,360
+541B,J,2012,North America,United States,Nebraska,Ewing,332,501,182,264,371,234,294,207,389,351,354
+834A,L,2009,North America,United States,Nebraska,Auburn,334,495,184,262,371,234,292,207,385,351,360
+834B,L,2009,North America,United States,Nebraska,Auburn,330,NA,184,262,360,228,292,183,389,367,360
+978E2,NA,2012,South America,Brazil,Góias,Rio Verde,332,505,174,264,NA,230,292,207,385,351,360
+1010,R,2014,South America,Brazil,Paraná,Campo Mourão,340,505,172,264,360,230,292,223,NA,351,360
+1011,R,2014,South America,Brazil,Paraná,Campo Mourão,332,505,174,264,371,230,292,207,385,367,360
+1012,Q,2014,South America,Brazil,Paraná,Campo Mourão,334,505,174,268,371,228,292,207,381,351,360
+1013,Q,2014,South America,Brazil,Paraná,Campo Mourão,332,505,182,268,375,228,292,207,381,351,360
+1014,Q,2014,South America,Brazil,Paraná,Campo Mourão,332,495,182,268,388,228,292,207,381,367,360
+1015,N,2012,South America,Brazil,Góias,São Miguel do Passo,332,505,174,264,371,228,292,207,385,351,354
+1016,N,2012,South America,Brazil,Paraná,Pinhão,332,505,174,264,370,230,292,183,385,351,354
+1017,N,2012,South America,Brazil,Góias,Formoso,332,505,174,264,388,230,292,207,NA,351,360
+1018,R,2012,South America,Brazil,Paraná,Guarapuava,332,505,174,264,371,230,NA,207,385,351,360
+1019,N,2012,South America,Brazil,Bahia,Bahia,332,505,174,264,371,230,292,207,NA,351,360
+1020,Y,2012,South America,Brazil,Paraná,Pinhão,332,505,182,264,371,234,294,219,385,351,354
+1021,Z,2012,South America,Brazil,Paraná,Mauá da Serra,340,505,182,280,371,230,292,207,381,351,354
+1022,N,2012,South America,Brazil,Rio Grande do Sul,Não me Toque,332,505,174,264,371,230,283,207,385,351,360
+1023,N,2012,South America,Brazil,Bahia,São Desidério,332,505,174,264,371,230,292,207,385,367,360
+1,NA,2010,South America,Brazil,Góias,Jataí,336,505,NA,256,371,228,283,207,381,367,354
+3,NA,2010,South America,Brazil,Góias,Jataí,332,505,172,256,371,228,NA,207,381,351,360
+5,NA,2010,South America,Brazil,Góias,Cristalina,332,495,186,264,388,234,283,207,381,367,354
+6,NA,2010,South America,Brazil,Góias,Formosa,332,505,172,256,388,228,335,207,385,351,354
+7,NA,2010,South America,Brazil,Góias,Formosa,332,505,174,264,371,230,283,207,385,367,354
+8,NA,2010,South America,Brazil,Góias,Sudeste,332,505,174,264,388,230,292,207,385,351,360
+9,NA,2010,South America,Brazil,Góias,Sudeste,326,505,174,264,371,230,NA,207,385,367,360
+12,NA,2010,South America,Brazil,Góias,Sudeste,340,505,174,264,371,230,283,207,385,367,354
+13,NA,2010,South America,Brazil,Góias,Sudeste,326,505,172,256,388,228,283,207,385,367,354
+14,NA,2010,South America,Brazil,Góias,Sudeste,332,505,174,264,371,230,283,207,385,367,354
+15,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,332,505,172,256,388,228,NA,207,381,367,354
+16,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,332,505,174,264,388,230,285,207,385,367,354
+17,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,330,505,174,264,388,228,NA,207,385,367,354
+18,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,330,505,174,264,388,230,283,207,385,367,354
+20,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,330,505,174,264,388,230,283,207,385,367,354
+22,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,332,505,174,264,388,230,283,207,385,367,354
+24,NA,2009,South America,Brazil,Minas Gerias,Uberlândia,332,505,174,264,371,230,283,207,385,367,354
+25,NA,2010,South America,Brazil,Bahia,Correntina,332,505,174,264,388,230,283,207,385,367,354
+26,NA,2010,South America,Brazil,Bahia,Correntina,332,505,174,264,371,230,NA,207,385,367,354
+27,NA,2010,South America,Brazil,Bahia,Correntina,332,NA,NA,264,388,234,283,207,381,367,354
+29,NA,2010,South America,Brazil,Bahia,Correntina,332,505,174,264,388,230,283,207,385,367,360
+31,NA,2010,South America,Brazil,Bahia,Correntina,332,505,174,264,388,230,289,207,385,367,354
+32,NA,2010,South America,Brazil,Bahia,Correntina,332,505,174,264,370,230,293,207,385,367,354
+973A,N,2012,South America,Brazil,Bahia,Bahia,NA,505,174,264,371,240,292,207,NA,367,360
+973B,P,2012,South America,Brazil,Bahia,Bahia,340,495,186,264,371,234,292,191,381,351,354
+973C,P,2012,South America,Brazil,Bahia,Bahia,340,495,176,264,371,234,292,191,381,367,360
+973D,P,2012,South America,Brazil,Bahia,Bahia,332,495,186,264,388,234,292,207,381,367,354
+973E,U,2012,South America,Brazil,Bahia,Bahia,340,505,172,256,371,228,292,NA,381,367,354
+974A,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,332,505,172,256,371,228,294,207,NA,367,354
+974B,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,340,495,182,280,388,230,294,207,397,351,354
+974C,V,2012,South America,Brazil,Rio Grande do Sul,Vacaria,340,495,182,280,360,234,294,209,397,367,354
+974D,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,332,525,182,280,371,226,292,NA,NA,367,354
+974E,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,340,525,182,280,366,226,294,NA,397,367,354
+975A,Q,2012,South America,Brazil,Rio Grande do Sul,Coxilha,332,505,182,268,388,228,292,183,381,367,354
+975B,R,2012,South America,Brazil,Rio Grande do Sul,Coxilha,NA,505,174,264,388,230,292,207,385,351,354
+975C,R,2012,South America,Brazil,Rio Grande do Sul,Coxilha,332,505,174,264,371,228,292,207,385,351,354
+975D,W,2012,South America,Brazil,Rio Grande do Sul,Coxilha,332,505,174,264,371,230,283,NA,385,367,354
+975E,Q,2012,South America,Brazil,Rio Grande do Sul,Coxilha,332,505,182,268,388,230,292,203,381,351,354
+976A,S,2012,South America,Brazil,Paraná,Faxinal,334,495,NA,266,388,234,292,207,381,351,354
+976B,T,2012,South America,Brazil,Paraná,Faxinal,332,505,172,256,388,228,292,NA,385,351,354
+976B2,NA,2012,South America,Brazil,Paraná,Faxinal,332,505,172,256,388,228,292,195,385,367,360
+976C,S,2012,South America,Brazil,Paraná,Faxinal,NA,495,182,266,388,234,292,207,381,351,360
+976D,T,2012,South America,Brazil,Paraná,Faxinal,332,505,174,256,371,228,294,195,385,367,354
+976E,T,2012,South America,Brazil,Paraná,Faxinal,340,505,172,254,371,228,292,NA,385,351,354
+977A,T,2012,South America,Brazil,Mato Grosso do Sul,Chapadão do Sul,328,505,182,280,388,226,292,207,397,367,354
+977B,U,2012,South America,Brazil,Mato Grosso do Sul,Chapadão do Sul,332,505,172,256,388,228,292,207,381,351,354
+977C,I,2012,South America,Brazil,Mato Grosso do Sul,Chapadão do Sul,332,505,172,256,NA,228,292,207,385,367,360
+977D,I,2012,South America,Brazil,Mato Grosso do Sul,Chapadão do Sul,332,505,172,256,371,228,296,NA,385,367,360
+977E,N,2012,South America,Brazil,Mato Grosso do Sul,Chapadão do Sul,332,505,174,264,NA,234,292,207,385,367,360
+978A,N,2012,South America,Brazil,Góias,Rio Verde,332,505,182,264,371,230,292,207,NA,367,354
+978B,N,2012,South America,Brazil,Góias,Rio Verde,332,505,174,264,371,234,292,191,385,367,354
+978C,N,2012,South America,Brazil,Góias,Rio Verde,332,525,174,264,371,230,292,207,NA,367,354
+978D,N,2012,South America,Brazil,Góias,Rio Verde,332,505,174,264,371,230,284,207,385,367,354
+978E,N,2012,South America,Brazil,Góias,Rio Verde,332,505,174,264,NA,230,292,207,385,367,354
+979A,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,330,525,182,280,371,226,294,207,385,367,360
+979B,N,2012,South America,Brazil,Rio Grande do Sul,Vacaria,NA,505,174,264,NA,230,292,207,385,367,360
+979C,O,2012,South America,Brazil,Rio Grande do Sul,Vacaria,330,525,182,280,388,226,294,207,385,367,360
+979D,N,2012,South America,Brazil,Rio Grande do Sul,Vacaria,332,505,174,264,371,230,292,207,385,367,360
+979E,N,2012,South America,Brazil,Rio Grande do Sul,Vacaria,332,505,174,264,371,230,295,207,385,367,360
