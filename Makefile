@@ -26,10 +26,10 @@ figs/MSN.pdf              : results/06-MSN.Rout
 
 # bootstrap.txt keeps a record of the installed packages
 # Note that &> means to redirect the stdout and stderr to the specified file.
-bootstrap.txt : 00-install.R data/data.csv
+bootstrap.txt : 00-install.R
 	R --file=$< &> $@
 
-data-clean.txt : 01-CleanData.R bootstrap.txt
+data-clean.txt : 01-CleanData.R bootstrap.txt data/data.csv data/MasterGenoMCGDataBrazilPaper2018.xlsx
 	R --file=$< &> $@
 
 # R scripts executed here
