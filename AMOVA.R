@@ -44,10 +44,8 @@ library("tidyverse")
 if (!interactive()) options(width = 200)
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
-CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
-splitStrata(CD) <- ~Continent/Country/Population
-CDrepet <- c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)
-CDdist <- bruvo.dist(CD, replen = CDrepet)
+CD <- readRDS(here::here("data", "full-genclone-object.rds"))
+CDdist <- bruvo.dist(CD, replen = other(CD)$REPLEN)
 set.seed(2017 - 11 - 29)
 CDamova <- pegas::amova(CDdist ~ Continent/Country/Population, data = strata(CD), nperm = 1000)
 make_amova_table(CDamova) %>%
