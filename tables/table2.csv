@@ -1,5 +1,5 @@
 Levels,df,SSD,sigma,P,perc,Phi
-Continent within Total,1,1.11,0.00913,0,0.0776,0.0776
-Country within Continent,1,0.416,0.00932,0.999,0.0792,0.0859
-Population within Country,5,1.31,0.0154,0,0.131,0.155
-Error,87,7.3,0.0839,NA,0.713,0.287
+Continent within Total,1,1.41,0.0131,0,0.107,0.107
+Country within Continent,1,0.415,0.00964,0.999,0.0791,0.0886
+Population within Country,5,1.28,0.015,0.043,0.123,0.151
+Error,86,7.23,0.0841,NA,0.69,0.31

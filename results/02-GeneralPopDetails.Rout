@@ -32,12 +32,11 @@ Type 'q()' to quit R.
 > # Setup -------------------------------------------------------------------
 > #
 > #
-> # setwd("~/Thesis Project/Data Analysis")
 > library(poppr)
 Loading required package: adegenet
 Loading required package: ade4
 
-   /// adegenet 2.1.0 is loaded ////////////
+   /// adegenet 2.1.1 is loaded ////////////
 
    > overview: '?adegenet'
    > tutorials/doc/questions: 'adegenetWeb()' 
@@ -47,91 +46,38 @@ Loading required package: ade4
 This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
-✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-✔ tibble  1.4.1     ✔ dplyr   0.7.4
-✔ tidyr   0.7.2     ✔ stringr 1.2.0
-✔ readr   1.1.1     ✔ forcats 0.2.0
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
+── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
+[32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
+[32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.2.0
+[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
 > enc <- getOption("encoding")
 > options(encoding = "iso-8859-1")
-> CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
-> splitStrata(CD) <- ~Continent/Country/Population
-> setPop(CD) <- ~Population
-> my_palette <- c("Nebraska" = "#000000",
-+                 "Argentina" = "#F0E442", # "#E69F00",
-+                 "Bahia" = "#56B4E9",
-+                 "Góias" = "#009E73",
-+                 "Mato Grosso do Sul" = "#E69F00",
-+                 "Minas Gerias" = "#0072B2",
-+                 "Paraná" = "#D55E00",
-+                 "Rio Grande do Sul" = "#CC79A7")
+> CD <- readRDS(here::here("data", "full-genclone-object.rds"))
 > 
 > 
-> # MCG determination -------------------------------------------------------
-> #
-> # This section is for adding the MCG data collected by T. Miorini. One thing to
-> # note about these data is that there are only a subset of these samples that
-> # were phenotyped. We are reporting these data for posterity.
-> # 
-> # This table was copied from a table produced by T. Miorini
-> MCG_table <- data.frame(stringsAsFactors = FALSE,
-+                         MCG = c("A", "A", "A", "B", "B", "C", "D", "E", "F", "G", "H", "I",
-+                                 "I", "I", "J", "J", "K", "K", "K", "L", "L", "M", "N", "N",
-+                                 "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N",
-+                                 "N", "O", "O", "O", "O", "O", "O", "P", "P", "P", "Q", "Q", "Q",
-+                                 "Q", "Q", "R", "R", "R", "R", "R", "S", "S", "T", "T", "T", "T",
-+                                 "U", "U", "V", "W", "Y", "Z"),
-+                         Isolate = c("143", "276", "266", "399A", "399B", "293A", "293B", "293C",
-+                                     "293D", "293E", "265", "267", "977C", "977D", "268", "541B",
-+                                     "202", "264", "289", "834A", "834B", "541A", "973A", "977E",
-+                                     "978A", "978B", "978C", "978D", "978E", "979B", "979D", "979E",
-+                                     "1015", "1016", "1017", "1019", "1022", "1023", "974A", "974B",
-+                                     "974D", "974E", "979A", "979C", "973B", "973C", "973D", "975A",
-+                                     "975E", "1012", "1013", "1014", "975B", "975C", "1010", "1011",
-+                                     "1018", "976A", "976C", "976B", "977A", "976D", "976E", "977B",
-+                                     "973E", "974C", "975D", "1020", "1021"),
-+                         Year = c(1977L, 1996L, 1994L, 1999L, 1999L, 1996L, 1996L, 1996L, 1996L,
-+                                  1996L, 1994L, 1994L, 2012L, 2012L, 1994L, 2004L, 1990L, 1994L,
-+                                  1996L, 2009L, 2009L, 2004L, 2012L, 2012L, 2012L, 2012L, 2012L,
-+                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
-+                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
-+                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
-+                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L, 2012L,
-+                                  2012L, 2012L, 2012L, 2012L, 2012L, 2012L)
-+ )
+> # MCG Tabulation ----------------------------------------------------------
 > 
-> # Here, we are adding isolate names to the strata and then joining this new
-> # table in the same order as the original data. Since this is but a subset of
-> # the data, we are replacing all missing MCG assignments with "?"
-> addStrata(CD) <- data.frame(Isolate = indNames(CD))
-> newstrata <- left_join(strata(CD), MCG_table) %>%
-+   mutate(MCG = case_when(is.na(MCG) ~ "?", TRUE ~ MCG))
-Joining, by = "Isolate"
-Warning message:
-Column `Isolate` joining factor and character vector, coercing into character vector 
-> 
-> # A check to make sure we aren't shuffling names.
-> stopifnot(identical(newstrata$Isolate, indNames(CD)))
-> 
-> strata(CD) <- newstrata
-> setPop(CD) <- ~Population
 > 
 > # We can tabulate the MCGs by using them as custom multilocus genotypes.
-> mll.custom(CD) <- strata(CD)$MCG
+> mll.custom(CD) <- strata(CD) %>% 
++   mutate(MCG = case_when(is.na(MCG) ~ "?", 
++                          TRUE     ~ as.character(MCG))) %>% 
++   pull(MCG)
 > mlg.table(CD, color = TRUE)
-                    ?  R  Q  N  Y  Z  A  K  H  I  J  C  D  E  F  G  B  M  L  P  U  O  V  W  S  T
-Góias              11  1  0  7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Paraná              1  2  3  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  2  3
-Bahia               6  0  0  3  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  3  1  0  0  0  0  0
-Rio Grande do Sul   1  2  2  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  6  1  1  0  0
-Nebraska            0  0  0  0  0  0  3  3  1  1  2  0  0  0  0  0  2  1  2  0  0  0  0  0  0  0
+                    ?  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  Y  Z
+Midwest             0  3  2  0  0  0  0  0  1  1  2  3  2  1  0  0  0  0  0  0  0  0  0  0  0  0
+Argentina           0  0  0  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+Góias              11  0  0  0  0  0  0  0  0  0  0  0  0  0  7  0  0  0  0  0  0  0  0  0  0  0
+Paraná              1  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  3  3  2  3  0  0  0  1  1
+Bahia               6  0  0  0  0  0  0  0  0  0  0  0  0  0  3  0  3  0  0  0  0  1  0  0  0  0
+Rio Grande do Sul   0  0  0  0  0  0  0  0  0  0  0  0  0  0  4  6  0  2  2  0  0  0  1  1  0  0
 Minas Gerias        7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Argentina           0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0
-Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  1
+Mato Grosso do Sul  0  0  0  0  0  0  0  0  0  2  0  0  0  0  1  0  0  0  0  0  1  1  0  0  0  0
 > 
 > # The plot produced needs to be cleaned up a bit:
 > # 
@@ -140,14 +86,18 @@ Mato Grosso do Sul  0  0  0  1  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  
 > #  3. We want to provide an indicator for the uncategorized MCGs
 > #  4. The text size and family needs to be set. 
 > #  
-> p <- last_plot()
+> p          <- last_plot()
+> pal        <- other(CD)$palette
+> mcg_counts <- colSums(table(strata(CD, ~MCG/Population, combine = FALSE)))
+> names(pal) <- paste0(names(pal), "(", mcg_counts[names(pal)], ")")
 > pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
 > dev.control("enable") # allows me to copy to tiff device
 > p %+%
-+   mutate(p$data, Population = fct_relevel(Population, names(my_palette))) +
-+   scale_fill_manual(values = my_palette) + 
++   mutate(p$data, Population = fct_relevel(Population, names(other(CD)$palette))) +
++   scale_fill_manual(values = other(CD)$palette, labels = names(pal)) + 
 +   aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
 +   scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
++   guides(fill = guide_legend(nrow = 3)) +
 +   theme_bw(base_size = 10, base_family = "Helvetica") +
 +   theme(legend.position = "top") +
 +   theme(panel.grid.major.x = element_blank()) +
@@ -186,21 +136,21 @@ null device
 > info_table(CD, type = "missing", percent = TRUE)
                     Locus
 Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17-3  Mean
-  Góias                  .     . 0.053   . 0.105    . 0.158     . 0.105     .    . 0.038
-  Paraná             0.071     . 0.071   .     .    .     . 0.143 0.143     .    . 0.039
-  Bahia              0.077 0.077 0.077   .     .    . 0.077 0.077 0.154     .    . 0.049
-  Rio Grande do Sul  0.118     .     .   . 0.059    .     . 0.176 0.118     .    . 0.043
-  Nebraska               . 0.133 0.067   .     .    .     . 0.067     .     .    . 0.024
-  Minas Gerias           .     .     .   .     .    . 0.286     .     .     .    . 0.026
+  Midwest                . 0.133 0.067   .     .    .     . 0.067     .     .    . 0.024
   Argentina          0.400     .     .   . 0.200    .     .     .     .     .    . 0.055
+  Góias                  .     . 0.056   . 0.111    . 0.111     . 0.167     .    . 0.040
+  Paraná             0.067     . 0.067   .     .    . 0.067 0.133 0.067     .    . 0.036
+  Bahia              0.077 0.077 0.077   .     .    . 0.077 0.077 0.154     .    . 0.049
+  Rio Grande do Sul  0.125     .     .   . 0.062    .     . 0.188 0.125     .    . 0.045
+  Minas Gerias           .     .     .   .     .    . 0.286     .     .     .    . 0.026
   Mato Grosso do Sul     .     .     .   . 0.400    .     . 0.200     .     .    . 0.055
-  Total              0.063 0.032 0.042   . 0.063    . 0.063 0.084 0.084     .    . 0.039
+  Total              0.064 0.032 0.043   . 0.064    . 0.064 0.085 0.085     .    . 0.040
 > 
 > # Are there any samples with fewer than 9 typed loci?
 > table(nLoc(CD) * propTyped(CD))
 
  9 10 11 
- 5 31 59 
+ 5 31 58 
 > 
 > # Genotypic and Allelic Diversity -----------------------------------------
 > #
@@ -237,46 +187,46 @@ Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17
 > 
 > print(pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+Midwest              1   1   1   1   0    0    0    2     1
+Argentina            0   0   0   0   0    0    1    1     0
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
 Bahia                0   0   1   0   0    1    2    0     0
-Rio Grande do Sul    0   0   0   0   1    0    2    1     0
-Nebraska             1   1   1   1   0    0    0    2     1
+Rio Grande do Sul    0   0   0   0   1    0    1    1     0
 Minas Gerias         0   0   0   0   0    0    0    0     0
-Argentina            0   0   0   0   0    0    1    1     0
 Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
 > print(rowSums(pal)) # number of private alleles per Country
-             Góias             Paraná              Bahia  Rio Grande do Sul           Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
-                 4                  6                  4                  4                  7                  0                  2                  2 
+           Midwest          Argentina              Góias             Paraná              Bahia  Rio Grande do Sul       Minas Gerias Mato Grosso do Sul 
+                 7                  2                  4                  6                  4                  3                  0                  2 
 > 
 > # Fraction of alleles in data that are private 
 > print(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
                      5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667 0.00000000  0.00
+Midwest            0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.09090909  0.00
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.18181818 0.00000000  0.00
 Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667 0.00000000  0.00
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667 0.09090909  0.00
-Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.18181818 0.00000000  0.00
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.09090909 0.09090909  0.00
 Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.09090909  0.00
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.00000000  0.00
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.00000000  0.00
 > 
 > 
 > # creating table 1 --------------------------------------------------------
 > # First, we can create a table of populations
 > poptable <- strata(CD) %>% 
-+   select(-Isolate, -MCG, -Year) %>% 
++   select(Continent, Country, Population) %>% 
 +   dplyr::distinct() %>% 
 +   select(Country, Population)
 > print(poptable)
         Country         Population
-1        Brazil              Góias
-2        Brazil             Paraná
-3        Brazil              Bahia
-4        Brazil  Rio Grande do Sul
-5 United States           Nebraska
-6        Brazil       Minas Gerias
-7     Argentina          Argentina
+1 United States            Midwest
+2     Argentina          Argentina
+3        Brazil              Góias
+4        Brazil             Paraná
+5        Brazil              Bahia
+6        Brazil  Rio Grande do Sul
+7        Brazil       Minas Gerias
 8        Brazil Mato Grosso do Sul
 > # Now we can take all of the data we gathered above and combine it
 > purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
@@ -293,10 +243,10 @@ Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.00
 +   readr::write_csv("tables/table1.csv") %>%
 +   print()
         Country         Population       N Alleles   Ae private  Hexp    H     G   E.5
-1        Brazil              Góias 19 (18)    2.91 1.78       4 0.407 2.87 17.20 0.972
-2        Brazil  Rio Grande do Sul 17 (17)    3.36 2.44       4 0.567 2.83 17.00 1.000
-3 United States           Nebraska 15 (11)    3.00 2.01       7 0.472 2.17  6.43 0.698
-4        Brazil             Paraná 14 (14)    3.00 2.76       6 0.564 2.64 14.00 1.000
+1        Brazil              Góias 18 (17)    2.73 1.79       4 0.408 2.81 16.20 0.970
+2        Brazil  Rio Grande do Sul 16 (16)    3.27 2.49       3 0.579 2.77 16.00 1.000
+3 United States            Midwest 15 (11)    3.00 2.01       7 0.472 2.17  6.43 0.698
+4        Brazil             Paraná 15 (15)    3.18 2.73       6 0.564 2.71 15.00 1.000
 5        Brazil              Bahia 13 (13)    2.64 2.01       4 0.461 2.56 13.00 1.000
 6        Brazil       Minas Gerias   7 (6)    1.64 1.41       0 0.235 1.75  5.44 0.937
 7     Argentina          Argentina   5 (5)    2.27 3.20       2 0.561 1.61  5.00 1.000
@@ -313,29 +263,29 @@ Column `Population`/`Pop` joining factors with different levels, coercing to cha
 > 
 > (pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
                    5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+Midwest              1   1   1   1   0    0    0    2     1
+Argentina            0   0   0   0   0    0    1    1     0
 Góias                2   0   0   0   0    0    2    0     0
 Paraná               0   0   0   2   1    0    0    3     0
 Bahia                0   0   1   0   0    1    2    0     0
-Rio Grande do Sul    0   0   0   0   1    0    2    1     0
-Nebraska             1   1   1   1   0    0    0    2     1
+Rio Grande do Sul    0   0   0   0   1    0    1    1     0
 Minas Gerias         0   0   0   0   0    0    0    0     0
-Argentina            0   0   0   0   0    0    1    1     0
 Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
 > rowSums(pal) # number of private alleles per Country
-             Góias             Paraná              Bahia  Rio Grande do Sul           Nebraska       Minas Gerias          Argentina Mato Grosso do Sul 
-                 4                  6                  4                  4                  7                  0                  2                  2 
+           Midwest          Argentina              Góias             Paraná              Bahia  Rio Grande do Sul       Minas Gerias Mato Grosso do Sul 
+                 7                  2                  4                  6                  4                  3                  0                  2 
 > 
 > # Fraction of alleles in data that are private 
 > (priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
                      5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.16666667 0.00000000  0.00
+Midwest            0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.09090909  0.00
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.18181818 0.00000000  0.00
 Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.16666667 0.00000000  0.00
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.16666667 0.09090909  0.00
-Nebraska           0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.18181818 0.00000000  0.00
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.09090909 0.09090909  0.00
 Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.09090909  0.00
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.08333333 0.00000000  0.00
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.00000000  0.00
 > 
 > options(encoding = enc)
 > 

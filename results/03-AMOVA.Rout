@@ -64,7 +64,7 @@ Type 'q()' to quit R.
 Loading required package: adegenet
 Loading required package: ade4
 
-   /// adegenet 2.1.0 is loaded ////////////
+   /// adegenet 2.1.1 is loaded ////////////
 
    > overview: '?adegenet'
    > tutorials/doc/questions: 'adegenetWeb()' 
@@ -74,21 +74,19 @@ Loading required package: ade4
 This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library("tidyverse")
-── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
-✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-✔ tibble  1.4.1     ✔ dplyr   0.7.4
-✔ tidyr   0.7.2     ✔ stringr 1.2.0
-✔ readr   1.1.1     ✔ forcats 0.2.0
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
+── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
+[32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
+[32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.2.0
+[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
 > enc <- getOption("encoding")
 > options(encoding = "iso-8859-1")
-> CD <- read.genalex(here::here("data", "data.csv")) #"~/Thesis Project/Data Analysis/Raw Data/Compiled Data AN 2.csv")
-> splitStrata(CD) <- ~Continent/Country/Population
-> CDrepet <- c(2, 6, 2, 2, 2, 2, 4, 4, 4, 4, 3)
-> CDdist <- bruvo.dist(CD, replen = CDrepet)
+> CD <- readRDS(here::here("data", "full-genclone-object.rds"))
+> CDdist <- bruvo.dist(CD, replen = other(CD)$REPLEN)
 > set.seed(2017 - 11 - 29)
 > CDamova <- pegas::amova(CDdist ~ Continent/Country/Population, data = strata(CD), nperm = 1000)
 > make_amova_table(CDamova) %>%
@@ -98,10 +96,10 @@ OMP parallel support: available
 +   print() %>%
 +   dplyr::mutate_if(is.numeric, signif, 3) %>%
 +   readr::write_csv("tables/table2.csv")
-                     Levels df       SSD       sigma        P       perc        Phi
-1    Continent within Total  1 1.1143681 0.009130073 0.000000 0.07756588 0.07756588
-2  Country within Continent  1 0.4160409 0.009321699 0.999001 0.07919387 0.08585314
-3 Population within Country  5 1.3074845 0.015366827 0.000000 0.13055114 0.15482081
-4                     Error 87 7.2983199 0.083888735       NA 0.71268911 0.28731089
+                     Levels df       SSD       sigma          P       perc        Phi
+1    Continent within Total  1 1.4109424 0.013098007 0.00000000 0.10749599 0.10749599
+2  Country within Continent  1 0.4154938 0.009637943 0.99900100 0.07909907 0.08862601
+3 Population within Country  5 1.2802883 0.015010351 0.04295704 0.12319069 0.15145063
+4                     Error 86 7.2326149 0.084100173         NA 0.69021425 0.30978575
 > options(encoding = enc)
 > 
