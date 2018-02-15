@@ -13,24 +13,27 @@ FOLDERS := results \
 # Master command. Type make and this will run. 
 .PHONY: all
 
-all: $(FOLDERS) bootstrap.txt results/01-CleanData.Rout $(FIGURES) $(TABLES) box
+all: $(FOLDERS) data-clean.txt $(FIGURES) $(TABLES) box
 
 # All of the targets should depend on successful execution of the R scripts
-figs/tree.pdf             : results/Tree.Rout
-figs/DAPC-scatterplot.pdf : results/DAPC.Rout
-figs/DAPC-barplot.pdf     : results/DAPC.Rout
-figs/MSN.pdf              : results/MSN.Rout
-figs/MCG-bar.pdf          : results/GeneralPopDetails.Rout
-tables/table1.csv         : results/GeneralPopDetails.Rout
-tables/table2.csv         : results/AMOVA.Rout
+figs/MCG-bar.pdf          : results/02-GeneralPopDetails.Rout
+tables/table1.csv         : results/02-GeneralPopDetails.Rout
+tables/table2.csv         : results/03-AMOVA.Rout
+figs/DAPC-scatterplot.pdf : results/04-DAPC.Rout
+figs/DAPC-barplot.pdf     : results/04-DAPC.Rout
+figs/tree.pdf             : results/05-Tree.Rout
+figs/MSN.pdf              : results/06-MSN.Rout
 
 # bootstrap.txt keeps a record of the installed packages
 # Note that &> means to redirect the stdout and stderr to the specified file.
-bootstrap.txt : install.R data/data.csv
+bootstrap.txt : 00-install.R data/data.csv
+	R --file=$< &> $@
+
+data-clean.txt : 01-CleanData.R bootstrap.txt
 	R --file=$< &> $@
 
 # R scripts executed here
-results/%.Rout : %.R bootstrap.txt
+results/%.Rout : %.R data-clean.txt 
 	R --file=$< &> $@
 
 # Output folders created here
