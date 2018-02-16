@@ -109,7 +109,7 @@ full_data <- mutate(full_data,
 # as both a CSV and a genclone object. 
 
 clean_data <- full_data %>% 
-  select(ID = `AP-GenoID`, 
+  select(GenoID = `AP-GenoID`, 
          MCG, 
          Year = date,
          continent_country_state_region, 
@@ -121,15 +121,20 @@ clean_data <- full_data %>%
            sep = "_") %>%
   write_csv(path = here::here("data/clean-genotypes.csv"))
 
+# Head off any encoding issues
+readLines(here::here("data/clean-genotypes.csv")) %>% 
+  iconv(from = "UTF-8", to = "ISO-8859-1") %>%
+  writeLines(con = here::here("data/clean-genotypes.csv"))
+
 print(clean_data, n = 100)
 
 
 # Converting to genclone, adding Repeat Lengths, Palette ------------------
 gid <- df2genind(select(clean_data, matches("\\d-\\d")),
                  ploidy = 1,
-                 ind.names = clean_data$ID,
+                 ind.names = clean_data$GenoID,
                  strata = select(clean_data, 
-                                 ID, Continent, Country, Population, Subpop, MCG, Year)) %>%
+                                 GenoID, Continent, Country, Population, Subpop, MCG, Year)) %>%
   as.genclone() %>%
   setPop(~Population)
 

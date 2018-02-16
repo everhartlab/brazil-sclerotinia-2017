@@ -223,7 +223,7 @@ Warning messages:
 > # as both a CSV and a genclone object. 
 > 
 > clean_data <- full_data %>% 
-+   select(ID = `AP-GenoID`, 
++   select(GenoID = `AP-GenoID`, 
 +          MCG, 
 +          Year = date,
 +          continent_country_state_region, 
@@ -235,112 +235,117 @@ Warning messages:
 +            sep = "_") %>%
 +   write_csv(path = here::here("data/clean-genotypes.csv"))
 > 
+> # Head off any encoding issues
+> readLines(here::here("data/clean-genotypes.csv")) %>% 
++   iconv(from = "UTF-8", to = "ISO-8859-1") %>%
++   writeLines(con = here::here("data/clean-genotypes.csv"))
+> 
 > print(clean_data, n = 100)
 [38;5;246m# A tibble: 94 x 18[39m
-   ID    MCG    Year Continent     Country       Population         Subpop              `5-2` `6-2` `7-2` `8-3` `9-2` `12-2` `20-3` `55-4` `110-4` `114-4` `17-3`
-   [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m               [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m 
-[38;5;250m 1[39m 143   A      197[38;5;246m7[39m North America United States Midwest            Greeley, CO         340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 2[39m 202   K      199[38;5;246m0[39m North America United States Midwest            Ithaca, NE          340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 3[39m 264   K      199[38;5;246m4[39m North America United States Midwest            Platte Co., NE      340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 4[39m 265   H      199[38;5;246m4[39m North America United States Midwest            Tekamah, NE         340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 5[39m 266   A      199[38;5;246m4[39m North America United States Midwest            Saunders Co., NE    340   501   184   264   371   228    292    207    397     351     360   
-[38;5;250m 6[39m 267   I      199[38;5;246m4[39m North America United States Midwest            Bellwood, NE        340   [31mNA[39m    184   256   371   228    292    201    397     351     360   
-[38;5;250m 7[39m 268   J      199[38;5;246m4[39m North America United States Midwest            Herman, NE          324   501   184   264   371   230    294    183    397     351     360   
-[38;5;250m 8[39m 276   A      199[38;5;246m6[39m North America United States Midwest            Ord, NE             332   501   184   264   371   228    292    207    397     367     354   
-[38;5;250m 9[39m 289   K      199[38;5;246m6[39m North America United States Midwest            Lincoln, NE         332   501   [31mNA[39m    264   388   228    292    207    389     367     354   
-[38;5;250m10[39m 293A  C      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   268   388   228    292    207    381     367     360   
-[38;5;250m11[39m 293B  D      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           330   505   182   264   388   228    285    207    381     351     360   
-[38;5;250m12[39m 293C  E      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   495   182   264   371   230    292    207    385     351     360   
-[38;5;250m13[39m 293D  F      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   505   174   264   388   226    294    207    385     351     360   
-[38;5;250m14[39m 293E  G      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   280   [31mNA[39m    226    287    270    381     367     360   
-[38;5;250m15[39m 399A  B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   495   182   262   371   230    292    203    397     367     354   
-[38;5;250m16[39m 399B  B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   501   182   262   371   228    292    [31mNA[39m     397     367     354   
-[38;5;250m17[39m 541A  M      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           340   495   184   264   371   230    294    258    381     351     360   
-[38;5;250m18[39m 541B  J      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           332   501   182   264   371   234    294    207    389     351     354   
-[38;5;250m19[39m 834A  L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          334   495   184   262   371   234    292    207    385     351     360   
-[38;5;250m20[39m 834B  L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          330   [31mNA[39m    184   262   360   228    292    183    389     367     360   
-[38;5;250m21[39m 978E2 [31mNA[39m     201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   [31mNA[39m    230    292    207    385     351     360   
-[38;5;250m22[39m 1010  R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        340   505   172   264   360   230    292    223    [31mNA[39m      351     360   
-[38;5;250m23[39m 1011  R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   505   174   264   371   230    292    207    385     367     360   
-[38;5;250m24[39m 1012  Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        334   505   174   268   371   228    292    207    381     351     360   
-[38;5;250m25[39m 1013  Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   505   182   268   375   228    292    207    381     351     360   
-[38;5;250m26[39m 1014  Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   495   182   268   388   228    292    207    381     367     360   
-[38;5;250m27[39m 1015  N      201[38;5;246m2[39m South America Brazil        Góias              São Miguel do Passo 332   505   174   264   371   228    292    207    385     351     354   
-[38;5;250m28[39m 1016  N      201[38;5;246m2[39m South America Brazil        Paraná             Pinhão              332   505   174   264   370   230    292    183    385     351     354   
-[38;5;250m29[39m 1017  N      201[38;5;246m2[39m South America Brazil        Góias              Formoso             332   505   174   264   388   230    292    207    [31mNA[39m      351     360   
-[38;5;250m30[39m 1018  R      201[38;5;246m2[39m South America Brazil        Paraná             Guarapuava          332   505   174   264   371   230    [31mNA[39m     207    385     351     360   
-[38;5;250m31[39m 1019  N      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               332   505   174   264   371   230    292    207    [31mNA[39m      351     360   
-[38;5;250m32[39m 1020  Y      201[38;5;246m2[39m South America Brazil        Paraná             Pinhão              332   505   182   264   371   234    294    219    385     351     354   
-[38;5;250m33[39m 1021  Z      201[38;5;246m2[39m South America Brazil        Paraná             Mauá da Serra       340   505   182   280   371   230    292    207    381     351     354   
-[38;5;250m34[39m 1022  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Não me Toque        332   505   174   264   371   230    283    207    385     351     360   
-[38;5;250m35[39m 1023  N      201[38;5;246m2[39m South America Brazil        Bahia              São Desidério       332   505   174   264   371   230    292    207    385     367     360   
-[38;5;250m36[39m 1     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Jataí               336   505   [31mNA[39m    256   371   228    283    207    381     367     354   
-[38;5;250m37[39m 3     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Jataí               332   505   172   256   371   228    [31mNA[39m     207    381     351     360   
-[38;5;250m38[39m 5     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Cristalina          332   495   186   264   388   234    283    207    381     367     354   
-[38;5;250m39[39m 6     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Formosa             332   505   172   256   388   228    335    207    385     351     354   
-[38;5;250m40[39m 7     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Formosa             332   505   174   264   371   230    283    207    385     367     354   
-[38;5;250m41[39m 8     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             332   505   174   264   388   230    292    207    385     351     360   
-[38;5;250m42[39m 9     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             326   505   174   264   371   230    [31mNA[39m     207    385     367     360   
-[38;5;250m43[39m 12    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             340   505   174   264   371   230    283    207    385     367     354   
-[38;5;250m44[39m 13    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             326   505   172   256   388   228    283    207    385     367     354   
-[38;5;250m45[39m 14    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             332   505   174   264   371   230    283    207    385     367     354   
-[38;5;250m46[39m 15    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   172   256   388   228    [31mNA[39m     207    381     367     354   
-[38;5;250m47[39m 16    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    285    207    385     367     354   
-[38;5;250m48[39m 17    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   228    [31mNA[39m     207    385     367     354   
-[38;5;250m49[39m 18    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
-[38;5;250m50[39m 20    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
-[38;5;250m51[39m 22    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    283    207    385     367     354   
-[38;5;250m52[39m 24    [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   371   230    283    207    385     367     354   
-[38;5;250m53[39m 25    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    283    207    385     367     354   
-[38;5;250m54[39m 26    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   371   230    [31mNA[39m     207    385     367     354   
-[38;5;250m55[39m 27    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   [31mNA[39m    [31mNA[39m    264   388   234    283    207    381     367     354   
-[38;5;250m56[39m 29    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    283    207    385     367     360   
-[38;5;250m57[39m 31    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    289    207    385     367     354   
-[38;5;250m58[39m 32    [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   370   230    293    207    385     367     354   
-[38;5;250m59[39m 973A  N      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               [31mNA[39m    505   174   264   371   240    292    207    [31mNA[39m      367     360   
-[38;5;250m60[39m 973B  P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   495   186   264   371   234    292    191    381     351     354   
-[38;5;250m61[39m 973C  P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   495   176   264   371   234    292    191    381     367     360   
-[38;5;250m62[39m 973D  P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               332   495   186   264   388   234    292    207    381     367     354   
-[38;5;250m63[39m 973E  U      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   505   172   256   371   228    292    [31mNA[39m     381     367     354   
-[38;5;250m64[39m 974A  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   172   256   371   228    294    207    [31mNA[39m      367     354   
-[38;5;250m65[39m 974B  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   495   182   280   388   230    294    207    397     351     354   
-[38;5;250m66[39m 974C  V      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   495   182   280   360   234    294    209    397     367     354   
-[38;5;250m67[39m 974D  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   525   182   280   371   226    292    [31mNA[39m     [31mNA[39m      367     354   
-[38;5;250m68[39m 974E  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   525   182   280   366   226    294    [31mNA[39m     397     367     354   
-[38;5;250m69[39m 975A  Q      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   182   268   388   228    292    183    381     367     354   
-[38;5;250m70[39m 975B  R      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             [31mNA[39m    505   174   264   388   230    292    207    385     351     354   
-[38;5;250m71[39m 975C  R      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   174   264   371   228    292    207    385     351     354   
-[38;5;250m72[39m 975D  W      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   174   264   371   230    283    [31mNA[39m     385     367     354   
-[38;5;250m73[39m 975E  Q      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   182   268   388   230    292    203    381     351     354   
-[38;5;250m74[39m 976A  S      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             334   495   [31mNA[39m    266   388   234    292    207    381     351     354   
-[38;5;250m75[39m 976B  T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   172   256   388   228    292    [31mNA[39m     385     351     354   
-[38;5;250m76[39m 976B2 [31mNA[39m     201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   172   256   388   228    292    195    385     367     360   
-[38;5;250m77[39m 976C  S      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             [31mNA[39m    495   182   266   388   234    292    207    381     351     360   
-[38;5;250m78[39m 976D  T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   174   256   371   228    294    195    385     367     354   
-[38;5;250m79[39m 976E  T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             340   505   172   254   371   228    292    [31mNA[39m     385     351     354   
-[38;5;250m80[39m 977A  T      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     328   505   182   280   388   226    292    207    397     367     354   
-[38;5;250m81[39m 977B  U      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   388   228    292    207    381     351     354   
-[38;5;250m82[39m 977C  I      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   [31mNA[39m    228    292    207    385     367     360   
-[38;5;250m83[39m 977D  I      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   371   228    296    [31mNA[39m     385     367     360   
-[38;5;250m84[39m 977E  N      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   174   264   [31mNA[39m    234    292    207    385     367     360   
-[38;5;250m85[39m 978A  N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   182   264   371   230    292    207    [31mNA[39m      367     354   
-[38;5;250m86[39m 978B  N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   371   234    292    191    385     367     354   
-[38;5;250m87[39m 978C  N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   525   174   264   371   230    292    207    [31mNA[39m      367     354   
-[38;5;250m88[39m 978D  N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   371   230    284    207    385     367     354   
-[38;5;250m89[39m 978E  N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   [31mNA[39m    230    292    207    385     367     354   
-[38;5;250m90[39m 979A  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   371   226    294    207    385     367     360   
-[38;5;250m91[39m 979B  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             [31mNA[39m    505   174   264   [31mNA[39m    230    292    207    385     367     360   
-[38;5;250m92[39m 979C  O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   388   226    294    207    385     367     360   
-[38;5;250m93[39m 979D  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    292    207    385     367     360   
-[38;5;250m94[39m 979E  N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    295    207    385     367     360   
+   GenoID MCG    Year Continent     Country       Population         Subpop              `5-2` `6-2` `7-2` `8-3` `9-2` `12-2` `20-3` `55-4` `110-4` `114-4` `17-3`
+   [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m               [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m  [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m   [3m[38;5;246m<chr>[39m[23m 
+[38;5;250m 1[39m 143    A      197[38;5;246m7[39m North America United States Midwest            Greeley, CO         340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 2[39m 202    K      199[38;5;246m0[39m North America United States Midwest            Ithaca, NE          340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 3[39m 264    K      199[38;5;246m4[39m North America United States Midwest            Platte Co., NE      340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 4[39m 265    H      199[38;5;246m4[39m North America United States Midwest            Tekamah, NE         340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 5[39m 266    A      199[38;5;246m4[39m North America United States Midwest            Saunders Co., NE    340   501   184   264   371   228    292    207    397     351     360   
+[38;5;250m 6[39m 267    I      199[38;5;246m4[39m North America United States Midwest            Bellwood, NE        340   [31mNA[39m    184   256   371   228    292    201    397     351     360   
+[38;5;250m 7[39m 268    J      199[38;5;246m4[39m North America United States Midwest            Herman, NE          324   501   184   264   371   230    294    183    397     351     360   
+[38;5;250m 8[39m 276    A      199[38;5;246m6[39m North America United States Midwest            Ord, NE             332   501   184   264   371   228    292    207    397     367     354   
+[38;5;250m 9[39m 289    K      199[38;5;246m6[39m North America United States Midwest            Lincoln, NE         332   501   [31mNA[39m    264   388   228    292    207    389     367     354   
+[38;5;250m10[39m 293A   C      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   268   388   228    292    207    381     367     360   
+[38;5;250m11[39m 293B   D      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           330   505   182   264   388   228    285    207    381     351     360   
+[38;5;250m12[39m 293C   E      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   495   182   264   371   230    292    207    385     351     360   
+[38;5;250m13[39m 293D   F      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           340   505   174   264   388   226    294    207    385     351     360   
+[38;5;250m14[39m 293E   G      199[38;5;246m6[39m South America Argentina     Argentina          Argentina           [31mNA[39m    495   182   280   [31mNA[39m    226    287    270    381     367     360   
+[38;5;250m15[39m 399A   B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   495   182   262   371   230    292    203    397     367     354   
+[38;5;250m16[39m 399B   B      199[38;5;246m9[39m North America United States Midwest            Mead, NE            332   501   182   262   371   228    292    [31mNA[39m     397     367     354   
+[38;5;250m17[39m 541A   M      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           340   495   184   264   371   230    294    258    381     351     360   
+[38;5;250m18[39m 541B   J      201[38;5;246m2[39m North America United States Midwest            Ewing, NE           332   501   182   264   371   234    294    207    389     351     354   
+[38;5;250m19[39m 834A   L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          334   495   184   262   371   234    292    207    385     351     360   
+[38;5;250m20[39m 834B   L      200[38;5;246m9[39m North America United States Midwest            Auburn, NE          330   [31mNA[39m    184   262   360   228    292    183    389     367     360   
+[38;5;250m21[39m 978E2  [31mNA[39m     201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   [31mNA[39m    230    292    207    385     351     360   
+[38;5;250m22[39m 1010   R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        340   505   172   264   360   230    292    223    [31mNA[39m      351     360   
+[38;5;250m23[39m 1011   R      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   505   174   264   371   230    292    207    385     367     360   
+[38;5;250m24[39m 1012   Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        334   505   174   268   371   228    292    207    381     351     360   
+[38;5;250m25[39m 1013   Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   505   182   268   375   228    292    207    381     351     360   
+[38;5;250m26[39m 1014   Q      201[38;5;246m4[39m South America Brazil        Paraná             Campo Mourão        332   495   182   268   388   228    292    207    381     367     360   
+[38;5;250m27[39m 1015   N      201[38;5;246m2[39m South America Brazil        Góias              São Miguel do Passo 332   505   174   264   371   228    292    207    385     351     354   
+[38;5;250m28[39m 1016   N      201[38;5;246m2[39m South America Brazil        Paraná             Pinhão              332   505   174   264   370   230    292    183    385     351     354   
+[38;5;250m29[39m 1017   N      201[38;5;246m2[39m South America Brazil        Góias              Formoso             332   505   174   264   388   230    292    207    [31mNA[39m      351     360   
+[38;5;250m30[39m 1018   R      201[38;5;246m2[39m South America Brazil        Paraná             Guarapuava          332   505   174   264   371   230    [31mNA[39m     207    385     351     360   
+[38;5;250m31[39m 1019   N      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               332   505   174   264   371   230    292    207    [31mNA[39m      351     360   
+[38;5;250m32[39m 1020   Y      201[38;5;246m2[39m South America Brazil        Paraná             Pinhão              332   505   182   264   371   234    294    219    385     351     354   
+[38;5;250m33[39m 1021   Z      201[38;5;246m2[39m South America Brazil        Paraná             Mauá da Serra       340   505   182   280   371   230    292    207    381     351     354   
+[38;5;250m34[39m 1022   N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Não me Toque        332   505   174   264   371   230    283    207    385     351     360   
+[38;5;250m35[39m 1023   N      201[38;5;246m2[39m South America Brazil        Bahia              São Desidério       332   505   174   264   371   230    292    207    385     367     360   
+[38;5;250m36[39m 1      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Jataí               336   505   [31mNA[39m    256   371   228    283    207    381     367     354   
+[38;5;250m37[39m 3      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Jataí               332   505   172   256   371   228    [31mNA[39m     207    381     351     360   
+[38;5;250m38[39m 5      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Cristalina          332   495   186   264   388   234    283    207    381     367     354   
+[38;5;250m39[39m 6      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Formosa             332   505   172   256   388   228    335    207    385     351     354   
+[38;5;250m40[39m 7      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Formosa             332   505   174   264   371   230    283    207    385     367     354   
+[38;5;250m41[39m 8      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             332   505   174   264   388   230    292    207    385     351     360   
+[38;5;250m42[39m 9      [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             326   505   174   264   371   230    [31mNA[39m     207    385     367     360   
+[38;5;250m43[39m 12     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             340   505   174   264   371   230    283    207    385     367     354   
+[38;5;250m44[39m 13     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             326   505   172   256   388   228    283    207    385     367     354   
+[38;5;250m45[39m 14     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Góias              Sudeste             332   505   174   264   371   230    283    207    385     367     354   
+[38;5;250m46[39m 15     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   172   256   388   228    [31mNA[39m     207    381     367     354   
+[38;5;250m47[39m 16     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    285    207    385     367     354   
+[38;5;250m48[39m 17     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   228    [31mNA[39m     207    385     367     354   
+[38;5;250m49[39m 18     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
+[38;5;250m50[39m 20     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
+[38;5;250m51[39m 22     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    283    207    385     367     354   
+[38;5;250m52[39m 24     [31mNA[39m     200[38;5;246m9[39m South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   371   230    283    207    385     367     354   
+[38;5;250m53[39m 25     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    283    207    385     367     354   
+[38;5;250m54[39m 26     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   371   230    [31mNA[39m     207    385     367     354   
+[38;5;250m55[39m 27     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   [31mNA[39m    [31mNA[39m    264   388   234    283    207    381     367     354   
+[38;5;250m56[39m 29     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    283    207    385     367     360   
+[38;5;250m57[39m 31     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   388   230    289    207    385     367     354   
+[38;5;250m58[39m 32     [31mNA[39m     201[38;5;246m0[39m South America Brazil        Bahia              Correntina          332   505   174   264   370   230    293    207    385     367     354   
+[38;5;250m59[39m 973A   N      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               [31mNA[39m    505   174   264   371   240    292    207    [31mNA[39m      367     360   
+[38;5;250m60[39m 973B   P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   495   186   264   371   234    292    191    381     351     354   
+[38;5;250m61[39m 973C   P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   495   176   264   371   234    292    191    381     367     360   
+[38;5;250m62[39m 973D   P      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               332   495   186   264   388   234    292    207    381     367     354   
+[38;5;250m63[39m 973E   U      201[38;5;246m2[39m South America Brazil        Bahia              Bahia               340   505   172   256   371   228    292    [31mNA[39m     381     367     354   
+[38;5;250m64[39m 974A   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   172   256   371   228    294    207    [31mNA[39m      367     354   
+[38;5;250m65[39m 974B   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   495   182   280   388   230    294    207    397     351     354   
+[38;5;250m66[39m 974C   V      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   495   182   280   360   234    294    209    397     367     354   
+[38;5;250m67[39m 974D   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   525   182   280   371   226    292    [31mNA[39m     [31mNA[39m      367     354   
+[38;5;250m68[39m 974E   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             340   525   182   280   366   226    294    [31mNA[39m     397     367     354   
+[38;5;250m69[39m 975A   Q      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   182   268   388   228    292    183    381     367     354   
+[38;5;250m70[39m 975B   R      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             [31mNA[39m    505   174   264   388   230    292    207    385     351     354   
+[38;5;250m71[39m 975C   R      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   174   264   371   228    292    207    385     351     354   
+[38;5;250m72[39m 975D   W      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   174   264   371   230    283    [31mNA[39m     385     367     354   
+[38;5;250m73[39m 975E   Q      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Coxilha             332   505   182   268   388   230    292    203    381     351     354   
+[38;5;250m74[39m 976A   S      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             334   495   [31mNA[39m    266   388   234    292    207    381     351     354   
+[38;5;250m75[39m 976B   T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   172   256   388   228    292    [31mNA[39m     385     351     354   
+[38;5;250m76[39m 976B2  [31mNA[39m     201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   172   256   388   228    292    195    385     367     360   
+[38;5;250m77[39m 976C   S      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             [31mNA[39m    495   182   266   388   234    292    207    381     351     360   
+[38;5;250m78[39m 976D   T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             332   505   174   256   371   228    294    195    385     367     354   
+[38;5;250m79[39m 976E   T      201[38;5;246m2[39m South America Brazil        Paraná             Faxinal             340   505   172   254   371   228    292    [31mNA[39m     385     351     354   
+[38;5;250m80[39m 977A   T      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     328   505   182   280   388   226    292    207    397     367     354   
+[38;5;250m81[39m 977B   U      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   388   228    292    207    381     351     354   
+[38;5;250m82[39m 977C   I      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   [31mNA[39m    228    292    207    385     367     360   
+[38;5;250m83[39m 977D   I      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   371   228    296    [31mNA[39m     385     367     360   
+[38;5;250m84[39m 977E   N      201[38;5;246m2[39m South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   174   264   [31mNA[39m    234    292    207    385     367     360   
+[38;5;250m85[39m 978A   N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   182   264   371   230    292    207    [31mNA[39m      367     354   
+[38;5;250m86[39m 978B   N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   371   234    292    191    385     367     354   
+[38;5;250m87[39m 978C   N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   525   174   264   371   230    292    207    [31mNA[39m      367     354   
+[38;5;250m88[39m 978D   N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   371   230    284    207    385     367     354   
+[38;5;250m89[39m 978E   N      201[38;5;246m2[39m South America Brazil        Góias              Rio Verde           332   505   174   264   [31mNA[39m    230    292    207    385     367     354   
+[38;5;250m90[39m 979A   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   371   226    294    207    385     367     360   
+[38;5;250m91[39m 979B   N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             [31mNA[39m    505   174   264   [31mNA[39m    230    292    207    385     367     360   
+[38;5;250m92[39m 979C   O      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   388   226    294    207    385     367     360   
+[38;5;250m93[39m 979D   N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    292    207    385     367     360   
+[38;5;250m94[39m 979E   N      201[38;5;246m2[39m South America Brazil        Rio Grande do Sul  Vacaria             332   505   174   264   371   230    295    207    385     367     360   
 > 
 > 
 > # Converting to genclone, adding Repeat Lengths, Palette ------------------
 > gid <- df2genind(select(clean_data, matches("\\d-\\d")),
 +                  ploidy = 1,
-+                  ind.names = clean_data$ID,
++                  ind.names = clean_data$GenoID,
 +                  strata = select(clean_data, 
-+                                  ID, Continent, Country, Population, Subpop, MCG, Year)) %>%
++                                  GenoID, Continent, Country, Population, Subpop, MCG, Year)) %>%
 +   as.genclone() %>%
 +   setPop(~Population)
 > 
@@ -381,7 +386,7 @@ Repeat lengths with some modification are being returned: 6-2
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       America/Chicago             
- date     2018-02-15                  
+ date     2018-02-16                  
 
 ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  package     * version    date       source                             
