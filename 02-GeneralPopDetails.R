@@ -97,7 +97,7 @@ poptable <- strata(CD) %>%
   select(Continent, Country, Population, Year) %>% 
   group_by(Continent, Country, Population) %>%
   summarize(`Year(s) Collected` = Year %>% sort() %>% unique() %>% paste(collapse = ", ") , n = n()) %>%
-  arrange(desc(Country), n) %>%
+  arrange(desc(Country), -n) %>%
   ungroup() %>% 
   readr::write_csv(table1_path) %>%
   print()
@@ -176,7 +176,9 @@ genotype_table <- purrr::map_df(poplist,
                                 poppr, 
                                   quiet = TRUE, lambda = FALSE, total = FALSE, 
                                 .id = "Population") %>%
-  select(Population, N, MLG, H, G, E.5)
+  select(Population, N, MLG, H, G, E.5) %>%
+  mutate(H = exp(H)) %>%
+  rename(eH = H)
 
 # Combining Private Alleles, Genotypic, and Allelic Diversity -------------
 # Here we can join all the tables together and polish them.
