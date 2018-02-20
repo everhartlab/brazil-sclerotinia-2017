@@ -210,9 +210,9 @@ dplyr::left_join(main_locus_table, genotype_table, by = "Population") %>%
   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
   dplyr::arrange(Continent == "Pooled",     # This sequence arranges first the
-                 Continent == "N. America", # pooled data, then continent, 
                  Country   == "-",          # country, and finally, N.
-                 desc(Country), 
+                 Continent == "N. America", # pooled data, then continent, 
+                 Country, 
                  Population == "-", 
                  -N) %>%
   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
