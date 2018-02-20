@@ -46,12 +46,12 @@ Loading required package: ade4
 This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+── [1mAttaching packages[22m ───────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
 [32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.2.0
 [32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
@@ -152,20 +152,109 @@ Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17
  9 10 11 
  5 31 58 
 > 
-> # Genotypic and Allelic Diversity -----------------------------------------
-> #
-> # Here we are calculating the basic statistics for genotypic diversity.
-> # We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
-> # and the ratio of the two (E.5).
-> mll(CD) <- "original"
-> genotype_table <- poppr(CD, quiet = TRUE, lambda = FALSE, total = FALSE) %>%
-+   select(Pop, N, MLG, H, G, E.5)
 > 
-> # The indices of allelic diversity come from the locus_table() function, but
-> # they are presented over the entire data set. Here, we are splitting the 
-> # populations and getting one locus table per population so that we can extract
-> # information from them later
-> lts <- purrr::map(seppop(CD), locus_table, information = FALSE)
+> # Function to correct encoding
+> correct_encoding <- function(path){
++   readLines(path) %>% 
++     iconv(from = "UTF-8", to = "ISO-8859-1") %>%
++     writeLines(con = path)
++ }
+> 
+> table1_path <- here::here("tables", "country-population-year-n.csv")
+> table2_path <- here::here("tables", "diversity-statistics.csv")
+> 
+> 
+> # creating table 1 --------------------------------------------------------
+> 
+> poptable <- strata(CD) %>% 
++   select(Continent, Country, Population, Year) %>% 
++   group_by(Continent, Country, Population) %>%
++   summarize(`Year(s) Collected` = Year %>% sort() %>% unique() %>% paste(collapse = ", ") , n = n()) %>%
++   arrange(desc(Country), n) %>%
++   ungroup() %>% 
++   readr::write_csv(table1_path) %>%
++   print()
+[38;5;246m# A tibble: 8 x 5[39m
+  Continent     Country       Population         `Year(s) Collected`                          n
+  [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m              [3m[38;5;246m<chr>[39m[23m                                    [3m[38;5;246m<int>[39m[23m
+[38;5;250m1[39m South America Brazil        Mato Grosso do Sul 2012                                         5
+[38;5;250m2[39m South America Brazil        Minas Gerias       2009                                         7
+[38;5;250m3[39m South America Brazil        Bahia              2012, 2010                                  13
+[38;5;250m4[39m South America Brazil        Paraná             2012, 2014                                  15
+[38;5;250m5[39m South America Brazil        Rio Grande do Sul  2012                                        16
+[38;5;250m6[39m South America Brazil        Góias              2012, 2010                                  18
+[38;5;250m7[39m South America Argentina     Argentina          1996                                         5
+[38;5;250m8[39m North America United States Midwest            1977, 1990, 1994, 1996, 1999, 2012, 2009    15
+> correct_encoding(table1_path)
+> 
+> # creating table 2 --------------------------------------------------------
+> # This table is a bit more complicated because we want to show summary
+> # statistics over all heirarchical levels. We can first calculate private
+> # alleles over all these levels.
+> 
+> # Private Alleles (out of n alleles/locus) --------------------------------
+> 
+> (pal_pop  <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
+                   5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+Midwest              1   1   1   1   0    0    0    2     1
+Argentina            0   0   0   0   0    0    1    1     0
+Góias                2   0   0   0   0    0    2    0     0
+Paraná               0   0   0   2   1    0    0    3     0
+Bahia                0   0   1   0   0    1    2    0     0
+Rio Grande do Sul    0   0   0   0   1    0    1    1     0
+Minas Gerias         0   0   0   0   0    0    0    0     0
+Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
+> (pal_ctry <- private_alleles(CD, locus ~ Country,    count.alleles = FALSE))
+              5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+United States   1   1   1   1   0    0    0    2     1
+Argentina       0   0   0   0   0    0    1    1     0
+Brazil          3   1   3   2   3    1    7    5     0
+> (pal_ctnt <- private_alleles(CD, locus ~ Continent,  count.alleles = FALSE))
+              5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
+North America   1   1   1   1   0    0    0    2     1
+South America   3   2   4   4   3    2    9    6     0
+> private_allele_table <- map_df(list(pal_pop, pal_ctry, pal_ctnt), 
++        ~enframe(rowSums(.x), name = "Population", value = "private"))
+> 
+> # Fraction of alleles in data that are private 
+> print(priv_fraction <- sweep(pal_pop, 2, nAll(CD)[colnames(pal_pop)], FUN = "/"))
+                     5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
+Midwest            0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
+Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.09090909  0.00
+Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.18181818 0.00000000  0.00
+Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
+Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.18181818 0.00000000  0.00
+Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.09090909 0.09090909  0.00
+Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
+Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.00000000  0.00
+> print(priv_fraction <- sweep(pal_ctry, 2, nAll(CD)[colnames(pal_ctry)], FUN = "/"))
+                5-2  6-2       7-2       8-3 9-2 12-2       20-3       55-4 110-4
+United States 0.125 0.25 0.1666667 0.1428571 0.0  0.0 0.00000000 0.18181818  0.25
+Argentina     0.000 0.00 0.0000000 0.0000000 0.0  0.0 0.09090909 0.09090909  0.00
+Brazil        0.375 0.25 0.5000000 0.2857143 0.5  0.2 0.63636364 0.45454545  0.00
+> print(priv_fraction <- sweep(pal_ctnt, 2, nAll(CD)[colnames(pal_ctnt)], FUN = "/"))
+                5-2  6-2       7-2       8-3 9-2 12-2      20-3      55-4 110-4
+North America 0.125 0.25 0.1666667 0.1428571 0.0  0.0 0.0000000 0.1818182  0.25
+South America 0.375 0.50 0.6666667 0.5714286 0.5  0.4 0.8181818 0.5454545  0.00
+> 
+> # To calculate allele and genotype diversity, the easiest way is to create a 
+> # list containing all of our heirarchical levels and iterate over those using
+> # purrr::map()
+> 
+> mll(CD) <- "original"
+> poplist <- c(seppop(CD),
++              seppop(CD, ~Country),
++              seppop(CD, ~Continent),
++              list(Pooled = CD)
++              )
+> 
+> # Removing population factor from the pooled populations
+> pop(poplist[["Pooled"]]) <- NULL
+> 
+> # Allelic Diversity -------------------------------------------------------
+> # We only want the average value across loci for these stats
+> 
+> locus_tables <- purrr::map(poplist, locus_table, information = FALSE)
 > 
 > # One "easy" way to extract information is to create helper functions like this
 > # that will return a single number.
@@ -183,110 +272,87 @@ Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17
 +   loctab[nrow(loctab), "allele", drop = TRUE]
 + }
 > 
-> # Private Alleles (out of n alleles/locus) --------------------------------
-> 
-> print(pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
-                   5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
-Midwest              1   1   1   1   0    0    0    2     1
-Argentina            0   0   0   0   0    0    1    1     0
-Góias                2   0   0   0   0    0    2    0     0
-Paraná               0   0   0   2   1    0    0    3     0
-Bahia                0   0   1   0   0    1    2    0     0
-Rio Grande do Sul    0   0   0   0   1    0    1    1     0
-Minas Gerias         0   0   0   0   0    0    0    0     0
-Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
-> print(rowSums(pal)) # number of private alleles per Country
-           Midwest          Argentina              Góias             Paraná              Bahia  Rio Grande do Sul       Minas Gerias Mato Grosso do Sul 
-                 7                  2                  4                  6                  4                  3                  0                  2 
-> 
-> # Fraction of alleles in data that are private 
-> print(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
-                     5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
-Midwest            0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.09090909  0.00
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.18181818 0.00000000  0.00
-Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.18181818 0.00000000  0.00
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.09090909 0.09090909  0.00
-Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.00000000  0.00
-> 
-> 
-> # creating table 1 --------------------------------------------------------
-> # First, we can create a table of populations
-> poptable <- strata(CD) %>% 
-+   select(Continent, Country, Population) %>% 
-+   dplyr::distinct() %>% 
-+   select(Country, Population)
-> print(poptable)
-        Country         Population
-1 United States            Midwest
-2     Argentina          Argentina
-3        Brazil              Góias
-4        Brazil             Paraná
-5        Brazil              Bahia
-6        Brazil  Rio Grande do Sul
-7        Brazil       Minas Gerias
-8        Brazil Mato Grosso do Sul
 > # Now we can take all of the data we gathered above and combine it
-> purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
-+                                         Ae      = Ae(.), 
-+                                         Hexp    = Hexp(.))}) %>% 
-+   tibble::add_column(N = tabulate(pop(CD)), .before = 1) %>% 
-+   dplyr::bind_cols(poptable, .) %>%
-+   dplyr::inner_join(genotype_table, by = c("Population" = "Pop", "N")) %>%
-+   tibble::add_column(private = rowSums(pal), .before = "Hexp") %>%
+> main_locus_table <- purrr::map_df(locus_tables, 
++                                   ~{tibble::data_frame(Alleles = nall(.), 
++                                                        Ae      = Ae(.), 
++                                                        Hexp    = Hexp(.)
++                                                        )
++                                     }, 
++                                   .id = "Population")
+> 
+> 
+> # Genotypic Diversity -----------------------------------------------------
+> 
+> 
+> # Here we are calculating the basic statistics for genotypic diversity.
+> # We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
+> # and the ratio of the two (E.5).
+> genotype_table <- purrr::map_df(poplist, 
++                                 poppr, 
++                                   quiet = TRUE, lambda = FALSE, total = FALSE, 
++                                 .id = "Population") %>%
++   select(Population, N, MLG, H, G, E.5)
+There were 15 warnings (use warnings() to see them)
+> 
+> # Combining Private Alleles, Genotypic, and Allelic Diversity -------------
+> # Here we can join all the tables together and polish them.
+> 
+> dplyr::left_join(main_locus_table, genotype_table, by = "Population") %>%
++   dplyr::left_join(private_allele_table, by = "Population") %>%
++   dplyr::distinct() %>%
++   dplyr::mutate(Country = case_when(
++     Population == "Midwest" ~ "United States",
++     Population == "United States" ~ "United States", 
++     Population == "Argentina"     ~ "Argentina",
++     Population == "Brazil"        ~ "Brazil",
++     Population == "North America" ~ "-", # These labels don't apply to Country
++     Population == "South America" ~ "-",
++     Population == "Pooled"        ~ "-",
++     TRUE                          ~ "Brazil"
++     )) %>%
++   dplyr::mutate(Continent = case_when(
++     Country == "United States" ~ "North America",
++     Country == "-"             ~ Population,
++     TRUE                       ~ "South America"
++   )) %>%
++   dplyr::mutate(Population = case_when(
++     Population %in% Continent ~ "-", # These labels don't apply to populations
++     Population %in% Country   ~ "-",
++     TRUE                      ~ Population
++   )) %>% 
++   dplyr::mutate(Continent = gsub("o[ur]th", ".", Continent)) %>% # North -> N./South -> S.
++   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
++   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
++   dplyr::arrange(Continent == "Pooled",     # This sequence arranges first the
++                  Continent == "N. America", # pooled data, then continent, 
++                  Country   == "-",          # country, and finally, N.
++                  desc(Country), 
++                  Population == "-", 
++                  -N) %>%
++   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
 +   dplyr::mutate_if(is.numeric, signif, 3) %>%
-+   dplyr::arrange(-N) %>%
-+   dplyr::mutate(N = glue::glue_data(., "{N} ({MLG})")) %>%
++   dplyr::mutate(N = glue::glue_data(., "{sprintf('%2d', N)} ({sprintf('%2d', MLG)})")) %>%
 +   select(-MLG) %>%
-+   readr::write_csv("tables/table1.csv") %>%
++   readr::write_csv(table2_path) %>%
 +   print()
-        Country         Population       N Alleles   Ae private  Hexp    H     G   E.5
-1        Brazil              Góias 18 (17)    2.73 1.79       4 0.408 2.81 16.20 0.970
-2        Brazil  Rio Grande do Sul 16 (16)    3.27 2.49       3 0.579 2.77 16.00 1.000
-3 United States            Midwest 15 (11)    3.00 2.01       7 0.472 2.17  6.43 0.698
-4        Brazil             Paraná 15 (15)    3.18 2.73       6 0.564 2.71 15.00 1.000
-5        Brazil              Bahia 13 (13)    2.64 2.01       4 0.461 2.56 13.00 1.000
-6        Brazil       Minas Gerias   7 (6)    1.64 1.41       0 0.235 1.75  5.44 0.937
-7     Argentina          Argentina   5 (5)    2.27 3.20       2 0.561 1.61  5.00 1.000
-8        Brazil Mato Grosso do Sul   5 (5)    2.18 2.35       2 0.479 1.61  5.00 1.000
-Warning message:
-Column `Population`/`Pop` joining factors with different levels, coercing to character vector 
+[38;5;246m# A tibble: 11 x 11[39m
+   Continent  Country   Population         N         Alleles    Ap    Ae  Hexp     H     G   E.5
+   [3m[38;5;246m<chr>[39m[23m      [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m       [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m
+[38;5;250m 1[39m S. America Brazil    Góias              18 (17)      2.73  4.00  1.79 [38;5;246m0[39m[38;5;246m.[39m408  2.81 16.2  [38;5;246m0[39m[38;5;246m.[39m970
+[38;5;250m 2[39m S. America Brazil    Rio Grande do Sul  16 (16)      3.27  3.00  2.49 [38;5;246m0[39m[38;5;246m.[39m579  2.77 16.0  1.00 
+[38;5;250m 3[39m S. America Brazil    Paraná             15 (15)      3.18  6.00  2.73 [38;5;246m0[39m[38;5;246m.[39m564  2.71 15.0  1.00 
+[38;5;250m 4[39m S. America Brazil    Bahia              13 (13)      2.64  4.00  2.01 [38;5;246m0[39m[38;5;246m.[39m461  2.56 13.0  1.00 
+[38;5;250m 5[39m S. America Brazil    Minas Gerias       [38;5;246m"[39m 7 ( 6)[38;5;246m"[39m    1.64  [38;5;246m0[39m     1.41 [38;5;246m0[39m[38;5;246m.[39m235  1.75  5.44 [38;5;246m0[39m[38;5;246m.[39m937
+[38;5;250m 6[39m S. America Brazil    Mato Grosso do Sul [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.18  2.00  2.35 [38;5;246m0[39m[38;5;246m.[39m479  1.61  5.00 1.00 
+[38;5;250m 7[39m S. America Brazil    -                  74 (67)      5.18 25.0   2.16 [38;5;246m0[39m[38;5;246m.[39m512  4.16 59.5  [38;5;246m0[39m[38;5;246m.[39m929
+[38;5;250m 8[39m S. America Argentina -                  [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.27  2.00  3.20 [38;5;246m0[39m[38;5;246m.[39m561  1.61  5.00 1.00 
+[38;5;250m 9[39m S. America -         -                  79 (72)      5.36 33.0   2.22 [38;5;246m0[39m[38;5;246m.[39m525  4.23 64.3  [38;5;246m0[39m[38;5;246m.[39m932
+[38;5;250m10[39m N. America U.S.      Midwest            15 (11)      3.00  7.00  2.01 [38;5;246m0[39m[38;5;246m.[39m472  2.17  6.43 [38;5;246m0[39m[38;5;246m.[39m698
+[38;5;250m11[39m Pooled     -         -                  94 (83)      6.00 [31mNA[39m     2.40 [38;5;246m0[39m[38;5;246m.[39m563  4.34 66.9  [38;5;246m0[39m[38;5;246m.[39m868
 > 
-> # Fixing silly encoding issue >:(
-> readLines(here::here("tables/table1.csv")) %>% 
-+   iconv(from = "UTF-8", to = "ISO-8859-1") %>%
-+   writeLines(con = here::here("tables/table1.csv"))
-> 
-> # Private Alleles (out of n alleles/locus) --------------------------------
-> 
-> (pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
-                   5-2 6-2 7-2 8-3 9-2 12-2 20-3 55-4 110-4
-Midwest              1   1   1   1   0    0    0    2     1
-Argentina            0   0   0   0   0    0    1    1     0
-Góias                2   0   0   0   0    0    2    0     0
-Paraná               0   0   0   2   1    0    0    3     0
-Bahia                0   0   1   0   0    1    2    0     0
-Rio Grande do Sul    0   0   0   0   1    0    1    1     0
-Minas Gerias         0   0   0   0   0    0    0    0     0
-Mato Grosso do Sul   1   0   0   0   0    0    1    0     0
-> rowSums(pal) # number of private alleles per Country
-           Midwest          Argentina              Góias             Paraná              Bahia  Rio Grande do Sul       Minas Gerias Mato Grosso do Sul 
-                 7                  2                  4                  6                  4                  3                  0                  2 
-> 
-> # Fraction of alleles in data that are private 
-> (priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
-                     5-2  6-2       7-2       8-3       9-2 12-2       20-3       55-4 110-4
-Midwest            0.125 0.25 0.1666667 0.1428571 0.0000000  0.0 0.00000000 0.18181818  0.25
-Argentina          0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.09090909  0.00
-Góias              0.250 0.00 0.0000000 0.0000000 0.0000000  0.0 0.18181818 0.00000000  0.00
-Paraná             0.000 0.00 0.0000000 0.2857143 0.1666667  0.0 0.00000000 0.27272727  0.00
-Bahia              0.000 0.00 0.1666667 0.0000000 0.0000000  0.2 0.18181818 0.00000000  0.00
-Rio Grande do Sul  0.000 0.00 0.0000000 0.0000000 0.1666667  0.0 0.09090909 0.09090909  0.00
-Minas Gerias       0.000 0.00 0.0000000 0.0000000 0.0000000  0.0 0.00000000 0.00000000  0.00
-Mato Grosso do Sul 0.125 0.00 0.0000000 0.0000000 0.0000000  0.0 0.09090909 0.00000000  0.00
-> 
+> correct_encoding(table2_path)
+>   
 > options(encoding = enc)
 > 
 > 
