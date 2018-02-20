@@ -118,14 +118,26 @@ print(rowSums(pal)) # number of private alleles per Country
 # Fraction of alleles in data that are private 
 print(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
 
+# Function to correct encoding
+correct_encoding <- function(path){
+  readLines(path) %>% 
+    iconv(from = "UTF-8", to = "ISO-8859-1") %>%
+    writeLines(con = path)
+}
 
 # creating table 1 --------------------------------------------------------
 # First, we can create a table of populations
+table1_path <- here::here("tables", "country-population-year-n.csv")
 poptable <- strata(CD) %>% 
-  select(Continent, Country, Population) %>% 
-  dplyr::distinct() %>% 
-  select(Country, Population)
-print(poptable)
+  select(Continent, Country, Population, Year) %>% 
+  group_by(Country, Population) %>%
+  summarize(`Year(s) Collected` = Year %>% sort() %>% unique() %>% paste(collapse = ", ") , n = n()) %>%
+  arrange(desc(Country), n) %>%
+  ungroup() %>% 
+  readr::write_csv(table1_path) %>%
+  print()
+correct_encoding(table1_path)
+
 # Now we can take all of the data we gathered above and combine it
 purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
                                         Ae      = Ae(.), 
