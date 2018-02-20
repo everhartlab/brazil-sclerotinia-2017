@@ -326,11 +326,12 @@ There were 15 warnings (use warnings() to see them)
 +   dplyr::mutate(Continent = gsub("o[ur]th", ".", Continent)) %>% # North -> N./South -> S.
 +   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
 +   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
-+   dplyr::arrange(Continent == "Pooled",     # This sequence arranges first the
-+                  Continent == "N. America", # pooled data, then continent, 
-+                  Country   == "-",          # country, and finally, N.
-+                  desc(Country), 
-+                  Population == "-", 
++   dplyr::arrange(Continent  == "Pooled",     
++                  Country    == "-",          
++                  Population == "-" & Country != "Argentina", 
++                  Continent  == "N. America",  
++                  Country    == "Argentina",
++                  Country, 
 +                  -N) %>%
 +   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
 +   dplyr::mutate_if(is.numeric, signif, 3) %>%
@@ -347,10 +348,10 @@ There were 15 warnings (use warnings() to see them)
 [38;5;250m 4[39m S. America Brazil    Bahia              13 (13)      2.64  4.00  2.01 [38;5;246m0[39m[38;5;246m.[39m461 13.0  13.0  1.00 
 [38;5;250m 5[39m S. America Brazil    Minas Gerias       [38;5;246m"[39m 7 ( 6)[38;5;246m"[39m    1.64  [38;5;246m0[39m     1.41 [38;5;246m0[39m[38;5;246m.[39m235  5.74  5.44 [38;5;246m0[39m[38;5;246m.[39m937
 [38;5;250m 6[39m S. America Brazil    Mato Grosso do Sul [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.18  2.00  2.35 [38;5;246m0[39m[38;5;246m.[39m479  5.00  5.00 1.00 
-[38;5;250m 7[39m S. America Brazil    -                  74 (67)      5.18 25.0   2.16 [38;5;246m0[39m[38;5;246m.[39m512 64.0  59.5  [38;5;246m0[39m[38;5;246m.[39m929
-[38;5;250m 8[39m S. America Argentina -                  [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.27  2.00  3.20 [38;5;246m0[39m[38;5;246m.[39m561  5.00  5.00 1.00 
-[38;5;250m 9[39m S. America -         -                  79 (72)      5.36 33.0   2.22 [38;5;246m0[39m[38;5;246m.[39m525 68.9  64.3  [38;5;246m0[39m[38;5;246m.[39m932
-[38;5;250m10[39m N. America U.S.      Midwest            15 (11)      3.00  7.00  2.01 [38;5;246m0[39m[38;5;246m.[39m472  8.77  6.43 [38;5;246m0[39m[38;5;246m.[39m698
+[38;5;250m 7[39m S. America Argentina -                  [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.27  2.00  3.20 [38;5;246m0[39m[38;5;246m.[39m561  5.00  5.00 1.00 
+[38;5;250m 8[39m N. America U.S.      Midwest            15 (11)      3.00  7.00  2.01 [38;5;246m0[39m[38;5;246m.[39m472  8.77  6.43 [38;5;246m0[39m[38;5;246m.[39m698
+[38;5;250m 9[39m S. America Brazil    -                  74 (67)      5.18 25.0   2.16 [38;5;246m0[39m[38;5;246m.[39m512 64.0  59.5  [38;5;246m0[39m[38;5;246m.[39m929
+[38;5;250m10[39m S. America -         -                  79 (72)      5.36 33.0   2.22 [38;5;246m0[39m[38;5;246m.[39m525 68.9  64.3  [38;5;246m0[39m[38;5;246m.[39m932
 [38;5;250m11[39m Pooled     -         -                  94 (83)      6.00 [31mNA[39m     2.40 [38;5;246m0[39m[38;5;246m.[39m563 77.0  66.9  [38;5;246m0[39m[38;5;246m.[39m868
 > 
 > correct_encoding(table2_path)

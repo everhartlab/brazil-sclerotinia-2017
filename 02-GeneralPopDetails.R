@@ -209,11 +209,12 @@ dplyr::left_join(main_locus_table, genotype_table, by = "Population") %>%
   dplyr::mutate(Continent = gsub("o[ur]th", ".", Continent)) %>% # North -> N./South -> S.
   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
-  dplyr::arrange(Continent == "Pooled",     # This sequence arranges first the
-                 Country   == "-",          # country, and finally, N.
-                 Continent == "N. America", # pooled data, then continent, 
+  dplyr::arrange(Continent  == "Pooled",     
+                 Country    == "-",          
+                 Population == "-" & Country != "Argentina", 
+                 Continent  == "N. America",  
+                 Country    == "Argentina",
                  Country, 
-                 Population == "-", 
                  -N) %>%
   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
   dplyr::mutate_if(is.numeric, signif, 3) %>%
