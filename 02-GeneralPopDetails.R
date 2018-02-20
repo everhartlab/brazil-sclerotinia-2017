@@ -81,18 +81,16 @@ table(nLoc(CD) * propTyped(CD))
 
 # Genotypic and Allelic Diversity -----------------------------------------
 #
-# Here we are calculating the basic statistics for genotypic diversity.
-# We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
-# and the ratio of the two (E.5).
 mll(CD) <- "original"
-genotype_table <- poppr(CD, quiet = TRUE, lambda = FALSE, total = FALSE) %>%
-  select(Pop, N, MLG, H, G, E.5)
 
 # The indices of allelic diversity come from the locus_table() function, but
 # they are presented over the entire data set. Here, we are splitting the 
 # populations and getting one locus table per population so that we can extract
 # information from them later
-lts <- purrr::map(seppop(CD), locus_table, information = FALSE)
+poplist      <- c(seppop(CD), seppop(CD, ~Country), seppop(CD, ~Continent), list(Pooled = CD))
+pop(poplist[[length(poplist)]]) <- NULL
+locus_tables <- purrr::map(poplist, locus_table, information = FALSE)
+
 
 # One "easy" way to extract information is to create helper functions like this
 # that will return a single number.
@@ -112,11 +110,16 @@ nall <- function(loctab){
 
 # Private Alleles (out of n alleles/locus) --------------------------------
 
-print(pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
-print(rowSums(pal)) # number of private alleles per Country
+(pal_pop  <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
+(pal_ctry <- private_alleles(CD, locus ~ Country,    count.alleles = FALSE))
+(pal_ctnt <- private_alleles(CD, locus ~ Continent,  count.alleles = FALSE))
+private_allele_table <- map_df(list(pal_pop, pal_ctry, pal_ctnt), 
+       ~enframe(rowSums(.x), name = "Population", value = "private"))
 
 # Fraction of alleles in data that are private 
-print(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
+print(priv_fraction <- sweep(pal_pop, 2, nAll(CD)[colnames(pal_pop)], FUN = "/"))
+print(priv_fraction <- sweep(pal_ctry, 2, nAll(CD)[colnames(pal_ctry)], FUN = "/"))
+print(priv_fraction <- sweep(pal_ctnt, 2, nAll(CD)[colnames(pal_ctnt)], FUN = "/"))
 
 # Function to correct encoding
 correct_encoding <- function(path){
@@ -125,12 +128,16 @@ correct_encoding <- function(path){
     writeLines(con = path)
 }
 
+table1_path <- here::here("tables", "country-population-year-n.csv")
+table2_path <- here::here("tables", "diversity-statistics.csv")
+
+
 # creating table 1 --------------------------------------------------------
 # First, we can create a table of populations
-table1_path <- here::here("tables", "country-population-year-n.csv")
+
 poptable <- strata(CD) %>% 
   select(Continent, Country, Population, Year) %>% 
-  group_by(Country, Population) %>%
+  group_by(Continent, Country, Population) %>%
   summarize(`Year(s) Collected` = Year %>% sort() %>% unique() %>% paste(collapse = ", ") , n = n()) %>%
   arrange(desc(Country), n) %>%
   ungroup() %>% 
@@ -138,34 +145,65 @@ poptable <- strata(CD) %>%
   print()
 correct_encoding(table1_path)
 
+# Here we are calculating the basic statistics for genotypic diversity.
+# We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
+# and the ratio of the two (E.5).
+genotype_table <- purrr::map_df(poplist, 
+                                poppr, 
+                                  quiet = TRUE, lambda = FALSE, total = FALSE, 
+                                .id = "Population") %>%
+  select(Population, N, MLG, H, G, E.5)
+
 # Now we can take all of the data we gathered above and combine it
-purrr::map_df(lts, ~{tibble::data_frame(Alleles = nall(.), 
-                                        Ae      = Ae(.), 
-                                        Hexp    = Hexp(.))}) %>% 
-  tibble::add_column(N = tabulate(pop(CD)), .before = 1) %>% 
-  dplyr::bind_cols(poptable, .) %>%
-  dplyr::inner_join(genotype_table, by = c("Population" = "Pop", "N")) %>%
-  tibble::add_column(private = rowSums(pal), .before = "Hexp") %>%
-  dplyr::mutate_if(is.numeric, signif, 3) %>%
-  dplyr::arrange(-N) %>%
-  dplyr::mutate(N = glue::glue_data(., "{N} ({MLG})")) %>%
-  select(-MLG) %>%
-  readr::write_csv("tables/table1.csv") %>%
-  print()
+main_locus_table <- purrr::map_df(locus_tables, 
+                                  ~{tibble::data_frame(Alleles = nall(.), 
+                                                       Ae      = Ae(.), 
+                                                       Hexp    = Hexp(.)
+                                                       )
+                                    }, 
+                                  .id = "Population")
 
-# Fixing silly encoding issue >:(
-readLines(here::here("tables/table1.csv")) %>% 
-  iconv(from = "UTF-8", to = "ISO-8859-1") %>%
-  writeLines(con = here::here("tables/table1.csv"))
+  dplyr::left_join(main_locus_table, genotype_table, by = "Population") %>%
+    dplyr::left_join(private_allele_table, by = "Population") %>%
+    dplyr::distinct() %>%
+    dplyr::mutate(Country = case_when(
+      Population == "Midwest" ~ "United States",
+      Population == "United States" ~ "United States", 
+      Population == "Argentina"     ~ "Argentina",
+      Population == "Brazil"        ~ "Brazil",
+      Population == "North America" ~ "-",
+      Population == "South America" ~ "-",
+      Population == "Pooled"        ~ "-",
+      TRUE                          ~ "Brazil"
+      )) %>%
+    dplyr::mutate(Continent = case_when(
+      Country == "United States" ~ "North America",
+      Country == "-"             ~ Population,
+      TRUE                       ~ "South America"
+    )) %>%
+    dplyr::mutate(Population = case_when(
+      Population %in% Continent ~ "-",
+      Population %in% Country   ~ "-",
+      TRUE                      ~ Population
+    )) %>% 
+    dplyr::mutate(Continent = gsub("o[ur]th", ".", Continent)) %>%
+    dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
+    dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
+    dplyr::arrange(Continent == "Pooled", 
+                   Continent == "N. America", 
+                   Country   == "-", 
+                   desc(Country), 
+                   Population == "-", 
+                   -N) %>%
+    dplyr::filter(Continent != "N. America" | Population != "-") %>%
+    dplyr::mutate_if(is.numeric, signif, 3) %>%
+    dplyr::mutate(N = glue::glue_data(., "{sprintf('%2d', N)} ({sprintf('%2d', MLG)})")) %>%
+    select(-MLG) %>%
+    readr::write_csv(table2_path) %>%
+    print()
 
-# Private Alleles (out of n alleles/locus) --------------------------------
-
-(pal <- private_alleles(CD, locus ~ Population, count.alleles = FALSE))
-rowSums(pal) # number of private alleles per Country
-
-# Fraction of alleles in data that are private 
-(priv_fraction <- sweep(pal, 2, nAll(CD)[colnames(pal)], FUN = "/"))
-
+correct_encoding(table2_path)
+  
 options(encoding = enc)
 
 
