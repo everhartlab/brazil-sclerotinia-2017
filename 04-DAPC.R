@@ -1,6 +1,7 @@
 library(poppr)
 library(ggcompoplot)
-library(ggplot2)
+library(tidyverse)
+library(cowplot)
 enc <- getOption("encoding")
 options(encoding = "iso-8859-1")
 CD <- readRDS(here::here("data", "full-genclone-object.rds"))
@@ -18,25 +19,61 @@ if (interactive()){
 
 CD_DAPC <- dapc(CD, n.pca = 7L, n.da = 4L)
 CD_DAPC
-pdf(here::here("figs/DAPC-scatterplot.pdf"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, colormodel = "cmyk")
-dev.control("enable")
-scatter.dapc(
-  CD_DAPC,
-  pch = 19,
-  cex = 1.0,
-  clabel = 0,
-  cstar = 0,
-  cellipse = 1,
-  legend = TRUE,
-  inset.da = 0,
-  posi.da = "bottomleft",
-  posi.leg = "topleft",
-  col = other(CD)$palette[popNames(CD)])
-dev.copy(device = tiff, here::here("figs/DAPC-scatterplot.tiff"), width = 3.464565, height = 3.464565 * (1/1.2), pointsize = 5, units = "in", res = 1200)
-dev.off()
-dev.off()
+DAPCdf <- CD_DAPC$ind.coord[, 1:2] %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("GenoID") %>%
+  tibble::as_tibble() %>%
+  dplyr::inner_join(strata(CD)) %>%
+  tibble::add_column(MLG = mll(CD)) %>%
+  dplyr::group_by(MLG) %>%
+  dplyr::mutate(`N` = n()) %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(Population) %>% 
+  dplyr::mutate(mean1 = mean(LD1, na.rm = TRUE), mean2 = mean(LD2, na.rm = TRUE))
 
-# ANTHONY
+DAPCgg <- ggplot(DAPCdf, aes(x = LD1, y = LD2, color = Population)) +
+  geom_hline(yintercept = 0, color = "grey30") +
+  geom_vline(xintercept = 0, color = "grey30") +
+  geom_point(aes(size = N)) +
+  # geom_segment(aes(x = mean1, y = mean2, xend = LD1, yend = LD2), alpha = 0.5) +
+  stat_ellipse(type = "norm", level = 0.666, alpha = 0.75) +
+  scale_color_manual(values = other(CD)$palette) +
+  theme_bw(base_size = 16, base_family = "Helvetica") +
+  coord_fixed() +
+  theme(aspect.ratio = 1) +
+  theme(legend.box = "horizontal")
+
+DAplot <- enframe(CD_DAPC$eig, name = "DA eigenvalues", value = "eig") %>%
+  tibble::add_column(used = c(rep(LETTERS[1:3], each = 2), "C")) %>%
+  ggplot(aes(x = `DA eigenvalues`, y = eig, fill = used)) +
+  geom_col(color = "black") +
+  theme_bw(base_size = 14, base_family = "Helvetica") +
+  scale_fill_grey(end = 1) +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.text.x = element_blank()) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(legend.position = "none") + 
+  theme(aspect.ratio = 1) +
+  theme(plot.background = element_blank()) +
+  theme(panel.grid = element_blank()) +
+  theme(title = element_text(size = 8, face = "bold"))
+
+gd <- ggdraw() +
+  draw_plot(DAPCgg) +
+  draw_plot(DAplot, width = 0.28, height = 0.28,
+            x = 0.045, y = 0.7)
+ggsave(gd, filename = here::here("figs/DAPC-scatterplot.pdf"),
+       width = 7.20472,
+       height = 7.20472 * (0.55),
+       units = "in"
+       )
+ggsave(gd, filename = here::here("figs/DAPC-scatterplot.tiff"),
+       width = 7.20472,
+       height = 7.20472 * (0.55),
+       units = "in",
+       dpi = 1200
+       )
+
 
 pdf(here::here("figs/DAPC-barplot.pdf"), width = 7.20472, height = 3.464565, pointsize = 5, colormodel = "cmyk")
 dev.control("enable")
