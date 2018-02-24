@@ -74,12 +74,12 @@ Loading required package: ade4
 This is poppr version 2.6.1. To get started, type package?poppr
 OMP parallel support: available
 > library("tidyverse")
-── [1mAttaching packages[22m ───────────────────────────────────────── tidyverse 1.2.1 ──
+── [1mAttaching packages[22m ─────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
 [32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.3.0
 [32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ──────────────────────────────────────────── tidyverse_conflicts() ──
+── [1mConflicts[22m ────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
@@ -101,5 +101,78 @@ OMP parallel support: available
 2  Country within Continent  1 0.4154938 0.009637943 0.99900100 0.07909907 0.08862601
 3 Population within Country  5 1.2802883 0.015010351 0.04295704 0.12319069 0.15145063
 4                     Error 86 7.2326149 0.084100173         NA 0.69021425 0.30978575
+> 
+> # Pairwise AMOVA
+> 
+> CDpops <- seppop(CD, ~Population)
+> out <- matrix(0, nrow = nPop(CD), ncol = nPop(CD),
++               dimnames = list(popNames(CD), popNames(CD)))
+> single_pair_amova <- function(pair = NULL, popdf = NULL, column = "Population", dist, ...){
++   if (is.null(pair)) stop("pair must be a vector specifying the populations to include")
++   if (is.null(popdf)) stop("popdf must be a data frame specifying the population of each individual")
++   to_subset <- popdf[[column]] %in% pair
++   popdf <- popdf[to_subset, , drop = FALSE]
++   dist <- as.dist(as.matrix(dist)[to_subset, to_subset, drop = FALSE])
++   form <- as.formula("dist ~ Population", env = environment())
++   pegas::amova(form, data = popdf, ...)
++ }
+> to_test <- combn(names(CDpops), 2)
+> 
+> res <- apply(to_test, 
++              MARGIN = 2, 
++              FUN = single_pair_amova, 
++                popdf = strata(CD), dist = CDdist, nperm = 999)
+> for (i in seq(res)){
++   phi_location <- lower.tri(out)
++   p_location   <- upper.tri(out)
++   varcomp <- res[[i]]$varcomp
++   out[phi_location][i] <- varcomp$sigma2[1]/sum(varcomp$sigma2)
++   out[p_location][i]   <- varcomp$P.value[1]
++ }
+> out %>% 
++   signif(3) %>% 
++   as.data.frame() %>% 
++   tibble::rownames_to_column(var = " ") %>%
++   readr::write_csv(here::here("tables/pair_amova.csv"))
+> # Visualizing the Brazilian Populations
+> outtype <- out
+> outtype[lower.tri(outtype)] <- "Phi"
+> outtype[upper.tri(outtype)] <- "P-value"
+> diag(outtype) <- NA
+> (outtype <- reshape2::melt(outtype, value.name = "type") %>% as_tibble())
+[38;5;246m# A tibble: 64 x 3[39m
+   Var1               Var2      type   
+   [3m[38;5;246m<fct>[39m[23m              [3m[38;5;246m<fct>[39m[23m     [3m[38;5;246m<fct>[39m[23m  
+[38;5;250m 1[39m Midwest            Midwest   [31mNA[39m     
+[38;5;250m 2[39m Argentina          Midwest   Phi    
+[38;5;250m 3[39m Góias              Midwest   Phi    
+[38;5;250m 4[39m Paraná             Midwest   Phi    
+[38;5;250m 5[39m Bahia              Midwest   Phi    
+[38;5;250m 6[39m Rio Grande do Sul  Midwest   Phi    
+[38;5;250m 7[39m Minas Gerias       Midwest   Phi    
+[38;5;250m 8[39m Mato Grosso do Sul Midwest   Phi    
+[38;5;250m 9[39m Midwest            Argentina P-value
+[38;5;250m10[39m Argentina          Argentina [31mNA[39m     
+[38;5;246m# ... with 54 more rows[39m
+> reshape2::melt(out) %>% 
++   full_join(outtype) %>%
++   filter(!Var1 %in% c("Argentina", "Midwest"),
++          !Var2 %in% c("Argentina", "Midwest")) %>%
++   ggplot(aes(x = Var1, y = fct_rev(Var2), fill = value)) + 
++   geom_tile() + 
++   geom_text(aes(label = round(value, 3), color = type)) +
++   theme_bw() +
++   theme(axis.title = element_blank()) +
++   theme(axis.text.x = element_text(
++                                    angle = 90,
++                                    hjust = 1,
++                                    vjust = 0.5
++                                  )) + 
++   viridis::scale_fill_viridis() + 
++   scale_color_manual(values = c(`P-value` = "firebrick",
++                                 Phi = "black")) +
++   coord_fixed()
+Joining, by = c("Var1", "Var2")
+>   
 > options(encoding = enc)
 > 
