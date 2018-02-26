@@ -1,5 +1,5 @@
 
-Click Here to Launch an online session: [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/everhartlab/brazil-sclerotinia-2017/master)
+Click Here to Launch an online session: [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/everhartlab/brazil-sclerotinia-2017/master?urlpath=rstudio)
 
 Purpose
 =======
