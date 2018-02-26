@@ -43,15 +43,18 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.6.1. To get started, type package?poppr
+This is poppr version 2.6.1.99.14. To get started, type package?poppr
 OMP parallel support: available
+
+This version of poppr is under development.
+If you find any bugs, please report them at https://github.com/grunwaldlab/poppr/issues
 > library(tidyverse)
-── [1mAttaching packages[22m ─────────────────── tidyverse 1.2.1 ──
+── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 [32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
 [32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
 [32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.3.0
 [32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.2.0
-── [1mConflicts[22m ────────────────────── tidyverse_conflicts() ──
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
 [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
@@ -327,32 +330,31 @@ There were 15 warnings (use warnings() to see them)
 +   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
 +   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
 +   dplyr::arrange(Continent  == "Pooled",     
-+                  Country    == "-",          
-+                  Population == "-" & Country != "Argentina", 
++                  Country    != "-",          
 +                  Continent  == "N. America",  
 +                  Country    == "Argentina",
 +                  Country, 
 +                  -N) %>%
 +   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
 +   dplyr::mutate_if(is.numeric, signif, 3) %>%
-+   dplyr::mutate(N = glue::glue_data(., "{sprintf('%2d', N)} ({sprintf('%2d', MLG)})")) %>%
++   dplyr::mutate(N = glue::glue_data(., "{N} ({MLG})")) %>%
 +   select(-MLG) %>%
 +   readr::write_csv(table2_path) %>%
 +   print()
 [38;5;246m# A tibble: 11 x 11[39m
-   Continent  Country   Population         N         Alleles    Ap    Ae  Hexp    eH     G   E.5
-   [3m[38;5;246m<chr>[39m[23m      [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m       [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m
-[38;5;250m 1[39m S. America Brazil    Góias              18 (17)      2.73  4.00  1.79 [38;5;246m0[39m[38;5;246m.[39m408 16.7  16.2  [38;5;246m0[39m[38;5;246m.[39m970
-[38;5;250m 2[39m S. America Brazil    Rio Grande do Sul  16 (16)      3.27  3.00  2.49 [38;5;246m0[39m[38;5;246m.[39m579 16.0  16.0  1.00 
-[38;5;250m 3[39m S. America Brazil    Paraná             15 (15)      3.18  6.00  2.73 [38;5;246m0[39m[38;5;246m.[39m564 15.0  15.0  1.00 
-[38;5;250m 4[39m S. America Brazil    Bahia              13 (13)      2.64  4.00  2.01 [38;5;246m0[39m[38;5;246m.[39m461 13.0  13.0  1.00 
-[38;5;250m 5[39m S. America Brazil    Minas Gerias       [38;5;246m"[39m 7 ( 6)[38;5;246m"[39m    1.64  [38;5;246m0[39m     1.41 [38;5;246m0[39m[38;5;246m.[39m235  5.74  5.44 [38;5;246m0[39m[38;5;246m.[39m937
-[38;5;250m 6[39m S. America Brazil    Mato Grosso do Sul [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.18  2.00  2.35 [38;5;246m0[39m[38;5;246m.[39m479  5.00  5.00 1.00 
-[38;5;250m 7[39m S. America Argentina -                  [38;5;246m"[39m 5 ( 5)[38;5;246m"[39m    2.27  2.00  3.20 [38;5;246m0[39m[38;5;246m.[39m561  5.00  5.00 1.00 
-[38;5;250m 8[39m N. America U.S.      Midwest            15 (11)      3.00  7.00  2.01 [38;5;246m0[39m[38;5;246m.[39m472  8.77  6.43 [38;5;246m0[39m[38;5;246m.[39m698
-[38;5;250m 9[39m S. America Brazil    -                  74 (67)      5.18 25.0   2.16 [38;5;246m0[39m[38;5;246m.[39m512 64.0  59.5  [38;5;246m0[39m[38;5;246m.[39m929
-[38;5;250m10[39m S. America -         -                  79 (72)      5.36 33.0   2.22 [38;5;246m0[39m[38;5;246m.[39m525 68.9  64.3  [38;5;246m0[39m[38;5;246m.[39m932
-[38;5;250m11[39m Pooled     -         -                  94 (83)      6.00 [31mNA[39m     2.40 [38;5;246m0[39m[38;5;246m.[39m563 77.0  66.9  [38;5;246m0[39m[38;5;246m.[39m868
+   Continent  Country   Population         N       Alleles    Ap    Ae  Hexp    eH     G   E.5
+   [3m[38;5;246m<chr>[39m[23m      [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m
+[38;5;250m 1[39m S. America -         -                  79 (72)    5.36 33.0   2.22 [38;5;246m0[39m[38;5;246m.[39m525 68.9  64.3  [38;5;246m0[39m[38;5;246m.[39m932
+[38;5;250m 2[39m S. America Brazil    -                  74 (67)    5.18 25.0   2.16 [38;5;246m0[39m[38;5;246m.[39m512 64.0  59.5  [38;5;246m0[39m[38;5;246m.[39m929
+[38;5;250m 3[39m S. America Brazil    Góias              18 (17)    2.73  4.00  1.79 [38;5;246m0[39m[38;5;246m.[39m408 16.7  16.2  [38;5;246m0[39m[38;5;246m.[39m970
+[38;5;250m 4[39m S. America Brazil    Rio Grande do Sul  16 (16)    3.27  3.00  2.49 [38;5;246m0[39m[38;5;246m.[39m579 16.0  16.0  1.00 
+[38;5;250m 5[39m S. America Brazil    Paraná             15 (15)    3.18  6.00  2.73 [38;5;246m0[39m[38;5;246m.[39m564 15.0  15.0  1.00 
+[38;5;250m 6[39m S. America Brazil    Bahia              13 (13)    2.64  4.00  2.01 [38;5;246m0[39m[38;5;246m.[39m461 13.0  13.0  1.00 
+[38;5;250m 7[39m S. America Brazil    Minas Gerias       7 (6)      1.64  [38;5;246m0[39m     1.41 [38;5;246m0[39m[38;5;246m.[39m235  5.74  5.44 [38;5;246m0[39m[38;5;246m.[39m937
+[38;5;250m 8[39m S. America Brazil    Mato Grosso do Sul 5 (5)      2.18  2.00  2.35 [38;5;246m0[39m[38;5;246m.[39m479  5.00  5.00 1.00 
+[38;5;250m 9[39m S. America Argentina -                  5 (5)      2.27  2.00  3.20 [38;5;246m0[39m[38;5;246m.[39m561  5.00  5.00 1.00 
+[38;5;250m10[39m N. America U.S.      Midwest            15 (11)    3.00  7.00  2.01 [38;5;246m0[39m[38;5;246m.[39m472  8.77  6.43 [38;5;246m0[39m[38;5;246m.[39m698
+[38;5;250m11[39m Pooled     -         -                  94 (83)    6.00 [31mNA[39m     2.40 [38;5;246m0[39m[38;5;246m.[39m563 77.0  66.9  [38;5;246m0[39m[38;5;246m.[39m868
 > 
 > correct_encoding(table2_path)
 >   

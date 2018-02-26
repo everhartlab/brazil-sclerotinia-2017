@@ -210,15 +210,14 @@ dplyr::left_join(main_locus_table, genotype_table, by = "Population") %>%
   dplyr::mutate(Country = gsub("United States", "U.S.", Country)) %>%
   dplyr::select(Continent, Country, Population, N, MLG, Alleles, Ap = private, everything()) %>%
   dplyr::arrange(Continent  == "Pooled",     
-                 Country    == "-",          
-                 Population == "-" & Country != "Argentina", 
+                 Country    != "-",          
                  Continent  == "N. America",  
                  Country    == "Argentina",
                  Country, 
                  -N) %>%
   dplyr::filter(Continent != "N. America" | Population != "-") %>% # removing duplicates
   dplyr::mutate_if(is.numeric, signif, 3) %>%
-  dplyr::mutate(N = glue::glue_data(., "{sprintf('%2d', N)} ({sprintf('%2d', MLG)})")) %>%
+  dplyr::mutate(N = glue::glue_data(., "{N} ({MLG})")) %>%
   select(-MLG) %>%
   readr::write_csv(table2_path) %>%
   print()
