@@ -8,6 +8,12 @@ Scripts for Population Genetic Diversity of *Sclerotinia sclerotiorum*, Causal A
 
 This directory contains the scripts, written by Anthony Pannullo, to generate the figures and tables used in this manuscript. These scripts were modified by Zhian Kamvar in the winter of 2017/2018 to ensure reproducibility of the results.  
 
+Citation
+---------
+
+These data and analyses are archived on the Open Science framework. If you use them, please use the following citation in your work:
+
+Pannullo, A., Kamvar, Z. N., Miorini, T. J. J., Steadman, J., & Everhart, S. E. (2018). Data and Analysis for Genetic variation and structure of _Sclerotinia sclerotiorum_ populations from soybean in Brazil. http://doi.org/10.17605/OSF.IO/E4UPH 
 
 Details: Building the results
 -----------------------------
