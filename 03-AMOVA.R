@@ -39,6 +39,13 @@ make_amova_table <- function(am, within = FALSE){
   res
 }
 
+# Function to correct encoding
+correct_encoding <- function(path){
+  readLines(path) %>% 
+    iconv(from = "UTF-8", to = "ISO-8859-1") %>%
+    writeLines(con = path)
+}
+
 library("poppr")
 library("tidyverse")
 if (!interactive()) options(width = 200)
@@ -56,6 +63,8 @@ make_amova_table(CDamova) %>%
   dplyr::mutate_if(is.numeric, signif, 3) %>%
   readr::write_csv("tables/table2.csv")
 
+correct_encoding("tables/table2.csv")
+
 # Pairwise AMOVA
 
 CDpops <- seppop(CD, ~Population)
@@ -72,45 +81,27 @@ single_pair_amova <- function(pair = NULL, popdf = NULL, column = "Population", 
 }
 to_test <- combn(names(CDpops), 2)
 
+set.seed(2017 - 11 - 29)
 res <- apply(to_test, 
              MARGIN = 2, 
              FUN = single_pair_amova, 
-               popdf = strata(CD), dist = CDdist, nperm = 999)
-for (i in seq(res)){
-  phi_location <- lower.tri(out)
-  p_location   <- upper.tri(out)
-  varcomp <- res[[i]]$varcomp
-  out[phi_location][i] <- varcomp$sigma2[1]/sum(varcomp$sigma2)
-  out[p_location][i]   <- varcomp$P.value[1]
+               popdf = strata(CD), dist = CDdist, nperm = 1000)
+for (pair in seq(res)) {
+   i <- to_test[2, pair]
+   j <- to_test[1, pair]
+  varcomp   <- res[[pair]]$varcomp
+  p         <- varcomp$P.value[1]
+  stars     <- ifelse(p < 0.01, "**", ifelse(p < 0.05, "*", ""))
+  stars     <- paste0("%.03f", stars)
+  out[i, j] <- sprintf(stars, round(varcomp$sigma2[1]/sum(varcomp$sigma2), 3))
+  out[j, i] <- sprintf(stars, round(p, 3))
 }
 out %>% 
-  signif(3) %>% 
   as.data.frame() %>% 
   tibble::rownames_to_column(var = " ") %>%
   readr::write_csv(here::here("tables/pair_amova.csv"))
+
+correct_encoding("tables/pair_amova.csv")
 # Visualizing the Brazilian Populations
-outtype <- out
-outtype[lower.tri(outtype)] <- "Phi"
-outtype[upper.tri(outtype)] <- "P-value"
-diag(outtype) <- NA
-(outtype <- reshape2::melt(outtype, value.name = "type") %>% as_tibble())
-reshape2::melt(out) %>% 
-  full_join(outtype) %>%
-  filter(!Var1 %in% c("Argentina", "Midwest"),
-         !Var2 %in% c("Argentina", "Midwest")) %>%
-  ggplot(aes(x = Var1, y = fct_rev(Var2), fill = value)) + 
-  geom_tile() + 
-  geom_text(aes(label = round(value, 3), color = type)) +
-  theme_bw() +
-  theme(axis.title = element_blank()) +
-  theme(axis.text.x = element_text(
-                                   angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.5
-                                 )) + 
-  viridis::scale_fill_viridis() + 
-  scale_color_manual(values = c(`P-value` = "firebrick",
-                                Phi = "black")) +
-  coord_fixed()
-  
+
 options(encoding = enc)
