@@ -13,7 +13,7 @@ Citation
 
 These data and analyses are archived on the Open Science framework. If you use them, please use the following citation in your work:
 
-Pannullo, A., Kamvar, Z. N., Miorini, T. J. J., Steadman, J., & Everhart, S. E. (2018). Data and Analysis for Genetic variation and structure of _Sclerotinia sclerotiorum_ populations from soybean in Brazil. http://doi.org/10.17605/OSF.IO/E4UPH
+> Pannullo A, Kamvar ZN, Miorini TJJ, Steadman J, Everhart SE (2018) Data and Analysis for Genetic variation and structure of _Sclerotinia sclerotiorum_ populations from soybean in Brazil. https://osf.io/u6xsm. 
 
 Details: Building the results
 -----------------------------
