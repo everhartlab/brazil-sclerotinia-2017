@@ -192,21 +192,21 @@ Warning messages:
 +   `JRS-Geographical Location` == 'Ewing, NE'                              ~ 'North America_United States_Midwest_Ewing, NE',
 +   `JRS-Geographical Location` == 'Auburn, NE'                             ~ 'North America_United States_Midwest_Auburn, NE',
 +   `JRS-Geographical Location` == 'Argentina'                              ~ 'South America_Argentina_Argentina_Argentina',
-+   `JRS-Geographical Location` == 'Rio Verde/GO, Brazil'                   ~ 'South America_Brazil_Góias_Rio Verde',
++   `JRS-Geographical Location` == 'Rio Verde/GO, Brazil'                   ~ 'South America_Brazil_Goiás_Rio Verde',
 +   `JRS-Geographical Location` == 'Campo Mourão/PR, Brazil'                ~ 'South America_Brazil_Paraná_Campo Mourão',
-+   `JRS-Geographical Location` == 'São Miguel do Passo Quatro/GO'          ~ 'South America_Brazil_Góias_São Miguel do Passo',
-+   `JRS-Geographical Location` == 'Pinhão/PR, Brazil'                      ~ 'South America_Brazil_Paraná_Pinhão',  # Note: in Anthony's data, one isolate labeled as South America_Brazil_Góias
-+   `JRS-Geographical Location` == 'Formoso, GO, Brazil'                    ~ 'South America_Brazil_Góias_Formoso',
++   `JRS-Geographical Location` == 'São Miguel do Passo Quatro/GO'          ~ 'South America_Brazil_Goiás_São Miguel do Passo',
++   `JRS-Geographical Location` == 'Pinhão/PR, Brazil'                      ~ 'South America_Brazil_Paraná_Pinhão',  # Note: in Anthony's data, one isolate labeled as South America_Brazil_Goiás
++   `JRS-Geographical Location` == 'Formoso, GO, Brazil'                    ~ 'South America_Brazil_Goiás_Formoso',
 +   `JRS-Geographical Location` == 'Guarapuava, PR, Brazil'                 ~ 'South America_Brazil_Paraná_Guarapuava',
 +   `JRS-Geographical Location` == 'Luiz Eduardo Magalhães/BA, Brazil'      ~ 'South America_Brazil_Bahia_Bahia',
 +   `JRS-Geographical Location` == 'Mauá da Serra/PR, Brazil'               ~ 'South America_Brazil_Paraná_Mauá da Serra',
 +   `JRS-Geographical Location` == 'Nᾶo me Toque/Rio Grande do Sul, Brazil' ~ 'South America_Brazil_Rio Grande do Sul_Não me Toque',
 +   `JRS-Geographical Location` == 'Sᾶo Desidério/Bahia, Brazil'            ~ 'South America_Brazil_Bahia_São Desidério',
-+   `JRS-Geographical Location` == 'Jataí/GO, Brazil'                       ~ 'South America_Brazil_Góias_Jataí',
-+   `JRS-Geographical Location` == 'Cristalina/GO, Brazil'                  ~ 'South America_Brazil_Góias_Cristalina',
-+   `JRS-Geographical Location` == 'Formosa/GO, Brazil'                     ~ 'South America_Brazil_Góias_Formosa',
-+   `JRS-Geographical Location` == 'Sudeste/GO, Brazil'                     ~ 'South America_Brazil_Góias_Sudeste',
-+   `JRS-Geographical Location` == 'Uberlândia/MG, Brazil'                  ~ 'South America_Brazil_Minas Gerias_Uberlândia',
++   `JRS-Geographical Location` == 'Jataí/GO, Brazil'                       ~ 'South America_Brazil_Goiás_Jataí',
++   `JRS-Geographical Location` == 'Cristalina/GO, Brazil'                  ~ 'South America_Brazil_Goiás_Cristalina',
++   `JRS-Geographical Location` == 'Formosa/GO, Brazil'                     ~ 'South America_Brazil_Goiás_Formosa',
++   `JRS-Geographical Location` == 'Sudeste/GO, Brazil'                     ~ 'South America_Brazil_Goiás_Sudeste',
++   `JRS-Geographical Location` == 'Uberlândia/MG, Brazil'                  ~ 'South America_Brazil_Minas Gerais_Uberlândia',
 +   `JRS-Geographical Location` == 'Correntina/BA, Brazil'                  ~ 'South America_Brazil_Bahia_Correntina',
 +   `JRS-Geographical Location` == 'Bahia, Brazil'                          ~ 'South America_Brazil_Bahia_Bahia',
 +   `JRS-Geographical Location` == 'Vacaria/RS, Brazil'                     ~ 'South America_Brazil_Rio Grande do Sul_Vacaria',
@@ -264,38 +264,38 @@ Warning messages:
 18 541B   J      2012 North America United States Midwest            Ewing, NE           332   501   182   264   371   234    294    207    389     351     354   
 19 834A   L      2009 North America United States Midwest            Auburn, NE          334   495   184   262   371   234    292    207    385     351     360   
 20 834B   L      2009 North America United States Midwest            Auburn, NE          330   <NA>  184   262   360   228    292    183    389     367     360   
-21 978E2  <NA>   2012 South America Brazil        Góias              Rio Verde           332   505   174   264   <NA>  230    292    207    385     351     360   
+21 978E2  <NA>   2012 South America Brazil        Goiás              Rio Verde           332   505   174   264   <NA>  230    292    207    385     351     360   
 22 1010   R      2014 South America Brazil        Paraná             Campo Mourão        340   505   172   264   360   230    292    223    <NA>    351     360   
 23 1011   R      2014 South America Brazil        Paraná             Campo Mourão        332   505   174   264   371   230    292    207    385     367     360   
 24 1012   Q      2014 South America Brazil        Paraná             Campo Mourão        334   505   174   268   371   228    292    207    381     351     360   
 25 1013   Q      2014 South America Brazil        Paraná             Campo Mourão        332   505   182   268   375   228    292    207    381     351     360   
 26 1014   Q      2014 South America Brazil        Paraná             Campo Mourão        332   495   182   268   388   228    292    207    381     367     360   
-27 1015   N      2012 South America Brazil        Góias              São Miguel do Passo 332   505   174   264   371   228    292    207    385     351     354   
+27 1015   N      2012 South America Brazil        Goiás              São Miguel do Passo 332   505   174   264   371   228    292    207    385     351     354   
 28 1016   N      2012 South America Brazil        Paraná             Pinhão              332   505   174   264   370   230    292    183    385     351     354   
-29 1017   N      2012 South America Brazil        Góias              Formoso             332   505   174   264   388   230    292    207    <NA>    351     360   
+29 1017   N      2012 South America Brazil        Goiás              Formoso             332   505   174   264   388   230    292    207    <NA>    351     360   
 30 1018   R      2012 South America Brazil        Paraná             Guarapuava          332   505   174   264   371   230    <NA>   207    385     351     360   
 31 1019   N      2012 South America Brazil        Bahia              Bahia               332   505   174   264   371   230    292    207    <NA>    351     360   
 32 1020   Y      2012 South America Brazil        Paraná             Pinhão              332   505   182   264   371   234    294    219    385     351     354   
 33 1021   Z      2012 South America Brazil        Paraná             Mauá da Serra       340   505   182   280   371   230    292    207    381     351     354   
 34 1022   N      2012 South America Brazil        Rio Grande do Sul  Não me Toque        332   505   174   264   371   230    283    207    385     351     360   
 35 1023   N      2012 South America Brazil        Bahia              São Desidério       332   505   174   264   371   230    292    207    385     367     360   
-36 1      <NA>   2010 South America Brazil        Góias              Jataí               336   505   <NA>  256   371   228    283    207    381     367     354   
-37 3      <NA>   2010 South America Brazil        Góias              Jataí               332   505   172   256   371   228    <NA>   207    381     351     360   
-38 5      <NA>   2010 South America Brazil        Góias              Cristalina          332   495   186   264   388   234    283    207    381     367     354   
-39 6      <NA>   2010 South America Brazil        Góias              Formosa             332   505   172   256   388   228    335    207    385     351     354   
-40 7      <NA>   2010 South America Brazil        Góias              Formosa             332   505   174   264   371   230    283    207    385     367     354   
-41 8      <NA>   2010 South America Brazil        Góias              Sudeste             332   505   174   264   388   230    292    207    385     351     360   
-42 9      <NA>   2010 South America Brazil        Góias              Sudeste             326   505   174   264   371   230    <NA>   207    385     367     360   
-43 12     <NA>   2010 South America Brazil        Góias              Sudeste             340   505   174   264   371   230    283    207    385     367     354   
-44 13     <NA>   2010 South America Brazil        Góias              Sudeste             326   505   172   256   388   228    283    207    385     367     354   
-45 14     <NA>   2010 South America Brazil        Góias              Sudeste             332   505   174   264   371   230    283    207    385     367     354   
-46 15     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          332   505   172   256   388   228    <NA>   207    381     367     354   
-47 16     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    285    207    385     367     354   
-48 17     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   228    <NA>   207    385     367     354   
-49 18     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
-50 20     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
-51 22     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   388   230    283    207    385     367     354   
-52 24     <NA>   2009 South America Brazil        Minas Gerias       Uberlândia          332   505   174   264   371   230    283    207    385     367     354   
+36 1      <NA>   2010 South America Brazil        Goiás              Jataí               336   505   <NA>  256   371   228    283    207    381     367     354   
+37 3      <NA>   2010 South America Brazil        Goiás              Jataí               332   505   172   256   371   228    <NA>   207    381     351     360   
+38 5      <NA>   2010 South America Brazil        Goiás              Cristalina          332   495   186   264   388   234    283    207    381     367     354   
+39 6      <NA>   2010 South America Brazil        Goiás              Formosa             332   505   172   256   388   228    335    207    385     351     354   
+40 7      <NA>   2010 South America Brazil        Goiás              Formosa             332   505   174   264   371   230    283    207    385     367     354   
+41 8      <NA>   2010 South America Brazil        Goiás              Sudeste             332   505   174   264   388   230    292    207    385     351     360   
+42 9      <NA>   2010 South America Brazil        Goiás              Sudeste             326   505   174   264   371   230    <NA>   207    385     367     360   
+43 12     <NA>   2010 South America Brazil        Goiás              Sudeste             340   505   174   264   371   230    283    207    385     367     354   
+44 13     <NA>   2010 South America Brazil        Goiás              Sudeste             326   505   172   256   388   228    283    207    385     367     354   
+45 14     <NA>   2010 South America Brazil        Goiás              Sudeste             332   505   174   264   371   230    283    207    385     367     354   
+46 15     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          332   505   172   256   388   228    <NA>   207    381     367     354   
+47 16     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          332   505   174   264   388   230    285    207    385     367     354   
+48 17     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          330   505   174   264   388   228    <NA>   207    385     367     354   
+49 18     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
+50 20     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          330   505   174   264   388   230    283    207    385     367     354   
+51 22     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          332   505   174   264   388   230    283    207    385     367     354   
+52 24     <NA>   2009 South America Brazil        Minas Gerais       Uberlândia          332   505   174   264   371   230    283    207    385     367     354   
 53 25     <NA>   2010 South America Brazil        Bahia              Correntina          332   505   174   264   388   230    283    207    385     367     354   
 54 26     <NA>   2010 South America Brazil        Bahia              Correntina          332   505   174   264   371   230    <NA>   207    385     367     354   
 55 27     <NA>   2010 South America Brazil        Bahia              Correntina          332   <NA>  <NA>  264   388   234    283    207    381     367     354   
@@ -328,11 +328,11 @@ Warning messages:
 82 977C   I      2012 South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   <NA>  228    292    207    385     367     360   
 83 977D   I      2012 South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   172   256   371   228    296    <NA>   385     367     360   
 84 977E   N      2012 South America Brazil        Mato Grosso do Sul Chapadão do Sul     332   505   174   264   <NA>  234    292    207    385     367     360   
-85 978A   N      2012 South America Brazil        Góias              Rio Verde           332   505   182   264   371   230    292    207    <NA>    367     354   
-86 978B   N      2012 South America Brazil        Góias              Rio Verde           332   505   174   264   371   234    292    191    385     367     354   
-87 978C   N      2012 South America Brazil        Góias              Rio Verde           332   525   174   264   371   230    292    207    <NA>    367     354   
-88 978D   N      2012 South America Brazil        Góias              Rio Verde           332   505   174   264   371   230    284    207    385     367     354   
-89 978E   N      2012 South America Brazil        Góias              Rio Verde           332   505   174   264   <NA>  230    292    207    385     367     354   
+85 978A   N      2012 South America Brazil        Goiás              Rio Verde           332   505   182   264   371   230    292    207    <NA>    367     354   
+86 978B   N      2012 South America Brazil        Goiás              Rio Verde           332   505   174   264   371   234    292    191    385     367     354   
+87 978C   N      2012 South America Brazil        Goiás              Rio Verde           332   525   174   264   371   230    292    207    <NA>    367     354   
+88 978D   N      2012 South America Brazil        Goiás              Rio Verde           332   505   174   264   371   230    284    207    385     367     354   
+89 978E   N      2012 South America Brazil        Goiás              Rio Verde           332   505   174   264   <NA>  230    292    207    385     367     354   
 90 979A   O      2012 South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   371   226    294    207    385     367     360   
 91 979B   N      2012 South America Brazil        Rio Grande do Sul  Vacaria             <NA>  505   174   264   <NA>  230    292    207    385     367     360   
 92 979C   O      2012 South America Brazil        Rio Grande do Sul  Vacaria             330   525   182   280   388   226    294    207    385     367     360   
@@ -353,9 +353,9 @@ Warning messages:
 > other(gid)$palette <- c("Midwest" = "#000000",
 +                         "Argentina" = "#F0E442", # "#E69F00",
 +                         "Bahia" = "#56B4E9",
-+                         "Góias" = "#009E73",
++                         "Goiás" = "#009E73",
 +                         "Mato Grosso do Sul" = "#E69F00",
-+                         "Minas Gerias" = "#0072B2",
++                         "Minas Gerais" = "#0072B2",
 +                         "Paraná" = "#D55E00",
 +                         "Rio Grande do Sul" = "#CC79A7")
 > 
