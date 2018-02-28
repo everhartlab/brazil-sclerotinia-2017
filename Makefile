@@ -59,4 +59,4 @@ box : $(FIGURES) $(TABLES)
 .PHONY : clean
 
 clean :
-	$(RM) -r $(FOLDERS) bootstrap.txt
+	$(RM) -r $(FOLDERS) bootstrap.txt data-clean.txt
