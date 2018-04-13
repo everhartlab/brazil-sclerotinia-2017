@@ -46,14 +46,14 @@ Loading required package: ade4
 This is poppr version 2.7.1. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── [1mAttaching packages[22m ─────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
-[32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
-[32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.3.0
-[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.3.0
-── [1mConflicts[22m ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
-[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
+✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+✔ tibble  1.4.2     ✔ dplyr   0.7.4
+✔ tidyr   0.8.0     ✔ stringr 1.3.0
+✔ readr   1.1.1     ✔ forcats 0.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
 > if (!interactive()) options(width = 200)
 > enc <- getOption("encoding")
 > options(encoding = "iso-8859-1")
@@ -68,16 +68,15 @@ OMP parallel support: available
 +   mutate(MCG = case_when(is.na(MCG) ~ "?", 
 +                          TRUE     ~ as.character(MCG))) %>% 
 +   pull(MCG)
-> mlg.table(CD, color = TRUE)
-                    ?  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  Y  Z
-Midwest             0  3  2  0  0  0  0  0  1  1  2  3  2  1  0  0  0  0  0  0  0  0  0  0  0  0
-Argentina           0  0  0  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Goiás              11  0  0  0  0  0  0  0  0  0  0  0  0  0  7  0  0  0  0  0  0  0  0  0  0  0
-Paraná              1  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  3  3  2  3  0  0  0  1  1
-Bahia               6  0  0  0  0  0  0  0  0  0  0  0  0  0  3  0  3  0  0  0  0  1  0  0  0  0
-Rio Grande do Sul   0  0  0  0  0  0  0  0  0  0  0  0  0  0  4  6  0  2  2  0  0  0  1  1  0  0
-Minas Gerais        7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-Mato Grosso do Sul  0  0  0  0  0  0  0  0  0  2  0  0  0  0  1  0  0  0  0  0  1  1  0  0  0  0
+> mlg.table(CD[mll(CD) != "?", ], color = TRUE)
+                   A B C D E F G H I J K L M N O P Q R S T U V W Y Z
+Midwest            3 2 0 0 0 0 0 1 1 2 3 2 1 0 0 0 0 0 0 0 0 0 0 0 0
+Argentina          0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Goiás              0 0 0 0 0 0 0 0 0 0 0 0 0 7 0 0 0 0 0 0 0 0 0 0 0
+Paraná             0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 3 3 2 3 0 0 0 1 1
+Bahia              0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 3 0 0 0 0 1 0 0 0 0
+Rio Grande do Sul  0 0 0 0 0 0 0 0 0 0 0 0 0 4 6 0 2 2 0 0 0 1 1 0 0
+Mato Grosso do Sul 0 0 0 0 0 0 0 0 2 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0
 > 
 > # The plot produced needs to be cleaned up a bit:
 > # 
@@ -88,15 +87,15 @@ Mato Grosso do Sul  0  0  0  0  0  0  0  0  0  2  0  0  0  0  1  0  0  0  0  0  
 > #  
 > p          <- last_plot()
 > pal        <- other(CD)$palette
-> mcg_counts <- colSums(table(strata(CD, ~MCG/Population, combine = FALSE)))
+> mcg_counts <- colSums(table(strata(CD[mll(CD) != "?", ], ~MCG/Population, combine = FALSE)))
 > names(pal) <- paste0(names(pal), "(", mcg_counts[names(pal)], ")")
 > pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
 > dev.control("enable") # allows me to copy to tiff device
 > p %+%
-+   mutate(p$data, Population = fct_relevel(Population, names(other(CD)$palette))) +
-+   scale_fill_manual(values = other(CD)$palette, labels = names(pal)) + 
-+   aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
-+   scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
++   mutate(p$data, Population = fct_relevel(Population, names(other(CD)$palette[-6]))) +
++   scale_fill_manual(values = other(CD)$palette[-6], labels = names(pal)[-6]) + 
++   # aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
++   # scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
 +   guides(fill = guide_legend(nrow = 3)) +
 +   theme_bw(base_size = 10, base_family = "Helvetica") +
 +   theme(legend.position = "top") +
@@ -107,9 +106,9 @@ Mato Grosso do Sul  0  0  0  0  0  0  0  0  0  2  0  0  0  0  1  0  0  0  0  0  
 +   theme(axis.text = element_text(color = "black")) +
 +   theme(axis.ticks = element_line(color = "black")) +
 +   theme(panel.border = element_rect(color = "black", size = 1)) +
-+   scale_y_continuous(limits = c(0, 30), expand = c(0, 0)) +
++   scale_y_continuous(limits = c(0, 16), expand = c(0, 0)) +
 +   labs(list(
-+     alpha = "MCG status",
++     # alpha = "MCG status",
 +     x     = "MCG",
 +     title = NULL
 +   ))
@@ -174,17 +173,17 @@ Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17
 +   ungroup() %>% 
 +   readr::write_csv(table1_path) %>%
 +   print()
-[38;5;246m# A tibble: 8 x 5[39m
+# A tibble: 8 x 5
   Continent     Country       Population         `Year(s) Collected`                          n
-  [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m              [3m[38;5;246m<chr>[39m[23m                                    [3m[38;5;246m<int>[39m[23m
-[38;5;250m1[39m South America Brazil        Goiás              2012, 2010                                  18
-[38;5;250m2[39m South America Brazil        Rio Grande do Sul  2012                                        16
-[38;5;250m3[39m South America Brazil        Paraná             2012, 2014                                  15
-[38;5;250m4[39m South America Brazil        Bahia              2012, 2010                                  13
-[38;5;250m5[39m South America Brazil        Minas Gerais       2009                                         7
-[38;5;250m6[39m South America Brazil        Mato Grosso do Sul 2012                                         5
-[38;5;250m7[39m South America Argentina     Argentina          1996                                         5
-[38;5;250m8[39m North America United States Midwest            1977, 1990, 1994, 1996, 1999, 2012, 2009    15
+  <fct>         <fct>         <fct>              <chr>                                    <int>
+1 South America Brazil        Goiás              2012, 2010                                  18
+2 South America Brazil        Rio Grande do Sul  2012                                        16
+3 South America Brazil        Paraná             2012, 2014                                  15
+4 South America Brazil        Bahia              2012, 2010                                  13
+5 South America Brazil        Minas Gerais       2009                                         7
+6 South America Brazil        Mato Grosso do Sul 2012                                         5
+7 South America Argentina     Argentina          1996                                         5
+8 North America United States Midwest            1977, 1990, 1994, 1996, 1999, 2012, 2009    15
 > correct_encoding(table1_path)
 > 
 > # creating table 2 --------------------------------------------------------
@@ -347,20 +346,20 @@ There were 15 warnings (use warnings() to see them)
 +   select(-MLG) %>%
 +   readr::write_csv(table2_path) %>%
 +   print()
-[38;5;246m# A tibble: 11 x 12[39m
+# A tibble: 11 x 12
    Continent  Country   Population         N       Alleles    Ap    Ae  Hexp    eH     G   E.5 rd       
-   [3m[38;5;246m<chr>[39m[23m      [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m    
-[38;5;250m 1[39m S. America -         -                  79 (72)    5.36   33.  2.22 0.525 68.9  64.3  0.932 0.081*** 
-[38;5;250m 2[39m S. America Brazil    -                  74 (67)    5.18   25.  2.16 0.512 64.0  59.5  0.929 0.09***  
-[38;5;250m 3[39m S. America Brazil    Goiás              18 (17)    2.73    4.  1.79 0.408 16.7  16.2  0.970 0.0506*  
-[38;5;250m 4[39m S. America Brazil    Rio Grande do Sul  16 (16)    3.27    3.  2.49 0.579 16.0  16.0  1.00  0.128*** 
-[38;5;250m 5[39m S. America Brazil    Paraná             15 (15)    3.18    6.  2.73 0.564 15.0  15.0  1.00  0.0151   
-[38;5;250m 6[39m S. America Brazil    Bahia              13 (13)    2.64    4.  2.01 0.461 13.0  13.0  1.00  0.133*** 
-[38;5;250m 7[39m S. America Brazil    Minas Gerais       7 (6)      1.64    0.  1.41 0.235  5.74  5.44 0.937 0.0882   
-[38;5;250m 8[39m S. America Brazil    Mato Grosso do Sul 5 (5)      2.18    2.  2.35 0.479  5.00  5.00 1.00  0.115*   
-[38;5;250m 9[39m S. America Argentina -                  5 (5)      2.27    2.  3.20 0.561  5.00  5.00 1.00  -0.0547  
-[38;5;250m10[39m N. America U.S.      Midwest            15 (11)    3.00    7.  2.01 0.472  8.77  6.43 0.698 0.115**  
-[38;5;250m11[39m Pooled     -         -                  94 (83)    6.00   [31mNA[39m   2.40 0.563 77.0  66.9  0.868 0.0724***
+   <chr>      <chr>     <chr>              <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <chr>    
+ 1 S. America -         -                  79 (72)    5.36   33.  2.22 0.525 68.9  64.3  0.932 0.081*** 
+ 2 S. America Brazil    -                  74 (67)    5.18   25.  2.16 0.512 64.0  59.5  0.929 0.09***  
+ 3 S. America Brazil    Goiás              18 (17)    2.73    4.  1.79 0.408 16.7  16.2  0.970 0.0506*  
+ 4 S. America Brazil    Rio Grande do Sul  16 (16)    3.27    3.  2.49 0.579 16.0  16.0  1.00  0.128*** 
+ 5 S. America Brazil    Paraná             15 (15)    3.18    6.  2.73 0.564 15.0  15.0  1.00  0.0151   
+ 6 S. America Brazil    Bahia              13 (13)    2.64    4.  2.01 0.461 13.0  13.0  1.00  0.133*** 
+ 7 S. America Brazil    Minas Gerais       7 (6)      1.64    0.  1.41 0.235  5.74  5.44 0.937 0.0882   
+ 8 S. America Brazil    Mato Grosso do Sul 5 (5)      2.18    2.  2.35 0.479  5.00  5.00 1.00  0.115*   
+ 9 S. America Argentina -                  5 (5)      2.27    2.  3.20 0.561  5.00  5.00 1.00  -0.0547  
+10 N. America U.S.      Midwest            15 (11)    3.00    7.  2.01 0.472  8.77  6.43 0.698 0.115**  
+11 Pooled     -         -                  94 (83)    6.00   NA   2.40 0.563 77.0  66.9  0.868 0.0724***
 > 
 > correct_encoding(table2_path)
 >   

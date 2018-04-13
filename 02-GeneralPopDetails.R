@@ -27,7 +27,7 @@ mll.custom(CD) <- strata(CD) %>%
   mutate(MCG = case_when(is.na(MCG) ~ "?", 
                          TRUE     ~ as.character(MCG))) %>% 
   pull(MCG)
-mlg.table(CD, color = TRUE)
+mlg.table(CD[mll(CD) != "?", ], color = TRUE)
 
 # The plot produced needs to be cleaned up a bit:
 # 
@@ -38,15 +38,15 @@ mlg.table(CD, color = TRUE)
 #  
 p          <- last_plot()
 pal        <- other(CD)$palette
-mcg_counts <- colSums(table(strata(CD, ~MCG/Population, combine = FALSE)))
+mcg_counts <- colSums(table(strata(CD[mll(CD) != "?", ], ~MCG/Population, combine = FALSE)))
 names(pal) <- paste0(names(pal), "(", mcg_counts[names(pal)], ")")
 pdf(here::here("figs/MCG-bar.pdf"), width = 7.20472 * 0.6, height = 7.20472 * 0.4, pointsize = 5, colormodel = "cmyk")
 dev.control("enable") # allows me to copy to tiff device
 p %+%
-  mutate(p$data, Population = fct_relevel(Population, names(other(CD)$palette))) +
-  scale_fill_manual(values = other(CD)$palette, labels = names(pal)) + 
-  aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
-  scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
+  mutate(p$data, Population = fct_relevel(Population, names(other(CD)$palette[-6]))) +
+  scale_fill_manual(values = other(CD)$palette[-6], labels = names(pal)[-6]) + 
+  # aes(alpha = ifelse(MLG == "?", "unknown", "known"), color = I("black")) +
+  # scale_alpha_manual(values = c(unknown = 0.5, known = 1), guide = "none") +
   guides(fill = guide_legend(nrow = 3)) +
   theme_bw(base_size = 10, base_family = "Helvetica") +
   theme(legend.position = "top") +
@@ -57,9 +57,9 @@ p %+%
   theme(axis.text = element_text(color = "black")) +
   theme(axis.ticks = element_line(color = "black")) +
   theme(panel.border = element_rect(color = "black", size = 1)) +
-  scale_y_continuous(limits = c(0, 30), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 16), expand = c(0, 0)) +
   labs(list(
-    alpha = "MCG status",
+    # alpha = "MCG status",
     x     = "MCG",
     title = NULL
   ))
