@@ -172,13 +172,22 @@ main_locus_table <- purrr::map_df(locus_tables,
 # Here we are calculating the basic statistics for genotypic diversity.
 # We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
 # and the ratio of the two (E.5).
+set.seed(2018-04-13)
 genotype_table <- purrr::map_df(poplist, 
                                 poppr, 
-                                  quiet = TRUE, lambda = FALSE, total = FALSE, 
+                                  quiet = TRUE, lambda = FALSE, total = FALSE, sample = 999, plot = FALSE,
                                 .id = "Population") %>%
-  select(Population, N, MLG, H, G, E.5) %>%
+  select(Population, N, MLG, H, G, E.5, rbarD, p.rD) %>%
   mutate(H = exp(H)) %>%
-  rename(eH = H)
+  rename(eH = H) %>%
+  mutate(rd = case_when(
+    p.rD == 0.001 ~ paste0(signif(rbarD, 3), "***"),
+    p.rD <= 0.01  ~ paste0(signif(rbarD, 3), "**"),
+    p.rD <= 0.05  ~ paste0(signif(rbarD, 3), "*"),
+    p.rD <= 0.1   ~ paste0(signif(rbarD, 3), "*"),
+    TRUE          ~ paste0(signif(rbarD, 3), "") 
+  )) %>%
+  select(-rbarD, -p.rD)
 
 # Combining Private Alleles, Genotypic, and Allelic Diversity -------------
 # Here we can join all the tables together and polish them.
