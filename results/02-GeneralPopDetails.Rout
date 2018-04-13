@@ -1,6 +1,6 @@
 
-R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -43,17 +43,17 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.6.1. To get started, type package?poppr
+This is poppr version 2.7.1. To get started, type package?poppr
 OMP parallel support: available
 > library(tidyverse)
-── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
-✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-✔ tibble  1.4.2     ✔ dplyr   0.7.4
-✔ tidyr   0.8.0     ✔ stringr 1.3.0
-✔ readr   1.1.1     ✔ forcats 0.2.0
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
+── [1mAttaching packages[22m ─────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mggplot2[39m 2.2.1     [32m✔[39m [34mpurrr  [39m 0.2.4
+[32m✔[39m [34mtibble [39m 1.4.2     [32m✔[39m [34mdplyr  [39m 0.7.4
+[32m✔[39m [34mtidyr  [39m 0.8.0     [32m✔[39m [34mstringr[39m 1.3.0
+[32m✔[39m [34mreadr  [39m 1.1.1     [32m✔[39m [34mforcats[39m 0.3.0
+── [1mConflicts[22m ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 > if (!interactive()) options(width = 200)
 > enc <- getOption("encoding")
 > options(encoding = "iso-8859-1")
@@ -174,17 +174,17 @@ Population             5-2   6-2   7-2 8-3   9-2 12-2  20-3  55-4 110-4 114-4 17
 +   ungroup() %>% 
 +   readr::write_csv(table1_path) %>%
 +   print()
-# A tibble: 8 x 5
+[38;5;246m# A tibble: 8 x 5[39m
   Continent     Country       Population         `Year(s) Collected`                          n
-  <fct>         <fct>         <fct>              <chr>                                    <int>
-1 South America Brazil        Goiás              2012, 2010                                  18
-2 South America Brazil        Rio Grande do Sul  2012                                        16
-3 South America Brazil        Paraná             2012, 2014                                  15
-4 South America Brazil        Bahia              2012, 2010                                  13
-5 South America Brazil        Minas Gerais       2009                                         7
-6 South America Brazil        Mato Grosso do Sul 2012                                         5
-7 South America Argentina     Argentina          1996                                         5
-8 North America United States Midwest            1977, 1990, 1994, 1996, 1999, 2012, 2009    15
+  [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m         [3m[38;5;246m<fct>[39m[23m              [3m[38;5;246m<chr>[39m[23m                                    [3m[38;5;246m<int>[39m[23m
+[38;5;250m1[39m South America Brazil        Goiás              2012, 2010                                  18
+[38;5;250m2[39m South America Brazil        Rio Grande do Sul  2012                                        16
+[38;5;250m3[39m South America Brazil        Paraná             2012, 2014                                  15
+[38;5;250m4[39m South America Brazil        Bahia              2012, 2010                                  13
+[38;5;250m5[39m South America Brazil        Minas Gerais       2009                                         7
+[38;5;250m6[39m South America Brazil        Mato Grosso do Sul 2012                                         5
+[38;5;250m7[39m South America Argentina     Argentina          1996                                         5
+[38;5;250m8[39m North America United States Midwest            1977, 1990, 1994, 1996, 1999, 2012, 2009    15
 > correct_encoding(table1_path)
 > 
 > # creating table 2 --------------------------------------------------------
@@ -288,13 +288,22 @@ South America 0.375 0.50 0.6666667 0.5714286 0.5  0.4 0.8181818 0.5454545  0.00
 > # Here we are calculating the basic statistics for genotypic diversity.
 > # We are counting up Shannon-Weiner Index (H), Stoddardt and Taylor's Index (G)
 > # and the ratio of the two (E.5).
+> set.seed(2018-04-13)
 > genotype_table <- purrr::map_df(poplist, 
 +                                 poppr, 
-+                                   quiet = TRUE, lambda = FALSE, total = FALSE, 
++                                   quiet = TRUE, lambda = FALSE, total = FALSE, sample = 999, plot = FALSE,
 +                                 .id = "Population") %>%
-+   select(Population, N, MLG, H, G, E.5) %>%
++   select(Population, N, MLG, H, G, E.5, rbarD, p.rD) %>%
 +   mutate(H = exp(H)) %>%
-+   rename(eH = H)
++   rename(eH = H) %>%
++   mutate(rd = case_when(
++     p.rD == 0.001 ~ paste0(signif(rbarD, 3), "***"),
++     p.rD <= 0.01  ~ paste0(signif(rbarD, 3), "**"),
++     p.rD <= 0.05  ~ paste0(signif(rbarD, 3), "*"),
++     p.rD <= 0.1   ~ paste0(signif(rbarD, 3), "*"),
++     TRUE          ~ paste0(signif(rbarD, 3), "") 
++   )) %>%
++   select(-rbarD, -p.rD)
 There were 15 warnings (use warnings() to see them)
 > 
 > # Combining Private Alleles, Genotypic, and Allelic Diversity -------------
@@ -338,20 +347,20 @@ There were 15 warnings (use warnings() to see them)
 +   select(-MLG) %>%
 +   readr::write_csv(table2_path) %>%
 +   print()
-# A tibble: 11 x 11
-   Continent  Country   Population         N       Alleles    Ap    Ae  Hexp    eH     G   E.5
-   <chr>      <chr>     <chr>              <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1 S. America -         -                  79 (72)    5.36 33.0   2.22 0.525 68.9  64.3  0.932
- 2 S. America Brazil    -                  74 (67)    5.18 25.0   2.16 0.512 64.0  59.5  0.929
- 3 S. America Brazil    Goiás              18 (17)    2.73  4.00  1.79 0.408 16.7  16.2  0.970
- 4 S. America Brazil    Rio Grande do Sul  16 (16)    3.27  3.00  2.49 0.579 16.0  16.0  1.00 
- 5 S. America Brazil    Paraná             15 (15)    3.18  6.00  2.73 0.564 15.0  15.0  1.00 
- 6 S. America Brazil    Bahia              13 (13)    2.64  4.00  2.01 0.461 13.0  13.0  1.00 
- 7 S. America Brazil    Minas Gerais       7 (6)      1.64  0     1.41 0.235  5.74  5.44 0.937
- 8 S. America Brazil    Mato Grosso do Sul 5 (5)      2.18  2.00  2.35 0.479  5.00  5.00 1.00 
- 9 S. America Argentina -                  5 (5)      2.27  2.00  3.20 0.561  5.00  5.00 1.00 
-10 N. America U.S.      Midwest            15 (11)    3.00  7.00  2.01 0.472  8.77  6.43 0.698
-11 Pooled     -         -                  94 (83)    6.00 NA     2.40 0.563 77.0  66.9  0.868
+[38;5;246m# A tibble: 11 x 12[39m
+   Continent  Country   Population         N       Alleles    Ap    Ae  Hexp    eH     G   E.5 rd       
+   [3m[38;5;246m<chr>[39m[23m      [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<chr>[39m[23m              [3m[38;5;246m<chr>[39m[23m     [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m    
+[38;5;250m 1[39m S. America -         -                  79 (72)    5.36   33.  2.22 0.525 68.9  64.3  0.932 0.081*** 
+[38;5;250m 2[39m S. America Brazil    -                  74 (67)    5.18   25.  2.16 0.512 64.0  59.5  0.929 0.09***  
+[38;5;250m 3[39m S. America Brazil    Goiás              18 (17)    2.73    4.  1.79 0.408 16.7  16.2  0.970 0.0506*  
+[38;5;250m 4[39m S. America Brazil    Rio Grande do Sul  16 (16)    3.27    3.  2.49 0.579 16.0  16.0  1.00  0.128*** 
+[38;5;250m 5[39m S. America Brazil    Paraná             15 (15)    3.18    6.  2.73 0.564 15.0  15.0  1.00  0.0151   
+[38;5;250m 6[39m S. America Brazil    Bahia              13 (13)    2.64    4.  2.01 0.461 13.0  13.0  1.00  0.133*** 
+[38;5;250m 7[39m S. America Brazil    Minas Gerais       7 (6)      1.64    0.  1.41 0.235  5.74  5.44 0.937 0.0882   
+[38;5;250m 8[39m S. America Brazil    Mato Grosso do Sul 5 (5)      2.18    2.  2.35 0.479  5.00  5.00 1.00  0.115*   
+[38;5;250m 9[39m S. America Argentina -                  5 (5)      2.27    2.  3.20 0.561  5.00  5.00 1.00  -0.0547  
+[38;5;250m10[39m N. America U.S.      Midwest            15 (11)    3.00    7.  2.01 0.472  8.77  6.43 0.698 0.115**  
+[38;5;250m11[39m Pooled     -         -                  94 (83)    6.00   [31mNA[39m   2.40 0.563 77.0  66.9  0.868 0.0724***
 > 
 > correct_encoding(table2_path)
 >   

@@ -1,6 +1,6 @@
 
-R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -30,7 +30,7 @@ Loading required package: ade4
    > bug reports/feature requests: adegenetIssues()
 
 
-This is poppr version 2.6.1. To get started, type package?poppr
+This is poppr version 2.7.1. To get started, type package?poppr
 OMP parallel support: available
 > library("igraph")
 
