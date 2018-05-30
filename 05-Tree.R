@@ -10,8 +10,11 @@ CDTree <- bruvo.boot(CD,
                      sample = 1000,
                      tree = njs, # nj* because there may be missing data.
                      showtree = FALSE,
-                     cutoff = 50)
-
+                     cutoff = 75)
+# Removing base node label, which is always 100 and meaningless
+CDTree$node.labels[1] <- NA
+CDTree$node.labels <- ifelse(is.na(CDTree$node.labels), NA, paste0("<- ", CDTree$node.labels))
+CDTree$node.labels[40] <- "<-75"
 
 # Tree suggestions --------------------------------------------------------
 #
@@ -42,21 +45,23 @@ parent_edge <- function(tree, nodes, internal.only = TRUE){
   emat[, 2] %in% nodes
 }
 # Getting all node labels greater than 75
-edges_to_highlight <- parent_edge(CDTree, which(CDTree$node.labels > 75))
+edges_to_highlight <- parent_edge(CDTree, which(grepl("[-]", CDTree$node.labels)))
 
 
 # Unrooted Tree -----------------------------------------------------------
 # The unrooted tree is often ideal because it doesn't imply that any one
 # population is more derived than the other.
+{
 pdf(here::here("figs/tree.pdf"), width = 3.464565, height = 3.464565, pointsize = 5, colormodel = "cmyk")
 dev.control("enable")
 plot.phylo(
   CDTree,
+  show.node.label = TRUE,
   font = 2,
   no.margin = TRUE,
   type = "unrooted",
   lab4ut = "axial",    # lab4ut makes it so the tip labels are axial instead of horizontal
-  label.offset = 0.004,
+  label.offset = 0.01,
   rotate.tree = 45,     # adjust this to manually rotate the tree
   show.tip.label = FALSE, # removing the tip labels to use points instead
   edge.width = 2,
@@ -75,7 +80,8 @@ YY     <- lastPP$yy[tip]
 # zero-valued distance
 jits <- colSums(as.matrix(dist(data.frame(XX, YY))) == 0) > 1
 # I'm only going to jitter along the x axis here.
-set.seed(2017-11-26)
+# set.seed(2017-11-26)
+set.seed(2018-05-26)
 XX[jits] <- jitter(XX[jits], amount = diff(range(XX[-jits]))/100)
 # Again, normally I would use "tiplabels" for this, but because I want to use
 # the jitter, I must use "points".
@@ -89,6 +95,7 @@ add.scale.bar(x = 0, y = 0.225, lwd = 2)
 dev.copy(device = tiff, here::here("figs/tree.tiff"), width = 3.464565, height = 3.464565, pointsize = 5, units = "in", res = 1200)
 dev.off()
 dev.off()
+}
 # # Radial Tree -------------------------------------------------------------
 #
 # # The radial tree was what you were playing with earlier. This is nice
