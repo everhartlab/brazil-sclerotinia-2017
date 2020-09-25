@@ -27,6 +27,10 @@ genotypes <- read.genalex(here::here("data/data.csv"), ploidy = 1) %>%
   as_tibble()
 genotypes
 
+#summarizing number per isolates per population
+genotypes.summary.Brazil <- genotypes %>% group_by( pop) %>% summarize(Number_isolates=n())
+save(list = ls(all=TRUE), file= "data/genotypes.summary.Brazil.Rdata")
+rm(list = ls())
 # reading in the excel sheet has its own problems since the date column contains
 # part dates and part text and they get screwed up no matter what you do. The
 # way I've dealt with this: import as dates and then convert what didn't parse
